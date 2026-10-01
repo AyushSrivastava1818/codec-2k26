@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CODEC 2K26 | TechKnow Society - IIIT Kota</title>
+  <meta name="description" content="CODEC 2K26 by TechKnow Society, IIIT Kota. The premier Halloween tech conclave. Enter the haunted mansion, explore the 3 chambers, 24H Hackathon, Combat Robotics, and CTF." />
+
+  <!-- Google Fonts: Chakra Petch, Cinzel, Outfit, JetBrains Mono, Syne -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Michroma&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&family=Syncopate:wght@700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+
+  <link rel="stylesheet" href="/src/style.css" />
+</head>
+<body class="mansion-body">
+
+  <!-- Ambient Lightning Layer -->
+  <div class="lightning-flash-overlay" id="lightning-overlay"></div>
+
+  <!-- ================= TOP HUD NAVIGATION ================= -->
+  <header class="hud-nav-bar">
+    <div class="hud-brand-logo" id="nav-brand-logo" onclick="scrollToSection('home')" style="cursor: pointer;">
+      <img src="/assets/techknow_logo.png" alt="TechKnow Society IIIT Kota" class="techknow-logo-img" />
+      <div class="brand-divider"></div>
+      <div class="brand-text">
+        <span class="brand-name">TECHKNOW</span>
+        <span class="brand-sub">IIIT KOTA &bull; CODEC 2K26</span>
+      </div>
+    </div>
+
+    <!-- Center Navigation Polygon Capsule -->
+    <nav class="hud-nav-capsule">
+      <button class="nav-capsule-item active" id="nav-btn-home" onclick="scrollToSection('home')">HOME</button>
+      <button class="nav-capsule-item" id="nav-btn-events" onclick="scrollToSection('events')">EVENTS</button>
+      <button class="nav-capsule-item" id="nav-btn-hackathon" onclick="scrollToSection('hackathon')">HACKATHON</button>
+      <button class="nav-capsule-item" id="nav-btn-schedule" onclick="scrollToSection('schedule')">SCHEDULE</button>
+      <button class="nav-capsule-item" id="nav-btn-prizes" onclick="scrollToSection('prizes')">PRIZES</button>
+    </nav>
+
+    <!-- Top Right Controls -->
+    <div class="hud-right-actions">
+      <button class="hud-sound-toggle" id="audio-toggle-btn" title="Toggle Haunted Mansion Audio">
+        <i class="fa-solid fa-volume-xmark" id="audio-icon"></i>
+        <span id="audio-label">Sound: Off</span>
+      </button>
+      <button class="hud-pass-btn" id="open-pass-btn">
+        <i class="fa-solid fa-bolt"></i>
+        <span>REGISTER</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- ================= LEFT VERTICAL HUD DOCK ================= -->
+  <aside class="hud-dock-left">
+    <div class="dock-line top"></div>
+    <button class="dock-nav-btn active" id="dock-btn-home" onclick="scrollToSection('home')" title="Home">
+      <i class="fa-solid fa-house"></i>
+      <span>Home</span>
+    </button>
+    <button class="dock-nav-btn" id="dock-btn-events" onclick="scrollToSection('events')" title="Events">
+      <i class="fa-solid fa-door-open"></i>
+      <span>Events</span>
+    </button>
+    <button class="dock-nav-btn" id="dock-btn-hackathon" onclick="scrollToSection('hackathon')" title="Hackathon">
+      <i class="fa-solid fa-code-fork"></i>
+      <span>Hackathon</span>
+    </button>
+    <button class="dock-nav-btn" id="dock-btn-schedule" onclick="scrollToSection('schedule')" title="Schedule">
+      <i class="fa-solid fa-calendar-days"></i>
+      <span>Schedule</span>
+    </button>
+    <button class="dock-nav-btn" id="dock-btn-prizes" onclick="scrollToSection('prizes')" title="Prizes">
+      <i class="fa-solid fa-award"></i>
+      <span>Prizes</span>
+    </button>
+    <div class="dock-line bottom"></div>
+  </aside>
+
+  <!-- ================= RIGHT VERTICAL SOCIAL DOCK ================= -->
+  <aside class="hud-dock-right">
+    <div class="dock-line top"></div>
+    <a href="#" class="social-circle-link" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+    <a href="#" class="social-circle-link" aria-label="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a>
+    <a href="#" class="social-circle-link" aria-label="Discord"><i class="fa-brands fa-discord"></i></a>
+    <a href="#" class="social-circle-link" aria-label="YouTube"><i class="fa-brands fa-youtube"></i></a>
+    <a href="#" class="social-circle-link" aria-label="GitHub"><i class="fa-brands fa-github"></i></a>
+    <div class="dock-line bottom"></div>
+
+    <div class="hud-drone-companion" id="hud-drone">
+      <div class="drone-core"><i class="fa-solid fa-eye"></i></div>
+      <div class="drone-thruster"></div>
+    </div>
+  </aside>
+
+  <!-- ================= CORNER SPIDER & WEB ================= -->
+  <div class="spooky-spider-rig" id="corner-spider" title="Click to scare the spider!">
+    <div class="spider-thread"></div>
+    <div class="spider-critter">
+      <svg viewBox="0 0 50 50" class="spider-svg">
+        <ellipse cx="25" cy="28" rx="8" ry="11" fill="#150909" stroke="#5a2222" stroke-width="1.5" />
+        <circle cx="25" cy="17" r="5.5" fill="#240c0c" />
+        <circle cx="23" cy="15" r="1.2" fill="#ff2200" />
+        <circle cx="27" cy="15" r="1.2" fill="#ff2200" />
+        <path d="M19 22 Q10 12 5 18" stroke="#1c0b0b" stroke-width="2" fill="none" stroke-linecap="round" />
+        <path d="M18 25 Q6 22 2 30" stroke="#1c0b0b" stroke-width="2" fill="none" stroke-linecap="round" />
+        <path d="M19 28 Q8 32 4 42" stroke="#1c0b0b" stroke-width="2" fill="none" stroke-linecap="round" />
+        <path d="M20 32 Q12 40 8 48" stroke="#1c0b0b" stroke-width="2" fill="none" stroke-linecap="round" />
+        <path d="M31 22 Q40 12 45 18" stroke="#1c0b0b" stroke-width="2" fill="none" stroke-linecap="round" />
+        <path d="M32 25 Q44 22 48 30" stroke="#1c0b0b" stroke-width="2" fill="none" stroke-linecap="round" />
+        <path d="M31 28 Q42 32 46 42" stroke="#1c0b0b" stroke-width="2" fill="none" stroke-linecap="round" />
+        <path d="M30 32 Q38 40 42 48" stroke="#1c0b0b" stroke-width="2" fill="none" stroke-linecap="round" />
+      </svg>
+    </div>
+  </div>
+
+  <!-- ================= PINNED 3D CINEMATIC SCROLL STAGE ================= -->
+  <section class="mansion-scroll-stage" id="hero-stage">
+    <div class="stage-viewport" id="stage-viewport">
+
+      <!-- SCENE 1: EXTERIOR MASTERPIECE MANSION -->
+      <div class="cinematic-layer layer-exterior" id="layer-exterior" style="background-image: url('/assets/mansion_masterpiece.jpg');">
+        <div class="ambient-vignette"></div>
+        <div class="floor-mist-glow"></div>
+      </div>
+
+      <!-- VOLUMETRIC MIST LAYER (Smooth GPU Transition) -->
+      <div class="cinematic-layer layer-mist" id="layer-mist"></div>
+
+      <!-- SCENE 2: INTERIOR ROTUNDA ARCHWAYS WITH HOODED MAN STANDING IN FRONT OF ROOM -->
+      <div class="cinematic-layer layer-rotunda" id="layer-rotunda" style="background-image: url('/assets/rotunda.jpg');">
+        <div class="rotunda-ambient-shade"></div>
+      </div>
+
+      <!-- SPOOKY BATS FLYING ACROSS NIGHT SKY -->
+      <div class="spooky-bats-layer" aria-hidden="true">
+        <div class="spooky-bat bat-1"><svg viewBox="0 0 100 60"><path class="bat-shape" d="M50 35 C40 10, 15 5, 0 25 C10 40, 30 35, 45 42 C48 44, 48 48, 50 50 C52 48, 52 44, 55 42 C70 35, 90 40, 100 25 C85 5, 60 10, 50 35 Z"/></svg></div>
+        <div class="spooky-bat bat-2"><svg viewBox="0 0 100 60"><path class="bat-shape" d="M50 35 C40 10, 15 5, 0 25 C10 40, 30 35, 45 42 C48 44, 48 48, 50 50 C52 48, 52 44, 55 42 C70 35, 90 40, 100 25 C85 5, 60 10, 50 35 Z"/></svg></div>
+        <div class="spooky-bat bat-3"><svg viewBox="0 0 100 60"><path class="bat-shape" d="M50 35 C40 10, 15 5, 0 25 C10 40, 30 35, 45 42 C48 44, 48 48, 50 50 C52 48, 52 44, 55 42 C70 35, 90 40, 100 25 C85 5, 60 10, 50 35 Z"/></svg></div>
+        <div class="spooky-bat bat-4"><svg viewBox="0 0 100 60"><path class="bat-shape" d="M50 35 C40 10, 15 5, 0 25 C10 40, 30 35, 45 42 C48 44, 48 48, 50 50 C52 48, 52 44, 55 42 C70 35, 90 40, 100 25 C85 5, 60 10, 50 35 Z"/></svg></div>
+        <div class="spooky-bat bat-5"><svg viewBox="0 0 100 60"><path class="bat-shape" d="M50 35 C40 10, 15 5, 0 25 C10 40, 30 35, 45 42 C48 44, 48 48, 50 50 C52 48, 52 44, 55 42 C70 35, 90 40, 100 25 C85 5, 60 10, 50 35 Z"/></svg></div>
+        <div class="spooky-bat bat-6"><svg viewBox="0 0 100 60"><path class="bat-shape" d="M50 35 C40 10, 15 5, 0 25 C10 40, 30 35, 45 42 C48 44, 48 48, 50 50 C52 48, 52 44, 55 42 C70 35, 90 40, 100 25 C85 5, 60 10, 50 35 Z"/></svg></div>
+      </div>
+
+      <!-- ================= HERO OVERLAY (EXACT REFERENCE CODEC 2K26 VECTOR LOGO) ================= -->
+      <div class="hero-titles-overlay" id="hero-titles-overlay">
+        <!-- Sinister Tower Eyes Blinking in the Dark -->
+        <div class="sinister-eyes tower-left" aria-hidden="true">
+          <span class="eye left"></span><span class="eye right"></span>
+        </div>
+        <div class="sinister-eyes tower-right" aria-hidden="true">
+          <span class="eye left"></span><span class="eye right"></span>
+        </div>
+
+        <div class="codec-splatter-wrap">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 988 240" class="codec-vector-svg" fill="none">
+  <defs>
+    <linearGradient id="titaniumSheen" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff" />
+      <stop offset="45%" stop-color="#f8fafc" />
+      <stop offset="75%" stop-color="#e2e8f0" />
+      <stop offset="100%" stop-color="#cbd5e1" />
+    </linearGradient>
+  </defs>
+
+  <!-- Letter Dropshadow for 3D Depth on Mansion -->
+  <path d="M 833 162 L 834 167 L 849 167 L 856 163 L 882 163 L 884 165 L 884 169 L 876 177 L 846 178 L 833 192 L 834 217 L 901 215 L 894 206 L 888 202 L 856 202 L 853 199 L 853 196 L 858 192 L 884 192 L 889 190 L 901 177 L 901 158 L 889 148 L 847 148 Z M 920 149 L 910 160 L 910 205 L 913 210 L 918 215 L 922 217 L 964 218 L 969 216 L 979 206 L 979 188 L 978 186 L 966 175 L 934 176 L 930 173 L 929 170 L 930 166 L 934 163 L 965 163 L 979 149 L 977 147 L 926 147 Z M 929 192 L 930 190 L 932 188 L 947 188 L 955 189 L 959 193 L 959 198 L 958 200 L 956 202 L 953 203 L 943 204 L 936 204 L 933 203 L 930 200 L 929 198 Z M 712 66 L 680 98 L 681 189 L 710 217 L 817 217 L 810 206 L 788 185 L 729 185 L 718 173 L 719 108 L 728 100 L 787 99 L 816 65 Z M 523 95 L 523 189 L 551 217 L 671 216 L 644 186 L 571 185 L 562 174 L 562 162 L 567 157 L 633 156 L 655 126 L 570 127 L 562 122 L 562 110 L 571 100 L 643 99 L 673 65 L 555 65 Z M 353 65 L 392 108 L 396 100 L 457 100 L 466 110 L 464 179 L 453 186 L 396 185 L 393 182 L 393 126 L 353 84 L 353 217 L 477 217 L 503 193 L 505 95 L 476 65 Z M 208 66 L 177 96 L 177 190 L 206 217 L 305 217 L 310 214 L 334 189 L 334 94 L 304 65 Z M 222 102 L 225 100 L 247 99 L 286 100 L 295 109 L 296 114 L 295 147 L 296 173 L 293 178 L 287 184 L 271 186 L 254 185 L 253 186 L 241 185 L 230 186 L 225 185 L 217 177 L 215 172 L 216 109 Z M 32 98 L 31 180 L 33 189 L 63 217 L 167 216 L 137 185 L 80 185 L 71 176 L 71 109 L 80 100 L 137 100 L 169 65 L 66 65 Z M 913 63 L 912 65 L 912 130 L 914 134 L 931 133 L 932 131 L 932 114 L 935 112 L 955 132 L 959 134 L 978 134 L 980 133 L 980 130 L 951 101 L 950 98 L 969 77 L 981 66 L 980 63 L 971 64 L 957 63 L 936 83 L 934 83 L 932 81 L 932 65 L 930 63 Z M 847 65 L 836 77 L 836 82 L 852 83 L 857 79 L 883 79 L 886 84 L 877 93 L 849 93 L 836 106 L 835 110 L 835 129 L 837 133 L 903 133 L 898 125 L 889 117 L 857 118 L 854 115 L 854 113 L 862 107 L 890 107 L 898 101 L 904 94 L 903 73 L 892 63 L 860 63 Z" fill="#000000" fill-rule="evenodd" transform="translate(0, 8)" opacity="0.95" />
+
+  <!-- Razor-Sharp Titanium Precision Faceted Letterforms -->
+  <path d="M 833 162 L 834 167 L 849 167 L 856 163 L 882 163 L 884 165 L 884 169 L 876 177 L 846 178 L 833 192 L 834 217 L 901 215 L 894 206 L 888 202 L 856 202 L 853 199 L 853 196 L 858 192 L 884 192 L 889 190 L 901 177 L 901 158 L 889 148 L 847 148 Z M 920 149 L 910 160 L 910 205 L 913 210 L 918 215 L 922 217 L 964 218 L 969 216 L 979 206 L 979 188 L 978 186 L 966 175 L 934 176 L 930 173 L 929 170 L 930 166 L 934 163 L 965 163 L 979 149 L 977 147 L 926 147 Z M 929 192 L 930 190 L 932 188 L 947 188 L 955 189 L 959 193 L 959 198 L 958 200 L 956 202 L 953 203 L 943 204 L 936 204 L 933 203 L 930 200 L 929 198 Z M 712 66 L 680 98 L 681 189 L 710 217 L 817 217 L 810 206 L 788 185 L 729 185 L 718 173 L 719 108 L 728 100 L 787 99 L 816 65 Z M 523 95 L 523 189 L 551 217 L 671 216 L 644 186 L 571 185 L 562 174 L 562 162 L 567 157 L 633 156 L 655 126 L 570 127 L 562 122 L 562 110 L 571 100 L 643 99 L 673 65 L 555 65 Z M 353 65 L 392 108 L 396 100 L 457 100 L 466 110 L 464 179 L 453 186 L 396 185 L 393 182 L 393 126 L 353 84 L 353 217 L 477 217 L 503 193 L 505 95 L 476 65 Z M 208 66 L 177 96 L 177 190 L 206 217 L 305 217 L 310 214 L 334 189 L 334 94 L 304 65 Z M 222 102 L 225 100 L 247 99 L 286 100 L 295 109 L 296 114 L 295 147 L 296 173 L 293 178 L 287 184 L 271 186 L 254 185 L 253 186 L 241 185 L 230 186 L 225 185 L 217 177 L 215 172 L 216 109 Z M 32 98 L 31 180 L 33 189 L 63 217 L 167 216 L 137 185 L 80 185 L 71 176 L 71 109 L 80 100 L 137 100 L 169 65 L 66 65 Z M 913 63 L 912 65 L 912 130 L 914 134 L 931 133 L 932 131 L 932 114 L 935 112 L 955 132 L 959 134 L 978 134 L 980 133 L 980 130 L 951 101 L 950 98 L 969 77 L 981 66 L 980 63 L 971 64 L 957 63 L 936 83 L 934 83 L 932 81 L 932 65 L 930 63 Z M 847 65 L 836 77 L 836 82 L 852 83 L 857 79 L 883 79 L 886 84 L 877 93 L 849 93 L 836 106 L 835 110 L 835 129 L 837 133 L 903 133 L 898 125 L 889 117 L 857 118 L 854 115 L 854 113 L 862 107 L 890 107 L 898 101 L 904 94 L 903 73 L 892 63 L 860 63 Z" fill="url(#titaniumSheen)" stroke="#09070a" stroke-width="2.2" stroke-linejoin="round" fill-rule="evenodd" filter="drop-shadow(0 4px 12px rgba(0,0,0,0.9))" />
+</svg>
+        </div>
+
+        <div class="codec-sub-tag">TECHKNOW SOCIETY <span class="tag-bullet">&bull;</span> IIIT KOTA</div>
+      </div>
+
+      <!-- BOTTOM CENTER SCROLL PROMPT -->
+      <div class="scroll-prompt-anchor" id="scroll-prompt-anchor">
+        <button class="scroll-prompt-btn" id="scroll-prompt-trigger">
+          <span class="scroll-txt">SCROLL TO ENTER MANSION</span>
+          <div class="mouse-scroll-icon">
+            <div class="wheel-dot"></div>
+          </div>
+          <i class="fa-solid fa-angles-down scroll-arrow-anim"></i>
+        </button>
+      </div>
+
+      <!-- ================= SCENE 2: THE 3 FLOATING GOLDEN HUD CARDS (IN FRONT OF HOODED MAN & ARCHES) ================= -->
+      <div class="rotunda-cards-stage" id="rotunda-cards-stage">
+
+        <!-- CARD 1: DAY 1 -->
+        <div class="gothic-portal-card card-left" id="card-chamber-1" data-chamber="1">
+          <div class="card-gold-bezel">
+            <span class="corner tl"></span><span class="corner tr"></span>
+            <span class="corner bl"></span><span class="corner br"></span>
+          </div>
+          <div class="card-glass-core">
+            <div class="card-badge-row">
+              <span class="date-pill">OCT 30</span>
+            </div>
+            <h3 class="card-heading">Coding Arena</h3>
+            <p class="card-tagline">Speed DSA trials, systems workshops, and competitive brackets.</p>
+
+            <div class="card-image-preview" style="background-image: url('/assets/room_hacking.jpg');">
+              <div class="img-lens-glow"></div>
+            </div>
+
+            <div class="card-actions-row">
+              <button class="btn-card-primary open-chamber-trigger" data-chamber-id="1">
+                <i class="fa-solid fa-eye"></i> EXPLORE
+              </button>
+              <button class="btn-card-register open-reg-shortcut" data-chamber-name="Coding Arena">
+                REGISTER
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- CARD 2: DAY 2 (FEATURED) -->
+        <div class="gothic-portal-card card-center featured" id="card-chamber-2" data-chamber="2">
+          <div class="card-gold-bezel molten">
+            <span class="corner tl"></span><span class="corner tr"></span>
+            <span class="corner bl"></span><span class="corner br"></span>
+          </div>
+          <div class="card-glass-core featured-core">
+            <div class="card-badge-row">
+              <span class="date-pill highlight">OCT 31 • FLAGSHIP</span>
+            </div>
+            <h3 class="card-heading golden-text">24H Hackathon & RoboWars</h3>
+            <p class="card-tagline">24-hour sprint, combat robotics arena, and midnight security CTF.</p>
+
+            <div class="card-image-preview featured-img" style="background-image: url('/assets/room_robotics.jpg');">
+              <div class="img-lens-glow flame"></div>
+            </div>
+
+            <div class="card-actions-row">
+              <button class="btn-card-primary highlight-btn open-chamber-trigger" data-chamber-id="2">
+                <i class="fa-solid fa-eye"></i> EXPLORE
+              </button>
+              <button class="btn-card-register highlight-reg open-reg-shortcut" data-chamber-name="24H Hackathon & RoboWars">
+                REGISTER
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- CARD 3: DAY 3 -->
+        <div class="gothic-portal-card card-right" id="card-chamber-3" data-chamber="3">
+          <div class="card-gold-bezel mystic">
+            <span class="corner tl"></span><span class="corner tr"></span>
+            <span class="corner bl"></span><span class="corner br"></span>
+          </div>
+          <div class="card-glass-core">
+            <div class="card-badge-row">
+              <span class="date-pill">NOV 01</span>
+            </div>
+            <h3 class="card-heading">Grand Finale</h3>
+            <p class="card-tagline">Jury presentations, guest keynotes, and awards ceremony.</p>
+
+            <div class="card-image-preview" style="background-image: url('/assets/room_algo.jpg');">
+              <div class="img-lens-glow"></div>
+            </div>
+
+            <div class="card-actions-row">
+              <button class="btn-card-primary open-chamber-trigger" data-chamber-id="3">
+                <i class="fa-solid fa-eye"></i> EXPLORE
+              </button>
+              <button class="btn-card-register open-reg-shortcut" data-chamber-name="Grand Finale">
+                REGISTER
+              </button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Rotunda Navigation Footer -->
+      <div class="rotunda-nav-footer" id="rotunda-nav-footer">
+        <button class="btn-rotunda-sub" id="btn-back-to-sky">
+          <i class="fa-solid fa-arrow-up"></i>
+          <span>Back to Top</span>
+        </button>
+        <a href="#schedule-section" class="btn-rotunda-sub scroll-to-schedule">
+          <span>View Schedule</span>
+          <i class="fa-solid fa-chevron-down"></i>
+        </a>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ================= FULLSCREEN ROOM INTERIOR MODAL (Opens on Card Click as in video) ================= -->
+  <div class="room-interior-overlay hidden" id="room-interior-overlay">
+    <div class="room-interior-bg" id="room-interior-bg"></div>
+    <div class="room-interior-shade"></div>
+
+    <div class="room-interior-body" id="room-interior-body">
+      <!-- Injected dynamically via JS based on selected chamber -->
+    </div>
+  </div>
+
+  <!-- ================= OFFICIAL 3-DAY TIMETABLE ================= -->
+  <section class="section-container" id="guilds-section">
+    <div class="section-header">
+      <span class="section-tag"><i class="fa-solid fa-code-fork"></i> NATIONAL HACKATHON</span>
+      <h2 class="section-title">24-Hour National Hackathon</h2>
+      <p class="section-desc">The flagship 24-hour hackathon of IIIT Kota. Collaborate, code, and deploy solutions in real-time.</p>
+    </div>
+
+    <!-- Hackathon Key Specs Bar -->
+    <div class="hackathon-specs-bar">
+      <div class="spec-stat-item">
+        <span class="spec-stat-number">24H</span>
+        <span class="spec-stat-label">Continuous Sprint</span>
+      </div>
+      <div class="spec-divider"></div>
+      <div class="spec-stat-item">
+        <span class="spec-stat-number">2 - 4</span>
+        <span class="spec-stat-label">Members / Team</span>
+      </div>
+      <div class="spec-divider"></div>
+      <div class="spec-stat-item">
+        <span class="spec-stat-number">₹1,00,000+</span>
+        <span class="spec-stat-label">Prize Pool & Swag</span>
+      </div>
+      <div class="spec-divider"></div>
+      <div class="spec-stat-item">
+        <span class="spec-stat-number">National</span>
+        <span class="spec-stat-label">Open to All Colleges</span>
+      </div>
+    </div>
+
+    <!-- Clean Hackathon Card (No PS right now) -->
+    <div class="hackathon-brief-card">
+      <div class="brief-card-header">
+        <span class="brief-badge"><i class="fa-solid fa-bolt"></i> PROBLEM STATEMENTS REVEALED AT KICKOFF</span>
+        <span class="brief-venue"><i class="fa-solid fa-location-dot"></i> IIIT KOTA CAMPUS</span>
+      </div>
+      <h3 class="brief-title">Ready for the 24-Hour Sprint?</h3>
+      <p class="brief-desc">Problem statements across AI, Systems, Web3, and Open Innovation will be announced live during kickoff on October 31st. Register your team to secure your spot.</p>
+      
+      <div class="brief-actions">
+        <button class="btn-primary-action" onclick="openRegistrationModal('24-Hour National Hackathon')">
+          <i class="fa-solid fa-rocket"></i> REGISTER YOUR TEAM
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= OFFICIAL PRIZES ================= -->
+  <section class="section-container" id="schedule-section">
+    <div class="section-header">
+      <span class="section-tag"><i class="fa-solid fa-clock"></i> SCHEDULE</span>
+      <h2 class="section-title">Schedule of Events</h2>
+      <p class="section-desc">Check out what is happening each day of the conclave at IIIT Kota.</p>
+    </div>
+
+    <div class="schedule-tabs-row">
+      <button class="schedule-tab-btn active" data-day="day1">
+        <span class="tab-day">DAY 01</span>
+        <span class="tab-date">OCT 30 • CODING & WORKSHOPS</span>
+      </button>
+      <button class="schedule-tab-btn" data-day="day2">
+        <span class="tab-day">DAY 02</span>
+        <span class="tab-date">OCT 31 • 24H HACKATHON & ROBOWARS</span>
+      </button>
+      <button class="schedule-tab-btn" data-day="day3">
+        <span class="tab-day">DAY 03</span>
+        <span class="tab-date">NOV 01 • JURY DEFENSE & KEYNOTES</span>
+      </button>
+    </div>
+
+    <div class="schedule-stream-container" id="schedule-timeline-grid"></div>
+  </section>
+
+  <!-- ================= GUILDS & TRACKS ================= -->
+  <section class="section-container" id="prizes-section">
+    <div class="section-header">
+      <span class="section-tag"><i class="fa-solid fa-award"></i> HONORS & RECOGNITION</span>
+      <h2 class="section-title">Prizes & Awards</h2>
+      <p class="section-desc">Trophies, certificates, and recognition for top winning teams.</p>
+    </div>
+
+    <div class="prizes-podium-grid">
+      <div class="podium-card silver">
+        <div class="podium-rank-badge">RUNNER-UP</div>
+        <div class="podium-trophy-icon"><i class="fa-solid fa-medal"></i></div>
+        <h3 class="podium-title">1st Runner-Up</h3>
+        <p class="podium-detail">Trophy, Silver Medals & Cash Prize</p>
+        <div class="podium-perk-badge">Official TechKnow Honors</div>
+      </div>
+
+      <div class="podium-card champion">
+        <div class="podium-rank-badge gold-badge"><i class="fa-solid fa-crown"></i> GRAND CHAMPION</div>
+        <div class="podium-trophy-icon gold"><i class="fa-solid fa-trophy"></i></div>
+        <h3 class="podium-title">Grand Champion</h3>
+        <p class="podium-detail">Perpetual CODEC Trophy, Gold Medals & Cash Prize</p>
+        <div class="podium-perk-badge gold-perk">Winner Honors</div>
+      </div>
+
+      <div class="podium-card bronze">
+        <div class="podium-rank-badge">2ND RUNNER-UP</div>
+        <div class="podium-trophy-icon"><i class="fa-solid fa-award"></i></div>
+        <h3 class="podium-title">2nd Runner-Up</h3>
+        <p class="podium-detail">Trophy, Bronze Medals & Cash Prize</p>
+        <div class="podium-perk-badge">Official TechKnow Honors</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= FOOTER ================= -->
+  <footer class="codec-footer">
+    <div class="footer-top-grid">
+      <div class="footer-brand-col">
+        <div class="footer-brand-row">
+          <img src="/assets/techknow_logo.png" alt="TechKnow Society IIIT Kota" class="techknow-logo-img" />
+          <div class="brand-divider"></div>
+          <div>
+            <span class="footer-title">TECHKNOW</span>
+            <div class="footer-sub">TECHNICAL COUNCIL &bull; IIIT KOTA</div>
+          </div>
+        </div>
+        <p class="footer-about">TechKnow is the Technical Student Council of IIIT Kota, the governing body for all technical clubs, hackathons, and technical initiatives.</p>
+        <div class="footer-we-are">WE ARE THE " T " OF IIIT KOTA</div>
+      </div>
+
+      <div class="footer-links-col">
+        <h4>Navigation</h4>
+        <button class="footer-nav-link" onclick="scrollToSection('home')">Home</button>
+        <button class="footer-nav-link" onclick="scrollToSection('events')">Events & Chambers</button>
+        <button class="footer-nav-link" onclick="scrollToSection('hackathon')">24-Hour Hackathon</button>
+        <button class="footer-nav-link" onclick="scrollToSection('schedule')">Event Schedule</button>
+        <button class="footer-nav-link" onclick="scrollToSection('prizes')">Prizes & Awards</button>
+      </div>
+
+      <div class="footer-links-col">
+        <h4>Campus Venue</h4>
+        <p class="venue-line"><i class="fa-solid fa-location-dot"></i> Indian Institute of Information Technology Kota</p>
+        <p class="venue-detail">Permanent Campus, Ranpur, Kota, Rajasthan &ndash; 325003</p>
+        <div class="footer-contact-row">
+          <span><i class="fa-solid fa-envelope"></i> techknow@iiitkota.ac.in</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer-bottom-row">
+      <p>&copy; 2026 TechKnow Society &bull; Indian Institute of Information Technology Kota. All Rights Reserved.</p>
+      <p class="footer-sub-note">CODEC 2K26 Annual Technical Festival</p>
+    </div>
+  </footer>
+
+  <!-- ================= REGISTRATION MODAL ================= -->
+  <div class="mansion-modal-backdrop" id="reg-modal-backdrop">
+    <div class="mansion-modal-box reg-box">
+      <button class="modal-close-btn" id="reg-close-btn">&times;</button>
+      <div class="reg-modal-header">
+        <span class="reg-pretitle"><i class="fa-solid fa-bolt"></i> ENTRY PASS</span>
+        <h2 class="reg-title">Claim Your Pass</h2>
+        <p class="reg-subtitle">Register your squad for CODEC 2K26 at IIIT Kota.</p>
+      </div>
+      <form class="reg-form" id="conclave-reg-form" onsubmit="event.preventDefault(); alert('Registration received! We will send confirmation to your email.'); document.getElementById('reg-modal-backdrop').classList.remove('active');">
+        <div class="form-group">
+          <label>Full Name / Team Leader</label>
+          <input type="text" required placeholder="e.g. Alex Hunter" />
+        </div>
+        <div class="form-group">
+          <label>College / Institute Email</label>
+          <input type="email" required placeholder="alex@institute.edu" />
+        </div>
+        <div class="form-group">
+          <label>Arena / Chamber Choice</label>
+          <select id="reg-chamber-select">
+            <option value="Coding Arena">Chamber I: Coding Arena (Speed DSA & LAN)</option>
+            <option value="TechKnow 24hr Flagship Hackathon" selected>Chamber II: 24-Hour Flagship Hackathon</option>
+            <option value="RoboWars Combat Arena">Chamber II: RoboWars Combat Arena</option>
+            <option value="Grand Finale">Chamber III: Grand Finale & Keynotes</option>
+          </select>
+        </div>
+        <button type="submit" class="btn-submit-pass">CONFIRM REGISTRATION <i class="fa-solid fa-arrow-right"></i></button>
+      </form>
+    </div>
+  </div>
+
+  <script type="module" src="/src/main.js"></script>
+</body>
+</html>
