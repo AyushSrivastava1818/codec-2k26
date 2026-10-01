@@ -26,43 +26,6 @@ The application features 3D perspective zoom scroll transitions, volumetric mist
 
 ---
 
-## 📸 Live Visual Showcase
-
-### 1. Exterior Haunted Mansion & Hero Stage
-> Cinematic scale zoom into the haunted mansion with titanium-faceted typography, atmospheric vignette, and HUD capsule navigation with active Halloween fiery orange indicators.
-
-![Exterior Haunted Mansion](docs/screenshots/01_hero_mansion.png)
-
----
-
-### 2. Rotunda & The 3 Chamber Portals
-> Passing through volumetric mist, the user enters the interior rotunda where a hooded warrior stands guard before the three streamlined event chambers: **Coding Arena (Oct 30)**, **24H Hackathon & RoboWars (Oct 31)**, and **Grand Finale (Nov 01)**.
-
-![Rotunda Chamber Portals](docs/screenshots/02_events_chambers.png)
-
----
-
-### 3. 24-Hour National Hackathon Hub
-> The flagship hackathon portal featuring a 4-stat key specs bar (`24H Continuous Sprint`, `2 - 4 Members / Team`, `₹1,00,000+ Prize Pool`, `Open to All Colleges`) and direct team registration with problem statements revealed live at kickoff.
-
-![24-Hour National Hackathon Hub](docs/screenshots/03_hackathon_hub.png)
-
----
-
-### 4. Official 3-Day Technical Summit Timetable
-> Day-by-day streamlined timetable showcasing workshops, competitive coding rounds, combat robotics, midnight CTF, and project pitch defense.
-
-![Official Timetable](docs/screenshots/04_schedule_timetable.png)
-
----
-
-### 5. Honors & Recognition Podium
-> Grand Champion perpetual trophy citation, 1st Runner-Up, and 2nd Runner-Up awards.
-
-![Honors and Awards](docs/screenshots/05_prizes_awards.png)
-
----
-
 ## ✨ Key Architectural Features
 
 - **🎮 120 FPS Cinematic Zoom Scroll Engine**:
@@ -138,13 +101,6 @@ The application features 3D perspective zoom scroll transitions, volumetric mist
 
 ```
 codec-2k26/
-├── docs/
-│   └── screenshots/              # High-resolution screenshots of recent live website
-│       ├── 01_hero_mansion.png
-│       ├── 02_events_chambers.png
-│       ├── 03_hackathon_hub.png
-│       ├── 04_schedule_timetable.png
-│       └── 05_prizes_awards.png
 ├── public/
 │   ├── assets/                   # Vector logos, backgrounds & chamber assets
 │   ├── favicon.svg
