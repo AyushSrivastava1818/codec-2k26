@@ -1,4 +1,4 @@
-﻿# CODEC 2K26 — Flagship Technical Conclave & National Hackathon
+﻿# CODEC 2K26 — Flagship Technical Summit & National Hackathon
 
 <div align="center">
 
@@ -20,7 +20,7 @@
 
 ## 🏛️ Overview
 
-**CODEC 2K26** is the annual flagship technical conclave organized by **TechKnow Society**, the official Technical Council of **IIIT Kota**. This web portal delivers an immersive, Halloween-themed cinematic journey seamlessly fused with a modern engineering aesthetic.
+**CODEC 2K26** is the annual flagship technical summit and hackathon organized by **TechKnow Society**, the official Technical Council of **IIIT Kota**. This web portal delivers an immersive, Halloween-themed cinematic journey seamlessly fused with a modern engineering aesthetic.
 
 The application features 3D perspective zoom scroll transitions, volumetric mist fog layers, an atmospheric rotunda with interactive event chambers, real-time scroll navigation, and a streamlined registration engine — running smoothly at a rock-solid **120 FPS**.
 
@@ -49,7 +49,7 @@ The application features 3D perspective zoom scroll transitions, volumetric mist
 
 ---
 
-### 4. Official 3-Day Conclave Timetable
+### 4. Official 3-Day Technical Summit Timetable
 > Day-by-day streamlined timetable showcasing workshops, competitive coding rounds, combat robotics, midnight CTF, and project pitch defense.
 
 ![Official Timetable](docs/screenshots/04_schedule_timetable.png)
