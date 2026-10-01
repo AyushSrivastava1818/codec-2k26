@@ -9,7 +9,7 @@
 [![Vite](https://img.shields.io/badge/Vite-8.x-646CFF?style=for-the-badge&logo=vite&logoColor=white)](https://vitejs.dev/)
 [![JavaScript](https://img.shields.io/badge/Vanilla_JS-120_FPS-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)](https://developer.mozilla.org/en-US/docs/Web/JavaScript)
 [![CSS3](https://img.shields.io/badge/CSS3-Glassmorphism-1572B6?style=for-the-badge&logo=css3&logoColor=white)](https://developer.mozilla.org/en-US/docs/Web/CSS)
-[![Audio](https://img.shields.io/badge/Web_Audio_API-Synthesized-FF7700?style=for-the-badge&logo=soundcloud&logoColor=white)](https://developer.mozilla.org/en-US/docs/Web/API/Web_Audio_API)
+[![Theme](https://img.shields.io/badge/Theme-Halloween_Orange-FF7700?style=for-the-badge&logo=ghost&logoColor=white)](https://github.com/AyushSrivastava1818/codec-2k26)
 [![Status](https://img.shields.io/badge/Status-Production_Ready-00E5FF?style=for-the-badge)](https://github.com/AyushSrivastava1818/codec-2k26)
 
 *“WE ARE THE ‘ T ’ OF IIIT KOTA”*
@@ -20,53 +20,46 @@
 
 ## 🏛️ Overview
 
-**CODEC 2K26** is the annual flagship technical conclave organized by **TechKnow Society**, the official Technical Council of **IIIT Kota**. This cutting-edge web portal delivers an immersive, Halloween-themed cinematic journey seamlessly fused with a high-tech engineering aesthetic.
+**CODEC 2K26** is the annual flagship technical conclave organized by **TechKnow Society**, the official Technical Council of **IIIT Kota**. This web portal delivers an immersive, Halloween-themed cinematic journey seamlessly fused with a modern engineering aesthetic.
 
-The application blends 3D perspective scroll animations, volumetric fog transitions, an atmospheric rotunda with interactive event chambers, real-time scroll navigation, and a modern registration engine — running smoothly at a rock-solid **120 FPS**.
+The application features 3D perspective zoom scroll transitions, volumetric mist fog layers, an atmospheric rotunda with interactive event chambers, real-time scroll navigation, and a streamlined registration engine — running smoothly at a rock-solid **120 FPS**.
 
 ---
 
-## 📸 Visual Showcase
+## 📸 Live Visual Showcase
 
 ### 1. Exterior Haunted Mansion & Hero Stage
-> Cinematic scale zoom into the haunted mansion with titanium-faceted typography, atmospheric vignette, and HUD capsule navigation.
+> Cinematic scale zoom into the haunted mansion with titanium-faceted typography, atmospheric vignette, and HUD capsule navigation with active Halloween fiery orange indicators.
 
 ![Exterior Haunted Mansion](docs/screenshots/01_hero_mansion.png)
 
 ---
 
 ### 2. Rotunda & The 3 Chamber Portals
-> Passing through volumetric mist, the user enters the interior rotunda where a hooded warrior stands guard before the three event chambers: **Coding Arena (Oct 30)**, **24H Hackathon & RoboWars (Oct 31)**, and **Grand Finale (Nov 01)**.
+> Passing through volumetric mist, the user enters the interior rotunda where a hooded warrior stands guard before the three streamlined event chambers: **Coding Arena (Oct 30)**, **24H Hackathon & RoboWars (Oct 31)**, and **Grand Finale (Nov 01)**.
 
 ![Rotunda Chamber Portals](docs/screenshots/02_events_chambers.png)
 
 ---
 
-### 3. Fullscreen Immersive Chamber Modal
-> Clicking any chamber card opens an immersive fullscreen environment featuring high-resolution chamber interiors, event schedules, and team registration shortcuts.
+### 3. 24-Hour National Hackathon Hub
+> The flagship hackathon portal featuring a 4-stat key specs bar (`24H Continuous Sprint`, `2 - 4 Members / Team`, `₹1,00,000+ Prize Pool`, `Open to All Colleges`) and direct team registration with problem statements revealed live at kickoff.
 
-![Chamber Interior Modal](docs/screenshots/03_chamber_interior_modal.png)
-
----
-
-### 4. 24-Hour National Hackathon Hub
-> The flagship hackathon portal featuring a 4-stat key specs bar (`24H Continuous Sprint`, `2 - 4 Members / Team`, `₹1,00,000+ Prize Pool`, `Open to All Colleges`) and direct team registration.
-
-![24-Hour National Hackathon](docs/screenshots/04_national_hackathon.png)
+![24-Hour National Hackathon Hub](docs/screenshots/03_hackathon_hub.png)
 
 ---
 
-### 5. Official 3-Day Conclave Timetable
-> Day-by-day interactive timetable streaming workshops, competitive coding rounds, combat robotics, midnight CTF, and project pitch defense.
+### 4. Official 3-Day Conclave Timetable
+> Day-by-day streamlined timetable showcasing workshops, competitive coding rounds, combat robotics, midnight CTF, and project pitch defense.
 
-![Official Timetable](docs/screenshots/05_schedule_timetable.png)
+![Official Timetable](docs/screenshots/04_schedule_timetable.png)
 
 ---
 
-### 6. Honors & Recognition Podium
+### 5. Honors & Recognition Podium
 > Grand Champion perpetual trophy citation, 1st Runner-Up, and 2nd Runner-Up awards.
 
-![Honors and Awards](docs/screenshots/06_prizes_honors.png)
+![Honors and Awards](docs/screenshots/05_prizes_awards.png)
 
 ---
 
@@ -76,9 +69,9 @@ The application blends 3D perspective scroll animations, volumetric fog transiti
   Uses requestAnimationFrame interpolation and hardware-composited `transform: translate3d()` and `scale()` properties to eliminate layout thrashing and jitter.
 
 - **🧭 Real-Time Dynamic ScrollSpy**:
-  Accurately tracks user position using `getBoundingClientRect()` thresholds, highlighting the active section (`HOME`, `EVENTS`, `HACKATHON`, `SCHEDULE`, `PRIZES`) across both the top HUD capsule and the left floating dock.
+  Accurately tracks user position using `getBoundingClientRect()` thresholds, dynamically highlighting the active section (`HOME`, `EVENTS`, `HACKATHON`, `SCHEDULE`, `PRIZES`) across both the top HUD capsule and the left floating dock.
 
-- **🎃 Halloween Fiery Orange Aesthetic**:
+- **🎃 Halloween Fiery Orange Theme**:
   Styled with glowing pumpkin orange (`#ff7700` / `#ff6a00`) accents, dark glassmorphism (`rgba(14, 11, 18, 0.92)`), and clean, modern fonts:
   - **Headings & Badges**: `Syncopate` & `Michroma`
   - **Subtitles & Card Titles**: `Space Grotesk`
@@ -146,13 +139,12 @@ The application blends 3D perspective scroll animations, volumetric fog transiti
 ```
 codec-2k26/
 ├── docs/
-│   └── screenshots/              # High-resolution screenshots of all sections
+│   └── screenshots/              # High-resolution screenshots of recent live website
 │       ├── 01_hero_mansion.png
 │       ├── 02_events_chambers.png
-│       ├── 03_chamber_interior_modal.png
-│       ├── 04_national_hackathon.png
-│       ├── 05_schedule_timetable.png
-│       └── 06_prizes_honors.png
+│       ├── 03_hackathon_hub.png
+│       ├── 04_schedule_timetable.png
+│       └── 05_prizes_awards.png
 ├── public/
 │   ├── assets/                   # Vector logos, backgrounds & chamber assets
 │   ├── favicon.svg
