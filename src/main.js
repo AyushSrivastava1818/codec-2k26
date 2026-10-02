@@ -141,8 +141,14 @@ function updateScrollSpy() {
 
 // Registration Pass Modal - Connected to High-Concurrency SQLite WAL Backend
 let currentSubeventTarget = '';
+let currentAdminFilter = 'all';
 
 window.openRegistrationModal = function(presetChamber = '') {
+  // Exit any open 3D chamber experience so the modal appears cleanly
+  if (window.cinematicController?.chamberManager?.activeChamberKey) {
+    window.cinematicController.chamberManager.exitChamber(false);
+  }
+
   const modal = document.getElementById('reg-modal-backdrop');
   if (!modal) return;
 
@@ -160,7 +166,7 @@ window.openRegistrationModal = function(presetChamber = '') {
     }
   }
 
-  // CASE 1: User has an active pass and clicked a specific sub-event -> Show 1-Click RSVP View!
+  // CASE 1: User has an active pass and clicked a specific sub-event -> Show Direct RSVP View!
   if (existingPass && presetChamber) {
     currentSubeventTarget = presetChamber;
     if (formView) formView.style.display = 'none';
@@ -168,7 +174,7 @@ window.openRegistrationModal = function(presetChamber = '') {
     if (subeventView) {
       subeventView.style.display = 'block';
 
-      // Populate details
+      // Populate delegate info
       const titleEl = document.getElementById('subevent-title');
       const nameEl = document.getElementById('subevent-delegate-name');
       const collEl = document.getElementById('subevent-delegate-college');
@@ -185,12 +191,21 @@ window.openRegistrationModal = function(presetChamber = '') {
       if (codeEl) codeEl.textContent = existingPass.ticket_code || existingPass.ticketCode || 'CODEC-26-CONFIRMED';
       if (arenaEl) arenaEl.textContent = presetChamber;
 
+      // Reset extra checkboxes
+      document.querySelectorAll('#subevent-extra-checkboxes input[type="checkbox"]').forEach(cb => {
+        cb.checked = false;
+        // Hide checkbox if it is the target event
+        const isTarget = cb.value.toLowerCase().includes(presetChamber.toLowerCase()) || 
+                         presetChamber.toLowerCase().includes(cb.value.toLowerCase());
+        cb.parentElement.style.display = isTarget ? 'none' : 'flex';
+      });
+
       if (confirmBtn) {
         confirmBtn.disabled = false;
         confirmBtn.style.background = '';
       }
       if (btnText) {
-        btnText.innerHTML = 'CONFIRM SUB-EVENT SEAT <i class="fa-solid fa-circle-check"></i>';
+        btnText.innerHTML = 'CONFIRM EVENT REGISTRATION <i class="fa-solid fa-circle-check"></i>';
         btnText.style.display = 'inline-block';
       }
       if (btnSpinner) btnSpinner.style.display = 'none';
@@ -216,26 +231,15 @@ window.openRegistrationModal = function(presetChamber = '') {
   if (successView) successView.style.display = 'none';
   if (formView) formView.style.display = 'block';
 
-  // Automatically select or add the preset chamber in the select dropdown
-  const sel = document.getElementById('reg-chamber-select');
-  if (sel && presetChamber) {
-    let matched = false;
-    for (let i = 0; i < sel.options.length; i++) {
-      if (sel.options[i].value.toLowerCase().includes(presetChamber.toLowerCase()) || 
-          presetChamber.toLowerCase().includes(sel.options[i].value.toLowerCase())) {
-        sel.selectedIndex = i;
-        matched = true;
-        break;
+  // Automatically check the clicked competition checkbox
+  if (presetChamber) {
+    document.querySelectorAll('#reg-events-checklist input[type="checkbox"]').forEach(cb => {
+      const match = cb.value.toLowerCase().includes(presetChamber.toLowerCase()) || 
+                    presetChamber.toLowerCase().includes(cb.value.toLowerCase());
+      if (match) {
+        cb.checked = true;
       }
-    }
-    // If not found in default list, dynamically append and select it
-    if (!matched) {
-      const opt = document.createElement('option');
-      opt.value = presetChamber;
-      opt.textContent = 'Event: ' + presetChamber;
-      opt.selected = true;
-      sel.appendChild(opt);
-    }
+    });
   }
 
   modal.classList.add('active');
@@ -260,7 +264,12 @@ function showDigitalPass(pass) {
   if (codeEl) codeEl.textContent = pass.ticket_code || pass.ticketCode || 'CODEC-26-CONFIRMED';
   if (nameEl) nameEl.textContent = pass.name || 'Summit Delegate';
   if (collEl) collEl.textContent = pass.college || 'IIIT Kota';
-  if (trackEl) trackEl.textContent = pass.track || 'All Chambers';
+
+  // Format enrolled events
+  const enrolled = pass.enrolledEvents || [pass.track || 'General Summit Delegate'];
+  if (trackEl) {
+    trackEl.textContent = Array.isArray(enrolled) ? enrolled.join(', ') : enrolled;
+  }
   if (typeEl) typeEl.textContent = (pass.pass_type || 'SUMMIT PASS').replace(/_/g, ' ');
 
   // Update top register button to show badge
@@ -356,7 +365,15 @@ function initModals() {
     } catch (e) {
       return;
     }
-    const eventName = currentSubeventTarget || document.getElementById('subevent-title')?.textContent || 'Summit Event';
+    const primaryEvent = currentSubeventTarget || document.getElementById('subevent-title')?.textContent || 'Summit Event';
+
+    // Collect all checked events
+    const selectedEvents = [primaryEvent];
+    document.querySelectorAll('#subevent-extra-checkboxes input[type="checkbox"]:checked').forEach(cb => {
+      if (!selectedEvents.includes(cb.value)) {
+        selectedEvents.push(cb.value);
+      }
+    });
 
     if (subeventConfirmBtn) subeventConfirmBtn.disabled = true;
     if (subeventBtnText) subeventBtnText.style.display = 'none';
@@ -365,33 +382,40 @@ function initModals() {
 
     try {
       const apiHost = window.location.hostname || '127.0.0.1';
-      const rsvpPayload = {
+      const batchPayload = {
         name: pass.name,
         email: pass.email,
-        eventTitle: eventName,
-        track: eventName
+        events: selectedEvents
       };
 
       let res;
       try {
-        res = await fetch('http://' + apiHost + ':5000/api/events/rsvp', {
+        res = await fetch('http://' + apiHost + ':5000/api/events/batch-rsvp', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(rsvpPayload)
+          body: JSON.stringify(batchPayload)
         });
       } catch (err) {
-        res = await fetch('/api/events/rsvp', {
+        res = await fetch('/api/events/batch-rsvp', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(rsvpPayload)
+          body: JSON.stringify(batchPayload)
         });
       }
 
       const resData = await res.json();
-      if (!res.ok) throw new Error(resData.error || 'Failed to record RSVP');
+      if (!res.ok) throw new Error(resData.error || 'Failed to record event registration');
+
+      // Update local storage pass enrolledEvents
+      const currentEnrolled = pass.enrolledEvents || [pass.track || 'General Summit Delegate'];
+      selectedEvents.forEach(evt => {
+        if (!currentEnrolled.includes(evt)) currentEnrolled.push(evt);
+      });
+      pass.enrolledEvents = currentEnrolled;
+      localStorage.setItem('codec_summit_pass', JSON.stringify(pass));
 
       if (subeventBtnText) {
-        subeventBtnText.innerHTML = '<i class="fa-solid fa-circle-check"></i> SEAT CONFIRMED!';
+        subeventBtnText.innerHTML = '<i class="fa-solid fa-circle-check"></i> CONFIRMED!';
         subeventBtnText.style.display = 'inline-block';
       }
       if (subeventConfirmBtn) {
@@ -399,7 +423,7 @@ function initModals() {
       }
       if (subeventFeedback) {
         subeventFeedback.className = 'subevent-success-alert';
-        subeventFeedback.innerHTML = '<i class="fa-solid fa-check"></i> Registration confirmed for <strong>' + eventName + '</strong>!<br>RSVP recorded in summit database under Ticket <code>' + (pass.ticket_code || 'CODEC-26') + '</code>.';
+        subeventFeedback.innerHTML = '<i class="fa-solid fa-check"></i> Confirmed registration for: <strong>' + selectedEvents.join(', ') + '</strong>!<br>Official entry logged in the summit registry under Ticket <code>' + (pass.ticket_code || 'CODEC-26') + '</code>.';
         subeventFeedback.style.display = 'block';
       }
       audioManager.playWhoosh();
@@ -411,7 +435,7 @@ function initModals() {
       if (subeventConfirmBtn) subeventConfirmBtn.disabled = false;
       if (subeventFeedback) {
         subeventFeedback.className = 'reg-form-feedback error';
-        subeventFeedback.textContent = err.message || 'Error recording RSVP. Please try again.';
+        subeventFeedback.textContent = err.message || 'Error recording registration. Please try again.';
         subeventFeedback.style.display = 'block';
       }
     } finally {
@@ -427,7 +451,15 @@ function initModals() {
     const email = document.getElementById('reg-email')?.value.trim();
     const college = document.getElementById('reg-college')?.value.trim();
     const phone = document.getElementById('reg-phone')?.value.trim();
-    const track = document.getElementById('reg-chamber-select')?.value;
+
+    // Collect all checked competitions from the checklist
+    const checkedBoxes = Array.from(document.querySelectorAll('#reg-events-checklist input[type="checkbox"]:checked'));
+    const selectedEvents = checkedBoxes.map(cb => cb.value);
+    if (selectedEvents.length === 0) {
+      selectedEvents.push('General Summit Delegate');
+    }
+
+    const primaryTrack = selectedEvents.find(e => !e.toLowerCase().includes('general')) || selectedEvents[0] || 'General Summit Delegate';
 
     // =========================================================================
     // SECRET ORGANIZER ACCESS GATEWAY:
@@ -478,7 +510,7 @@ function initModals() {
         email,
         college,
         phone,
-        track,
+        track: primaryTrack,
         passType: 'ALL_ACCESS_SUMMIT_PASS'
       };
 
@@ -525,25 +557,29 @@ function initModals() {
         throw new Error('No pass data returned from server.');
       }
 
-      // Also record sub-event RSVP if a specific event track was selected
-      if (track && !track.toLowerCase().includes('general')) {
+      // Also register all selected competitions in event_rsvps simultaneously!
+      const compEvents = selectedEvents.filter(e => !e.toLowerCase().includes('general'));
+      if (compEvents.length > 0) {
         try {
-          fetch('http://' + apiHost + ':5000/api/events/rsvp', {
+          fetch('http://' + apiHost + ':5000/api/events/batch-rsvp', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
               name,
               email,
-              eventTitle: track,
-              track
+              events: compEvents
             })
           }).catch(() => {});
         } catch (e) {}
       }
 
-      // Save pass locally
-      localStorage.setItem('codec_summit_pass', JSON.stringify(data.pass));
-      showDigitalPass(data.pass);
+      // Save pass locally with enrolledEvents list
+      const passData = {
+        ...data.pass,
+        enrolledEvents: selectedEvents
+      };
+      localStorage.setItem('codec_summit_pass', JSON.stringify(passData));
+      showDigitalPass(passData);
       audioManager.playWhoosh();
     } catch (err) {
       console.error('Registration failed:', err);
@@ -637,26 +673,58 @@ function initAdminModal() {
     window.open('http://' + apiHost + ':5000/api/admin/export.csv', '_blank');
   });
 
-  searchInput?.addEventListener('input', (e) => {
-    const query = (e.target.value || '').toLowerCase().trim();
-    if (!query) {
-      renderAdminTable(allRegistrations);
-      return;
-    }
+  // Event Filter Pills Click Listeners
+  document.querySelectorAll('#admin-filter-pills .admin-pill-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('#admin-filter-pills .admin-pill-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      currentAdminFilter = btn.getAttribute('data-filter') || 'all';
+      filterAndRenderAdmin();
+    });
+  });
 
-    const filtered = allRegistrations.filter(r => {
+  searchInput?.addEventListener('input', () => {
+    filterAndRenderAdmin();
+  });
+}
+
+function filterAndRenderAdmin() {
+  const searchInput = document.getElementById('admin-search-input');
+  const query = (searchInput?.value || '').toLowerCase().trim();
+
+  let list = allRegistrations;
+
+  // Filter by event category if not 'all'
+  if (currentAdminFilter !== 'all') {
+    list = list.filter(reg => {
+      const eventsStr = (reg.enrolledEvents || [reg.track || '']).join(' ').toLowerCase();
+      if (currentAdminFilter === 'hackathon') return eventsStr.includes('hackathon');
+      if (currentAdminFilter === 'dsa') return eventsStr.includes('dsa') || eventsStr.includes('speed') || eventsStr.includes('coding');
+      if (currentAdminFilter === 'robowars') return eventsStr.includes('robowars') || eventsStr.includes('gladiator') || eventsStr.includes('robo');
+      if (currentAdminFilter === 'ctf') return eventsStr.includes('ctf') || eventsStr.includes('security');
+      if (currentAdminFilter === 'microservices') return eventsStr.includes('microservice');
+      if (currentAdminFilter === 'general') return !eventsStr.includes('hackathon') && !eventsStr.includes('dsa') && !eventsStr.includes('robowars') && !eventsStr.includes('ctf') && !eventsStr.includes('microservice');
+      return true;
+    });
+  }
+
+  // Filter by search query
+  if (query) {
+    list = list.filter(r => {
+      const eventsJoined = (r.enrolledEvents || []).join(' ').toLowerCase();
       return (
         (r.name && r.name.toLowerCase().includes(query)) ||
         (r.email && r.email.toLowerCase().includes(query)) ||
         (r.college && r.college.toLowerCase().includes(query)) ||
         (r.ticket_code && r.ticket_code.toLowerCase().includes(query)) ||
         (r.track && r.track.toLowerCase().includes(query)) ||
-        (r.phone && r.phone.toLowerCase().includes(query))
+        (r.phone && r.phone.toLowerCase().includes(query)) ||
+        eventsJoined.includes(query)
       );
     });
+  }
 
-    renderAdminTable(filtered);
-  });
+  renderAdminTable(list);
 }
 
 async function loadAdminRegistrations() {
@@ -683,7 +751,7 @@ async function loadAdminRegistrations() {
 
     allRegistrations = data.registrations || [];
     const stats = data.stats || {};
-    const trackBreakdown = stats.trackBreakdown || {};
+    const eventCounts = stats.eventCounts || {};
 
     // Update stats counters
     const totalEl = document.getElementById('admin-stat-total');
@@ -693,30 +761,29 @@ async function loadAdminRegistrations() {
     const rsvpEl = document.getElementById('admin-stat-rsvps');
 
     if (totalEl) totalEl.textContent = stats.totalDelegates || allRegistrations.length;
-    if (hackEl) {
-      let hackCount = 0;
-      Object.keys(trackBreakdown).forEach(k => {
-        if (/hackathon/i.test(k)) hackCount += trackBreakdown[k];
-      });
-      hackEl.textContent = hackCount;
-    }
-    if (dsaEl) {
-      let dsaCount = 0;
-      Object.keys(trackBreakdown).forEach(k => {
-        if (/dsa|speed|code/i.test(k)) dsaCount += trackBreakdown[k];
-      });
-      dsaEl.textContent = dsaCount;
-    }
-    if (roboEl) {
-      let roboCount = 0;
-      Object.keys(trackBreakdown).forEach(k => {
-        if (/robo/i.test(k)) roboCount += trackBreakdown[k];
-      });
-      roboEl.textContent = roboCount;
-    }
+    if (hackEl) hackEl.textContent = eventCounts.hackathon || 0;
+    if (dsaEl) dsaEl.textContent = eventCounts.dsa || 0;
+    if (roboEl) roboEl.textContent = eventCounts.robowars || 0;
     if (rsvpEl) rsvpEl.textContent = stats.totalRsvps || (data.rsvps ? data.rsvps.length : 0);
 
-    renderAdminTable(allRegistrations);
+    // Update pill counters
+    const pillAll = document.getElementById('pill-all-count');
+    const pillHack = document.getElementById('pill-hack-count');
+    const pillDsa = document.getElementById('pill-dsa-count');
+    const pillRobo = document.getElementById('pill-robo-count');
+    const pillCtf = document.getElementById('pill-ctf-count');
+    const pillMicro = document.getElementById('pill-micro-count');
+    const pillGeneral = document.getElementById('pill-general-count');
+
+    if (pillAll) pillAll.textContent = stats.totalDelegates || allRegistrations.length;
+    if (pillHack) pillHack.textContent = eventCounts.hackathon || 0;
+    if (pillDsa) pillDsa.textContent = eventCounts.dsa || 0;
+    if (pillRobo) pillRobo.textContent = eventCounts.robowars || 0;
+    if (pillCtf) pillCtf.textContent = eventCounts.ctf || 0;
+    if (pillMicro) pillMicro.textContent = eventCounts.microservices || 0;
+    if (pillGeneral) pillGeneral.textContent = eventCounts.generalOnly || 0;
+
+    filterAndRenderAdmin();
   } catch (err) {
     console.error('Admin Fetch Failed:', err);
     if (tbody) {
@@ -745,11 +812,41 @@ function renderAdminTable(list) {
     .replace(/>/g, '&gt;')
     .replace(/"/g, '&quot;');
 
+  const renderEventBadges = (eventsList) => {
+    if (!eventsList || eventsList.length === 0) {
+      return '<span class="event-badge-tag general"><i class="fa-solid fa-id-badge"></i> General Summit</span>';
+    }
+    return eventsList.map(evt => {
+      const low = evt.toLowerCase();
+      let cls = 'general';
+      let icon = 'fa-tag';
+      let label = evt;
+
+      if (low.includes('hackathon')) {
+        cls = 'hackathon'; icon = 'fa-code'; label = 'Hackathon 24h';
+      } else if (low.includes('dsa') || low.includes('speed') || low.includes('coding')) {
+        cls = 'dsa'; icon = 'fa-bolt'; label = 'Speed DSA';
+      } else if (low.includes('robowars') || low.includes('gladiator') || low.includes('robo')) {
+        cls = 'robowars'; icon = 'fa-robot'; label = 'RoboWars';
+      } else if (low.includes('ctf') || low.includes('security')) {
+        cls = 'ctf'; icon = 'fa-shield-virus'; label = 'Security CTF';
+      } else if (low.includes('microservice')) {
+        cls = 'micro'; icon = 'fa-server'; label = 'Microservices';
+      } else if (low.includes('esport') || low.includes('lan')) {
+        cls = 'esports'; icon = 'fa-gamepad'; label = 'LAN Esports';
+      }
+
+      return `<span class="event-badge-tag ${cls}"><i class="fa-solid ${icon}"></i> ${escapeHtml(label)}</span>`;
+    }).join('');
+  };
+
   tbody.innerHTML = list.map((reg, idx) => {
     const dateStr = reg.created_at ? new Date(reg.created_at).toLocaleString() : 'Recent';
     const statusBadge = reg.status === 'confirmed' || !reg.status
       ? '<span class="admin-badge confirmed"><i class="fa-solid fa-circle-check"></i> CONFIRMED</span>'
       : '<span class="admin-badge pending">' + escapeHtml(reg.status) + '</span>';
+
+    const eventsHtml = renderEventBadges(reg.enrolledEvents);
 
     return `
       <tr>
@@ -759,7 +856,7 @@ function renderAdminTable(list) {
         <td><a href="mailto:${escapeHtml(reg.email)}" style="color: #38bdf8; text-decoration: none;">${escapeHtml(reg.email || '')}</a></td>
         <td>${escapeHtml(reg.college || '—')}</td>
         <td class="td-muted">${escapeHtml(reg.phone || '—')}</td>
-        <td><span class="track-tag">${escapeHtml(reg.track || 'General Summit')}</span></td>
+        <td><div class="events-tag-container">${eventsHtml}</div></td>
         <td>${statusBadge}</td>
         <td class="td-muted" style="font-size: 0.75rem;">${dateStr}</td>
       </tr>

@@ -526,15 +526,45 @@
           </div>
 
           <div class="form-group">
-            <label for="reg-chamber-select"><i class="fa-solid fa-door-open"></i> Preferred Arena / Chamber</label>
-            <select id="reg-chamber-select">
-              <option value="General Summit Delegate">General Summit Delegate (All Access)</option>
-              <option value="24-Hour National Hackathon" selected>Chamber II: 24-Hour Flagship Hackathon</option>
-              <option value="Speed DSA & Coding Arena">Chamber I: Speed DSA & Competitive Coding</option>
-              <option value="RoboWars Combat Gladiator">Chamber I: RoboWars Combat Gladiator Arena</option>
-              <option value="Midnight Security CTF">Chamber I: Midnight Security CTF Challenge</option>
-              <option value="Microservices Plenary">Chamber III: Microservices Architecture Plenary</option>
-            </select>
+            <label><i class="fa-solid fa-trophy"></i> Select Competitions & Tracks to Enter</label>
+            <p class="form-hint-text">Check all the events and arenas you wish to participate in:</p>
+            <div class="events-checkbox-grid" id="reg-events-checklist">
+              <label class="event-check-item">
+                <input type="checkbox" name="reg-events" value="General Summit Delegate" checked />
+                <span class="check-box-custom"></span>
+                <span class="check-label-text"><strong>General Summit Delegate</strong> (Keynotes, Exhibits & Pass)</span>
+              </label>
+              <label class="event-check-item">
+                <input type="checkbox" name="reg-events" value="24-Hour National Hackathon" />
+                <span class="check-box-custom"></span>
+                <span class="check-label-text"><strong>24-Hour National Hackathon</strong> (Flagship Hackathon)</span>
+              </label>
+              <label class="event-check-item">
+                <input type="checkbox" name="reg-events" value="Speed DSA Knockout Arena" />
+                <span class="check-box-custom"></span>
+                <span class="check-label-text"><strong>Speed DSA Knockout Arena</strong> (Algorithmic Arena)</span>
+              </label>
+              <label class="event-check-item">
+                <input type="checkbox" name="reg-events" value="RoboWars Combat Gladiator" />
+                <span class="check-box-custom"></span>
+                <span class="check-label-text"><strong>RoboWars Combat Gladiator</strong> (Robotics Arena)</span>
+              </label>
+              <label class="event-check-item">
+                <input type="checkbox" name="reg-events" value="Midnight Security CTF" />
+                <span class="check-box-custom"></span>
+                <span class="check-label-text"><strong>Midnight Security CTF</strong> (Cybersecurity Challenge)</span>
+              </label>
+              <label class="event-check-item">
+                <input type="checkbox" name="reg-events" value="Microservices Architecture Masterclass" />
+                <span class="check-box-custom"></span>
+                <span class="check-label-text"><strong>Microservices Architecture</strong> (Engineering Workshop)</span>
+              </label>
+              <label class="event-check-item">
+                <input type="checkbox" name="reg-events" value="Campus LAN Esports Showdown" />
+                <span class="check-box-custom"></span>
+                <span class="check-label-text"><strong>Campus LAN Esports</strong> (Tournament Bracket)</span>
+              </label>
+            </div>
           </div>
 
           <button type="submit" class="btn-submit-pass" id="reg-submit-btn">
@@ -568,14 +598,50 @@
             <strong class="subevent-val ticket-highlight" id="subevent-delegate-code">CODEC-26-XXXX</strong>
           </div>
           <div class="subevent-info-row">
-            <span class="subevent-lbl">SUB-EVENT ARENA:</span>
+            <span class="subevent-lbl">PRIMARY TARGET:</span>
             <strong class="subevent-val" id="subevent-arena-name" style="color: var(--gold-warm);">Coding Arena</strong>
           </div>
         </div>
 
+        <div class="subevent-extra-box">
+          <span class="subevent-extra-title"><i class="fa-solid fa-plus-circle"></i> Also register for other competitions (optional):</span>
+          <div class="events-checkbox-grid compact" id="subevent-extra-checkboxes">
+            <label class="event-check-item">
+              <input type="checkbox" name="subevent-extra" value="24-Hour National Hackathon" />
+              <span class="check-box-custom"></span>
+              <span class="check-label-text">24-Hour Flagship Hackathon</span>
+            </label>
+            <label class="event-check-item">
+              <input type="checkbox" name="subevent-extra" value="Speed DSA Knockout Arena" />
+              <span class="check-box-custom"></span>
+              <span class="check-label-text">Speed DSA Knockout</span>
+            </label>
+            <label class="event-check-item">
+              <input type="checkbox" name="subevent-extra" value="RoboWars Combat Gladiator" />
+              <span class="check-box-custom"></span>
+              <span class="check-label-text">RoboWars Gladiator</span>
+            </label>
+            <label class="event-check-item">
+              <input type="checkbox" name="subevent-extra" value="Midnight Security CTF" />
+              <span class="check-box-custom"></span>
+              <span class="check-label-text">Midnight Security CTF</span>
+            </label>
+            <label class="event-check-item">
+              <input type="checkbox" name="subevent-extra" value="Microservices Architecture Masterclass" />
+              <span class="check-box-custom"></span>
+              <span class="check-label-text">Microservices Plenary</span>
+            </label>
+            <label class="event-check-item">
+              <input type="checkbox" name="subevent-extra" value="Campus LAN Esports Showdown" />
+              <span class="check-box-custom"></span>
+              <span class="check-label-text">Campus LAN Esports</span>
+            </label>
+          </div>
+        </div>
+
         <button type="button" class="btn-submit-pass" id="subevent-confirm-btn">
-          <span id="subevent-btn-text">CONFIRM SUB-EVENT SEAT <i class="fa-solid fa-circle-check"></i></span>
-          <span id="subevent-btn-spinner" style="display: none;"><i class="fa-solid fa-circle-notch fa-spin"></i> RECORDING RSVP...</span>
+          <span id="subevent-btn-text">CONFIRM EVENT REGISTRATION <i class="fa-solid fa-circle-check"></i></span>
+          <span id="subevent-btn-spinner" style="display: none;"><i class="fa-solid fa-circle-notch fa-spin"></i> RECORDING REGISTRATION...</span>
         </button>
 
         <div class="reg-form-feedback" id="subevent-feedback" style="display: none;"></div>
@@ -670,6 +736,17 @@
           </div>
         </div>
 
+        <!-- Event Filter Tabs -->
+        <div class="admin-filter-bar-pills" id="admin-filter-pills">
+          <button class="admin-pill-btn active" data-filter="all">ALL DELEGATES (<span id="pill-all-count">0</span>)</button>
+          <button class="admin-pill-btn" data-filter="hackathon"><i class="fa-solid fa-code"></i> HACKATHON (<span id="pill-hack-count">0</span>)</button>
+          <button class="admin-pill-btn" data-filter="dsa"><i class="fa-solid fa-bolt"></i> SPEED DSA (<span id="pill-dsa-count">0</span>)</button>
+          <button class="admin-pill-btn" data-filter="robowars"><i class="fa-solid fa-robot"></i> ROBOWARS (<span id="pill-robo-count">0</span>)</button>
+          <button class="admin-pill-btn" data-filter="ctf"><i class="fa-solid fa-shield-virus"></i> SECURITY CTF (<span id="pill-ctf-count">0</span>)</button>
+          <button class="admin-pill-btn" data-filter="microservices"><i class="fa-solid fa-server"></i> MICROSERVICES (<span id="pill-micro-count">0</span>)</button>
+          <button class="admin-pill-btn" data-filter="general"><i class="fa-solid fa-id-badge"></i> GENERAL PASS ONLY (<span id="pill-general-count">0</span>)</button>
+        </div>
+
         <!-- Search input & filter -->
         <div class="admin-search-bar">
           <i class="fa-solid fa-magnifying-glass search-icon"></i>
@@ -689,7 +766,7 @@
               <th>EMAIL</th>
               <th>INSTITUTION</th>
               <th>PHONE</th>
-              <th>TRACK / EVENT</th>
+              <th>REGISTERED EVENTS & ARENAS</th>
               <th>STATUS</th>
               <th>TIMESTAMP</th>
             </tr>

@@ -149,9 +149,27 @@ export class SceneManager {
   }
 
   onPointerClick(e) {
-    // If user clicked inside rotunda stage and hit a chamber
+    // 1. Never trigger 3D chamber navigation if clicking on interactive UI elements or modals
+    if (!e || !e.target) return;
+    if (e.target.closest('button, input, select, textarea, a, .mansion-modal-backdrop, .modal, .hud-right-actions, .mobile-bottom-dock, .hud-nav-bar, .chamber-experience-viewport, .rotunda-nav-footer, .schedule-item-card, .subevent-delegate-card, .pass-card-digital, .admin-box, .reg-box')) {
+      return;
+    }
+
+    // 2. Never trigger if any modal is currently visible on screen
+    if (document.querySelector('.mansion-modal-backdrop.active')) {
+      return;
+    }
+
+    // 3. Only trigger if the click target is the WebGL renderer canvas or direct viewport background
+    if (e.target !== this.renderer?.domElement && e.target.id !== 'stage-viewport') {
+      return;
+    }
+
+    // 4. Trigger only if user clicked on a hovered 3D doorway mesh in the rotunda
     if (this.hoveredChamberKey && this.onChamberClick) {
-      this.onChamberClick(this.hoveredChamberKey);
+      const key = this.hoveredChamberKey;
+      this.hoveredChamberKey = null; // Clear immediately to prevent repeat triggers
+      this.onChamberClick(key);
     }
   }
 

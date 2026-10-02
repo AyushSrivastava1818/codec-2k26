@@ -158,15 +158,9 @@ export class CinematicController {
       });
     });
 
-    // Check if URL arrived with a hash like #events or #hackathon
-    const initialHash = window.location.hash.replace('#', '').toLowerCase();
-    if (initialHash && ['about', 'events', 'hackathon', 'schedule', 'prizes'].includes(initialHash)) {
-      setTimeout(() => {
-        this.scroll.scrollToStage('ROTUNDA_CHAMBERS');
-        setTimeout(() => {
-          this.chamberManager.enterChamber(initialHash, false);
-        }, 600);
-      }, 700);
+    // Clear any residual hash on load to prevent unwanted auto-opening of chambers
+    if (window.location.hash && ['#about', '#events', '#hackathon', '#schedule', '#prizes'].includes(window.location.hash.toLowerCase())) {
+      window.history.replaceState(null, '', window.location.pathname);
     }
   }
 
