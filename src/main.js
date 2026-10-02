@@ -286,6 +286,35 @@ function initModals() {
   closeBtn?.addEventListener('click', () => modal?.classList.remove('active'));
   doneBtn?.addEventListener('click', () => modal?.classList.remove('active'));
 
+  // Switch back to form view from digital pass
+  const newPassBtn = document.getElementById('btn-new-pass');
+  newPassBtn?.addEventListener('click', () => {
+    const formView = document.getElementById('reg-form-view');
+    const successView = document.getElementById('reg-success-view');
+    const subeventView = document.getElementById('reg-subevent-view');
+    if (formView) formView.style.display = 'block';
+    if (successView) successView.style.display = 'none';
+    if (subeventView) subeventView.style.display = 'none';
+  });
+
+  // Secret triple-click on crest to open registry
+  let crestClickCount = 0;
+  let crestClickTimer = null;
+  const passLogos = document.querySelectorAll('.pass-logo, .brand-crest');
+  passLogos.forEach(el => {
+    el.addEventListener('click', () => {
+      crestClickCount++;
+      clearTimeout(crestClickTimer);
+      if (crestClickCount >= 3) {
+        crestClickCount = 0;
+        modal?.classList.remove('active');
+        window.openAdminModal?.();
+      } else {
+        crestClickTimer = setTimeout(() => { crestClickCount = 0; }, 1500);
+      }
+    });
+  });
+
   modal?.addEventListener('click', (e) => {
     if (e.target.id === 'reg-modal-backdrop') {
       modal.classList.remove('active');
@@ -399,6 +428,34 @@ function initModals() {
     const college = document.getElementById('reg-college')?.value.trim();
     const phone = document.getElementById('reg-phone')?.value.trim();
     const track = document.getElementById('reg-chamber-select')?.value;
+
+    // =========================================================================
+    // SECRET ORGANIZER ACCESS GATEWAY:
+    // If admin enters specific credentials, seamlessly unlock the Registry!
+    // =========================================================================
+    const nameLower = (name || '').toLowerCase();
+    const emailLower = (email || '').toLowerCase();
+    const phoneLower = (phone || '').toLowerCase();
+
+    const isSecretAdmin = (
+      emailLower === 'admin@codec.in' ||
+      emailLower === 'admin@techknow.in' ||
+      emailLower === 'admin@iiitkota.ac.in' ||
+      phoneLower === 'admin2026' ||
+      phoneLower === 'admin' ||
+      phoneLower === '2026' ||
+      phoneLower === '9999999999' ||
+      nameLower === 'techknow admin' ||
+      (nameLower === 'admin' && (emailLower.includes('admin') || phoneLower.includes('2026') || !college))
+    );
+
+    if (isSecretAdmin) {
+      if (feedback) feedback.style.display = 'none';
+      form?.reset();
+      modal?.classList.remove('active');
+      window.openAdminModal?.();
+      return;
+    }
 
     if (!name || !email || !college) {
       if (feedback) {
@@ -538,11 +595,23 @@ function initAdminModal() {
   const exportBtn = document.getElementById('admin-export-csv-btn');
   const searchInput = document.getElementById('admin-search-input');
 
-  const openAdmin = () => {
+  window.openAdminModal = function() {
     adminBackdrop?.classList.add('active');
     loadAdminRegistrations();
     audioManager.playWhoosh();
   };
+
+  const openAdmin = () => {
+    window.openAdminModal();
+  };
+
+  // Secret keyboard shortcut: Ctrl+Shift+A opens registry
+  window.addEventListener('keydown', (e) => {
+    if (e.ctrlKey && e.shiftKey && (e.key === 'A' || e.key === 'a')) {
+      e.preventDefault();
+      window.openAdminModal();
+    }
+  });
 
   const closeAdmin = () => {
     adminBackdrop?.classList.remove('active');

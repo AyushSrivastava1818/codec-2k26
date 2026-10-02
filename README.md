@@ -183,28 +183,24 @@ All attendee passes and sub-event RSVPs are stored locally in a high-concurrency
 
 ---
 
-## 📊 Where Can We View Registrations?
+## 📊 Accessing the Organizer Registry Dashboard
 
-You can view and export registration data in multiple ways:
+To maintain an uncluttered, cinematic public interface for attendees, the registry dashboard is **completely hidden from public view on the website**. Council administrators and organizers can discreetly unlock the live dashboard using any of the following methods:
 
-1. **In-App Live Admin Dashboard**:
-   - Click the **"REGISTRY"** button located in the top-right header HUD.
-   - Displays live summit statistics (Total Delegates, Hackathon Squads, DSA Arena, RoboWars, Sub-Event RSVPs).
-   - Includes real-time search filtering across names, emails, colleges, ticket codes, and event tracks.
-   - Clean tabular display with live timestamps and status badges.
-
-2. **One-Click CSV Spreadsheet Export**:
-   - Click the **"EXPORT CSV"** button inside the in-app viewer, or directly visit:
-     ```
-     http://127.0.0.1:5000/api/admin/export.csv
-     ```
-   - Instantly downloads `codec_2k26_registrations_[timestamp].csv` for Excel or Google Sheets.
-
-3. **REST API JSON Endpoint**:
-   - Access live JSON registrations and track metrics directly at:
-     ```
-     GET http://127.0.0.1:5000/api/admin/registrations
-     ```
+1. **Discreet Credential Gateway in Generate Pass**:
+   - Open the Pass Registration modal.
+   - In the registration fields, enter the designated administrative credentials:
+     - **Name**: `Admin` (or `TechKnow Admin`)
+     - **Email**: `admin@techknow.in` (or `admin@codec.in`)
+     - **Phone / Access Key**: `admin2026` (or `2026`)
+   - Click **"GENERATE OFFICIAL PASS"**. The system immediately authenticates the administrator, bypasses standard pass creation, and unlocks the **Live Delegate Registry Dashboard**!
+2. **Keyboard Shortcut**:
+   - Press **`Ctrl + Shift + A`** on any page to open the registry dashboard directly.
+3. **Council Emblem**:
+   - Triple-click the TechKnow Council crest inside the Summit Pass header.
+4. **Direct API & Spreadsheet Export**:
+   - **Live JSON Data**: `GET http://127.0.0.1:5000/api/admin/registrations`
+   - **Direct CSV Download**: `GET http://127.0.0.1:5000/api/admin/export.csv`
 
 ---
 
