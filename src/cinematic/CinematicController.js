@@ -195,7 +195,7 @@ export class CinematicController {
     if (this.heroTitles) {
       const alpha = Math.max(0, 1 - p * 4.5);
       if (alpha > 0.005) {
-        this.heroTitles.style.display = 'block';
+        this.heroTitles.style.display = 'flex';
         this.heroTitles.style.opacity = alpha.toFixed(3);
         this.heroTitles.style.transform = `translateX(-50%) translateY(${(-50 - p * 35).toFixed(1)}%)`;
         this.heroTitles.style.pointerEvents = alpha > 0.05 ? 'auto' : 'none';

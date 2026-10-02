@@ -283,9 +283,13 @@ function initModals() {
         passType: 'ALL_ACCESS_SUMMIT_PASS'
       };
 
+      // Determine backend port 5000 base URL dynamically
+      const apiHost = window.location.hostname || '127.0.0.1';
+      const directApiUrl = `http://${apiHost}:5000/api/registrations`;
+
       let response;
       try {
-        response = await fetch('/api/registrations', {
+        response = await fetch(directApiUrl, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -293,9 +297,9 @@ function initModals() {
           },
           body: JSON.stringify(payload)
         });
-      } catch (proxyErr) {
-        // Direct backend fallback if proxy is delayed
-        response = await fetch('http://127.0.0.1:5000/api/registrations', {
+      } catch (directErr) {
+        // Fallback to relative proxy path
+        response = await fetch('/api/registrations', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -305,10 +309,21 @@ function initModals() {
         });
       }
 
-      const data = await response.json();
+      const text = await response.text();
+      let data = {};
+      try {
+        data = text ? JSON.parse(text) : {};
+      } catch (jsonErr) {
+        console.error('Non-JSON server response:', text);
+        throw new Error('Registration server returned an invalid response. Please verify server is running on port 5000.');
+      }
 
       if (!response.ok) {
-        throw new Error(data.error || 'Failed to issue pass');
+        throw new Error(data.error || `Server responded with status ${response.status}`);
+      }
+
+      if (!data.pass) {
+        throw new Error('No pass data returned from server.');
       }
 
       // Save pass locally
