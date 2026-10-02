@@ -1,0 +1,1150 @@
+/* ==========================================================================
+   CODEC 2K26 — CINEMATIC REDESIGN MASTER STYLESHEET
+   Preloader, Debug HUD, 3D Gate Open Panels, Main Hall, Rotunda 5-Chambers Ring,
+   and In-Environment Chamber Viewport
+   ========================================================================== */
+
+/* 1. MINIMAL CINEMATIC PRELOADER */
+.cinematic-preloader {
+  position: fixed;
+  inset: 0;
+  background-color: #040306;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  padding: 2rem;
+}
+
+.loader-content {
+  width: 100%;
+  max-width: 480px;
+  text-align: center;
+}
+
+.loader-hud-brand {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 2px;
+  color: var(--gold-warm);
+  margin-bottom: 0.8rem;
+  opacity: 0.9;
+}
+
+.loader-status-title {
+  font-family: var(--font-display);
+  font-size: 0.95rem;
+  font-weight: 700;
+  letter-spacing: 2.5px;
+  color: #ffffff;
+  margin-bottom: 1.5rem;
+  text-shadow: 0 0 12px rgba(255, 106, 0, 0.6);
+}
+
+.loader-line-track {
+  width: 100%;
+  height: 2px;
+  background: rgba(255, 255, 255, 0.12);
+  border-radius: 999px;
+  overflow: hidden;
+  margin-bottom: 0.9rem;
+  position: relative;
+}
+
+.loader-line-fill {
+  width: 0%;
+  height: 100%;
+  background: linear-gradient(90deg, #ff6a00 0%, #ffd700 100%);
+  box-shadow: 0 0 10px #ff6a00, 0 0 20px #ffd700;
+  transition: width 0.08s linear;
+}
+
+.loader-metrics-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  color: var(--text-muted);
+}
+
+.loader-percentage {
+  color: var(--gold-pure);
+  font-weight: 700;
+}
+
+/* 2. CINEMATIC DEBUG OVERLAY (KEY 'D') */
+.cinematic-debug-hud {
+  position: fixed;
+  top: 85px;
+  left: 20px;
+  z-index: 950;
+  background: rgba(8, 6, 11, 0.92);
+  border: 1px solid rgba(255, 119, 0, 0.45);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.85);
+  backdrop-filter: blur(12px);
+  padding: 0.85rem 1.1rem;
+  border-radius: 8px;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: #e2e8f0;
+  min-width: 250px;
+  pointer-events: none;
+}
+
+.dbg-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 0.5rem;
+  margin-bottom: 0.6rem;
+  border-bottom: 1px solid rgba(255, 119, 0, 0.25);
+  font-weight: 700;
+  color: var(--gold-warm);
+}
+
+.dbg-tag {
+  background: rgba(255, 106, 0, 0.2);
+  color: #ff8822;
+  padding: 0.15rem 0.45rem;
+  border-radius: 4px;
+  font-size: 0.62rem;
+}
+
+.dbg-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 1.2rem;
+  line-height: 1.6;
+}
+
+.dbg-row span:last-child {
+  color: var(--cyan-tech);
+  font-weight: 600;
+}
+
+/* 3. SCREEN RUMBLE ON GATE OPENING */
+.screen-gate-rumble {
+  animation: gateRumble 0.55s ease-out;
+}
+
+@keyframes gateRumble {
+  0% { transform: translate3d(0, 0, 0); }
+  20% { transform: translate3d(-3px, 2px, 0); }
+  40% { transform: translate3d(3px, -2px, 0); }
+  60% { transform: translate3d(-2px, 1px, 0); }
+  80% { transform: translate3d(2px, -1px, 0); }
+  100% { transform: translate3d(0, 0, 0); }
+}
+
+/* 4. 3D GATE PANELS & AMBER INTERIOR GLOW */
+.layer-gate-doors {
+  z-index: 7;
+  opacity: 0;
+  pointer-events: none;
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+  transition: transform 0.2s ease-out;
+}
+
+.gate-amber-glow {
+  position: absolute;
+  top: 45%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 45vw;
+  height: 55vh;
+  background: radial-gradient(circle at center, rgba(255, 120, 10, 0.85) 0%, rgba(255, 80, 0, 0.45) 40%, rgba(200, 50, 0, 0.1) 70%, transparent 100%);
+  opacity: 0;
+  pointer-events: none;
+  filter: blur(35px);
+  z-index: 2;
+}
+
+/* 5. GOTHIC MAIN HALL */
+.layer-main-hall {
+  z-index: 8;
+  opacity: 0;
+  pointer-events: none;
+  background-position: center center;
+}
+
+.hall-volumetric-shafts {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at 50% 25%, rgba(255, 180, 80, 0.25) 0%, transparent 65%);
+  pointer-events: none;
+  mix-blend-mode: screen;
+}
+
+.hall-floor-fog {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 45vh;
+  background: linear-gradient(0deg, rgba(5, 4, 6, 0.95) 0%, rgba(255, 120, 20, 0.08) 55%, transparent 100%);
+  pointer-events: none;
+}
+
+/* 6. ROTUNDA & CORE BEACON */
+.layer-rotunda {
+  z-index: 9;
+  opacity: 0;
+  pointer-events: none;
+  background-position: center center;
+}
+
+.rotunda-ambient-shade {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at center, rgba(15, 8, 5, 0.25) 0%, rgba(5, 4, 6, 0.85) 80%, #050406 100%);
+  pointer-events: none;
+}
+
+.rotunda-core-beacon {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 380px;
+  height: 380px;
+  background: radial-gradient(circle, rgba(255, 120, 10, 0.35) 0%, rgba(245, 158, 11, 0.12) 50%, transparent 75%);
+  pointer-events: none;
+  filter: blur(45px);
+}
+
+/* 7. ROTUNDA 5-CHAMBERS REALISTIC GOTHIC STONE ARCH PORTALS */
+.rotunda-portal-ring {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 95vw;
+  max-width: 1440px;
+  z-index: 20;
+  text-align: center;
+  opacity: 0;
+  pointer-events: none;
+  will-change: transform, opacity;
+}
+
+.portal-ring-header {
+  margin-bottom: 1.5rem;
+}
+
+.portal-ring-sub {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 2px;
+  color: var(--cyan-tech);
+  display: block;
+  margin-bottom: 0.35rem;
+}
+
+.portal-ring-title {
+  font-family: var(--font-display);
+  font-size: clamp(1.4rem, 2.5vw, 2.1rem);
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  color: #ffffff;
+  margin-bottom: 0.3rem;
+  text-shadow: 0 0 16px rgba(255, 106, 0, 0.6);
+}
+
+.portal-ring-desc {
+  font-family: var(--font-sans);
+  font-size: 0.88rem;
+  color: var(--text-muted);
+}
+
+.portal-doors-row {
+  display: flex;
+  align-items: stretch;
+  justify-content: center;
+  gap: 1.2rem;
+  flex-wrap: nowrap;
+}
+
+/* REALISTIC GOTHIC ARCHWAY CARD */
+.gothic-arch-portal-card {
+  flex: 1;
+  min-width: 195px;
+  max-width: 255px;
+  cursor: pointer;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.arch-frame-shape {
+  width: 100%;
+  height: 270px;
+  border-radius: 50% 50% 12px 12px / 36% 36% 12px 12px;
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+  border: 3px solid rgba(245, 158, 11, 0.45);
+  box-shadow: 0 14px 35px rgba(0, 0, 0, 0.9), inset 0 0 25px rgba(0, 0, 0, 0.85);
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.3s ease, box-shadow 0.3s ease;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding-top: 1.2rem;
+}
+
+.gothic-arch-portal-card:hover .arch-frame-shape,
+.gothic-arch-portal-card.arch-portal-active .arch-frame-shape {
+  transform: translateY(-8px) scale(1.03);
+  border-color: #ffd700;
+  box-shadow: 0 22px 50px rgba(0, 0, 0, 0.95), 0 0 35px rgba(255, 119, 0, 0.65);
+}
+
+.gothic-arch-portal-card.featured .arch-frame-shape {
+  border-color: rgba(255, 106, 0, 0.7);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.9), 0 0 25px rgba(255, 106, 0, 0.4);
+}
+
+.gothic-arch-portal-card.featured:hover .arch-frame-shape,
+.gothic-arch-portal-card.featured.arch-portal-active .arch-frame-shape {
+  border-color: #ffd700;
+  box-shadow: 0 24px 55px rgba(0, 0, 0, 0.95), 0 0 45px rgba(255, 106, 0, 0.8);
+}
+
+.arch-featured-crest {
+  position: absolute;
+  top: -12px;
+  z-index: 5;
+  background: linear-gradient(90deg, #ff6a00, #ffd700);
+  color: #040306;
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+  padding: 0.2rem 0.7rem;
+  border-radius: 999px;
+  white-space: nowrap;
+  box-shadow: 0 0 12px rgba(255, 106, 0, 0.7);
+}
+
+.arch-neon-sign {
+  font-family: var(--font-display);
+  font-size: 0.85rem;
+  font-weight: 800;
+  letter-spacing: 2px;
+  color: #ffffff;
+  text-shadow: 0 0 8px #ff6a00, 0 0 18px #ff6a00, 0 0 30px #ff4400;
+  background: rgba(10, 8, 12, 0.75);
+  border: 1px solid rgba(255, 119, 0, 0.5);
+  border-radius: 999px;
+  padding: 0.22rem 0.85rem;
+  backdrop-filter: blur(6px);
+  box-shadow: 0 0 15px rgba(255, 106, 0, 0.4);
+  transition: transform 0.25s ease, text-shadow 0.25s ease, box-shadow 0.25s ease;
+  z-index: 2;
+}
+
+.arch-neon-sign.cyan {
+  text-shadow: 0 0 8px #38bdf8, 0 0 18px #38bdf8, 0 0 30px #0284c7;
+  border-color: rgba(56, 189, 248, 0.5);
+}
+
+.arch-neon-sign.flame {
+  text-shadow: 0 0 10px #ff4422, 0 0 22px #ff4422, 0 0 35px #d92200;
+  border-color: rgba(255, 68, 34, 0.65);
+}
+
+.arch-neon-sign.gold {
+  text-shadow: 0 0 8px #ffd700, 0 0 18px #ffd700, 0 0 30px #f59e0b;
+  border-color: rgba(255, 215, 0, 0.5);
+}
+
+.gothic-arch-portal-card:hover .arch-neon-sign,
+.gothic-arch-portal-card.arch-portal-active .arch-neon-sign {
+  transform: scale(1.1);
+  text-shadow: 0 0 12px #ff7700, 0 0 25px #ff7700, 0 0 45px #ff4400;
+  box-shadow: 0 0 25px rgba(255, 119, 0, 0.7);
+}
+
+.arch-depth-glow {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 50% 60%, rgba(255, 119, 0, 0.15) 0%, transparent 75%);
+  pointer-events: none;
+  opacity: 0.6;
+  transition: opacity 0.3s ease;
+}
+
+.gothic-arch-portal-card:hover .arch-depth-glow,
+.gothic-arch-portal-card.arch-portal-active .arch-depth-glow {
+  opacity: 1;
+  background: radial-gradient(circle at 50% 60%, rgba(255, 119, 0, 0.35) 0%, transparent 80%);
+}
+
+.arch-meta-label {
+  margin-top: 0.9rem;
+  width: 100%;
+}
+
+.arch-number {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  color: var(--gold-warm);
+  display: block;
+  margin-bottom: 0.25rem;
+}
+
+.arch-number.gold {
+  color: var(--amber-flame);
+}
+
+.arch-title {
+  font-family: var(--font-display);
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin-bottom: 0.5rem;
+  line-height: 1.25;
+}
+
+.arch-title.gold {
+  color: #ffd700;
+}
+
+.arch-cta {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  color: var(--cyan-tech);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.35rem;
+  padding: 0.35rem 0.75rem;
+  border-radius: 999px;
+  background: rgba(255, 119, 0, 0.1);
+  border: 1px solid rgba(255, 119, 0, 0.3);
+  transition: all 0.2s ease;
+  width: 90%;
+}
+
+.gothic-arch-portal-card:hover .arch-cta,
+.gothic-arch-portal-card.arch-portal-active .arch-cta {
+  background: var(--cyan-tech);
+  color: #040306;
+  box-shadow: 0 0 14px rgba(255, 119, 0, 0.6);
+}
+
+.arch-cta.gold {
+  background: rgba(255, 106, 0, 0.18);
+  border-color: rgba(255, 106, 0, 0.5);
+}
+
+/* 8. IN-ENVIRONMENT FULLSCREEN CHAMBER VIEWPORT */
+.chamber-experience-viewport {
+  position: fixed;
+  inset: 0;
+  z-index: 500;
+  background-color: #050406;
+  overflow-y: auto;
+  overflow-x: hidden;
+  will-change: transform, opacity;
+}
+
+.chamber-experience-viewport.hidden {
+  display: none !important;
+}
+
+.chamber-experience-bg {
+  position: fixed;
+  inset: 0;
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+  filter: brightness(0.38) saturate(1.25);
+  pointer-events: none;
+  z-index: 1;
+  transition: transform 0.6s ease;
+}
+
+.chamber-experience-vignette {
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(ellipse at center, rgba(5, 4, 6, 0.3) 0%, rgba(5, 4, 6, 0.85) 75%, #050406 100%);
+  pointer-events: none;
+  z-index: 2;
+}
+
+.chamber-top-nav {
+  position: sticky;
+  top: 0;
+  left: 0;
+  right: 0;
+  padding: 1.5rem 2.5rem;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  background: linear-gradient(180deg, rgba(5, 4, 6, 0.92) 0%, transparent 100%);
+}
+
+.btn-return-rotunda {
+  background: rgba(14, 11, 16, 0.92);
+  border: 1px solid rgba(245, 158, 11, 0.45);
+  color: #ffffff;
+  font-family: var(--font-display);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 2px;
+  padding: 0.65rem 1.4rem;
+  border-radius: 999px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.65rem;
+  transition: all 0.25s ease;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.8), 0 0 14px rgba(245, 158, 11, 0.25);
+}
+
+.btn-return-rotunda:hover {
+  transform: translateX(-4px);
+  border-color: var(--cyan-tech);
+  box-shadow: 0 6px 25px rgba(0, 0, 0, 0.9), 0 0 22px rgba(255, 119, 0, 0.55);
+  color: var(--cyan-tech);
+}
+
+.chamber-experience-content {
+  position: relative;
+  z-index: 5;
+  max-width: 1220px;
+  margin: 0 auto;
+  padding: 1rem 2rem 5rem 2rem;
+}
+
+.chamber-cinematic-header {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.chamber-meta-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  margin-bottom: 0.8rem;
+}
+
+.chamber-num-badge {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 2px;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.chamber-sub-badge {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  letter-spacing: 1.5px;
+}
+
+.chamber-main-title {
+  font-family: var(--font-display);
+  font-size: clamp(1.8rem, 3.8vw, 3rem);
+  font-weight: 900;
+  letter-spacing: 1.5px;
+  color: #ffffff;
+  margin-bottom: 0.9rem;
+  text-shadow: 0 0 25px rgba(255, 106, 0, 0.6);
+}
+
+.chamber-tagline-text {
+  font-family: var(--font-sans);
+  font-size: 1.05rem;
+  line-height: 1.6;
+  color: var(--text-muted);
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+/* CHAMBER INNER LAYOUTS */
+.chamber-inner-grid {
+  display: grid;
+  grid-template-columns: 1.6fr 1fr;
+  gap: 2.5rem;
+  align-items: start;
+}
+
+.vault-manifesto {
+  background: rgba(14, 11, 16, 0.88);
+  border: 1px solid rgba(245, 158, 11, 0.3);
+  border-radius: 12px;
+  padding: 2.2rem;
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(12px);
+}
+
+.vault-kicker {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 2px;
+  color: var(--gold-warm);
+  margin-bottom: 0.8rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.vault-heading {
+  font-family: var(--font-display);
+  font-size: 1.45rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin-bottom: 1rem;
+}
+
+.vault-para {
+  font-family: var(--font-sans);
+  font-size: 0.95rem;
+  line-height: 1.7;
+  color: var(--text-muted);
+  margin-bottom: 2rem;
+}
+
+.vault-pillars {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+
+.pillar-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  border-top: 1px solid rgba(245, 158, 11, 0.15);
+  padding-top: 1rem;
+}
+
+.pillar-num {
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--cyan-tech);
+}
+
+.pillar-item h4 {
+  font-family: var(--font-display);
+  font-size: 0.92rem;
+  color: #ffffff;
+  margin-bottom: 0.3rem;
+}
+
+.pillar-item p {
+  font-family: var(--font-sans);
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+.vault-stats-card {
+  background: rgba(14, 11, 16, 0.88);
+  border: 1px solid rgba(245, 158, 11, 0.3);
+  border-radius: 12px;
+  padding: 2.2rem;
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(12px);
+  text-align: center;
+}
+
+.stat-row {
+  padding: 1.2rem 0;
+}
+
+.stat-val {
+  font-family: var(--font-display);
+  font-size: 2.2rem;
+  font-weight: 900;
+  color: var(--gold-warm);
+  display: block;
+  text-shadow: 0 0 15px rgba(245, 158, 11, 0.5);
+}
+
+.stat-lbl {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  color: var(--text-muted);
+}
+
+.stat-divider {
+  width: 60px;
+  height: 1px;
+  background: rgba(245, 158, 11, 0.25);
+  margin: 0 auto;
+}
+
+/* EVENTS GRID IN CHAMBER */
+.chamber-events-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 1.8rem;
+}
+
+.event-capsule-card {
+  background: rgba(14, 11, 16, 0.88);
+  border: 1px solid rgba(56, 189, 248, 0.3);
+  border-radius: 12px;
+  padding: 1.8rem;
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(12px);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.event-capsule-card.highlighted {
+  border-color: rgba(255, 106, 0, 0.6);
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.8), 0 0 25px rgba(255, 106, 0, 0.25);
+}
+
+.capsule-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.2rem;
+}
+
+.capsule-wing {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  color: #38bdf8;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.capsule-badge {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  background: rgba(56, 189, 248, 0.15);
+  color: #bae6fd;
+  padding: 0.2rem 0.6rem;
+  border-radius: 999px;
+}
+
+.capsule-badge.highlight {
+  background: rgba(255, 106, 0, 0.2);
+  color: #ffaa55;
+  border: 1px solid rgba(255, 106, 0, 0.4);
+}
+
+.capsule-title {
+  font-family: var(--font-display);
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin-bottom: 0.8rem;
+}
+
+.capsule-desc {
+  font-family: var(--font-sans);
+  font-size: 0.9rem;
+  line-height: 1.6;
+  color: var(--text-muted);
+  margin-bottom: 1.8rem;
+}
+
+.btn-capsule-action {
+  font-family: var(--font-display);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  color: #38bdf8;
+  background: rgba(56, 189, 248, 0.1);
+  border: 1px solid rgba(56, 189, 248, 0.35);
+  padding: 0.75rem 1.2rem;
+  border-radius: 6px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  transition: all 0.2s ease;
+  width: 100%;
+}
+
+.btn-capsule-action:hover {
+  background: #38bdf8;
+  color: #040306;
+  box-shadow: 0 0 18px rgba(56, 189, 248, 0.5);
+}
+
+.btn-capsule-action.highlight-btn {
+  background: var(--amber-flame);
+  color: #ffffff;
+  border-color: #ff922b;
+  box-shadow: 0 0 18px rgba(255, 106, 0, 0.4);
+}
+
+.btn-capsule-action.highlight-btn:hover {
+  background: #ff881a;
+  box-shadow: 0 0 28px rgba(255, 106, 0, 0.75);
+}
+
+/* HACKATHON CHAMBER LAYOUT */
+.chamber-hackathon-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.hackathon-status-banner {
+  background: rgba(255, 68, 34, 0.12);
+  border: 1px solid rgba(255, 68, 34, 0.35);
+  border-radius: 999px;
+  padding: 0.6rem 1.4rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.8rem;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  color: #ff6644;
+}
+
+.status-dot-pulse {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #ff4422;
+  box-shadow: 0 0 10px #ff4422;
+  animation: dotPulse 1.5s infinite ease-in-out;
+}
+
+@keyframes dotPulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.4; transform: scale(0.7); }
+}
+
+.hackathon-highlight-box {
+  background: rgba(14, 11, 16, 0.88);
+  border: 1px solid rgba(255, 68, 34, 0.35);
+  border-radius: 14px;
+  padding: 2.5rem;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.85);
+  backdrop-filter: blur(12px);
+}
+
+.specs-ribbon {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  padding-bottom: 2rem;
+  margin-bottom: 2rem;
+  border-bottom: 1px solid rgba(255, 68, 34, 0.2);
+  flex-wrap: wrap;
+  gap: 1.5rem;
+}
+
+.ribbon-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.ribbon-item strong {
+  font-family: var(--font-display);
+  font-size: 1.6rem;
+  color: #ffffff;
+}
+
+.ribbon-item span {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  letter-spacing: 1.5px;
+  color: #ff7755;
+}
+
+.ribbon-divider {
+  width: 1px;
+  height: 35px;
+  background: rgba(255, 68, 34, 0.25);
+}
+
+.hackathon-arena-heading {
+  font-family: var(--font-display);
+  font-size: 1.35rem;
+  color: #ffffff;
+  margin-bottom: 0.9rem;
+}
+
+.hackathon-arena-para {
+  font-family: var(--font-sans);
+  font-size: 0.95rem;
+  line-height: 1.65;
+  color: var(--text-muted);
+  margin-bottom: 2rem;
+}
+
+.hackathon-sub-tracks {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 0.9rem;
+  margin-bottom: 2.5rem;
+}
+
+.sub-track-pill {
+  background: rgba(255, 68, 34, 0.08);
+  border: 1px solid rgba(255, 68, 34, 0.25);
+  padding: 0.8rem 1rem;
+  border-radius: 8px;
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  color: #ffd0c0;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.sub-track-pill i {
+  color: #ff5533;
+}
+
+.hackathon-register-action {
+  text-align: center;
+}
+
+.btn-hackathon-huge {
+  font-family: var(--font-display);
+  font-size: 0.9rem;
+  font-weight: 800;
+  letter-spacing: 2px;
+  color: #ffffff;
+  background: linear-gradient(135deg, #ff4422 0%, #d92200 100%);
+  border: 1px solid #ff7755;
+  padding: 1.1rem 2.8rem;
+  border-radius: 8px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  box-shadow: 0 0 25px rgba(255, 68, 34, 0.5);
+  transition: all 0.25s ease;
+}
+
+.btn-hackathon-huge:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 0 38px rgba(255, 68, 34, 0.8);
+  background: #ff5533;
+}
+
+/* CHRONO SCHEDULE STREAM IN CHAMBER */
+.chamber-chrono-stream {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 2rem;
+}
+
+.chrono-day-block {
+  background: rgba(14, 11, 16, 0.88);
+  border: 1px solid rgba(234, 179, 8, 0.25);
+  border-radius: 12px;
+  padding: 1.8rem;
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(12px);
+}
+
+.chrono-day-block.active-day {
+  border-color: rgba(234, 179, 8, 0.6);
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.8), 0 0 25px rgba(234, 179, 8, 0.2);
+}
+
+.chrono-day-tag {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  color: #eab308;
+  margin-bottom: 1.4rem;
+  padding-bottom: 0.6rem;
+  border-bottom: 1px solid rgba(234, 179, 8, 0.2);
+}
+
+.chrono-events-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.4rem;
+}
+
+.chrono-item {
+  display: flex;
+  gap: 1rem;
+  align-items: flex-start;
+}
+
+.chrono-time {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--cyan-tech);
+  white-space: nowrap;
+  padding-top: 0.2rem;
+}
+
+.chrono-desc h4 {
+  font-family: var(--font-display);
+  font-size: 0.95rem;
+  color: #ffffff;
+  margin-bottom: 0.25rem;
+}
+
+.chrono-desc p {
+  font-family: var(--font-sans);
+  font-size: 0.82rem;
+  color: var(--text-muted);
+}
+
+/* PRIZES TRIPTYCH IN CHAMBER */
+.chamber-awards-triptych {
+  display: grid;
+  grid-template-columns: 1fr 1.15fr 1fr;
+  gap: 1.8rem;
+  align-items: center;
+}
+
+.award-pedestal {
+  background: rgba(14, 11, 16, 0.88);
+  border: 1px solid rgba(250, 204, 21, 0.3);
+  border-radius: 14px;
+  padding: 2.2rem 1.5rem;
+  box-shadow: 0 14px 40px rgba(0, 0, 0, 0.85);
+  backdrop-filter: blur(12px);
+  text-align: center;
+}
+
+.award-pedestal.grand-champion {
+  border-color: rgba(255, 215, 0, 0.7);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.9), 0 0 35px rgba(255, 215, 0, 0.3);
+  transform: translateY(-12px);
+  padding: 2.8rem 1.8rem;
+}
+
+.award-rank {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 2px;
+  color: var(--text-muted);
+  margin-bottom: 1.2rem;
+}
+
+.award-rank.gold {
+  color: #ffd700;
+}
+
+.award-badge-icon {
+  font-size: 2.5rem;
+  color: #cbd5e1;
+  margin-bottom: 1.2rem;
+}
+
+.award-badge-icon.gold-glow {
+  color: #ffd700;
+  text-shadow: 0 0 25px rgba(255, 215, 0, 0.8);
+}
+
+.award-name {
+  font-family: var(--font-display);
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin-bottom: 0.6rem;
+}
+
+.award-name.gold {
+  color: #ffd700;
+  font-size: 1.4rem;
+}
+
+.award-prize {
+  font-family: var(--font-sans);
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  margin-bottom: 1.4rem;
+}
+
+.award-perk {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: #94a3b8;
+  background: rgba(255, 255, 255, 0.05);
+  padding: 0.4rem 0.8rem;
+  border-radius: 999px;
+  display: inline-block;
+}
+
+.award-perk.gold {
+  background: rgba(255, 215, 0, 0.15);
+  color: #ffd700;
+  border: 1px solid rgba(255, 215, 0, 0.35);
+}
+
+/* RESPONSIVE BREAKPOINTS */
+@media (max-width: 1024px) {
+  .portal-doors-row {
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+  .gothic-arch-portal-card {
+    min-width: 45%;
+    max-width: 48%;
+  }
+  .chamber-inner-grid {
+    grid-template-columns: 1fr;
+  }
+  .chamber-awards-triptych {
+    grid-template-columns: 1fr;
+  }
+  .award-pedestal.grand-champion {
+    transform: none;
+    order: -1;
+  }
+}
+
+@media (max-width: 768px) {
+  .portal-doors-row {
+    flex-direction: column;
+    align-items: center;
+  }
+  .gothic-arch-portal-card {
+    min-width: 88%;
+    max-width: 320px;
+  }
+  .specs-ribbon {
+    flex-direction: column;
+    gap: 1rem;
+  }
+  .ribbon-divider {
+    display: none;
+  }
+}
