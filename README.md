@@ -30,14 +30,10 @@ This web platform delivers an immersive, photorealistic Gothic Cyber-Mansion exp
 ## 🖥️ Live Website Experience Previews
 
 ### 1. Gothic Cyber-Mansion Hero & Cinematic Atmosphere
-![Live Website Hero](docs/images/website_live_hero.png)
-*Real-time WebGL canvas featuring volumetric ground mist, glowing amber lanterns, procedural ambient soundscapes, and lightning flashes.*
-
-### 2. Interactive Rotunda & Chamber Portals
 ![Live Rotunda & Chambers](docs/images/website_live_rotunda.png)
 *Monumental circular dome featuring an armillary astrolabe sphere and 5 interactive physical stone arch doorways arranged in an arc, fully responsive on mobile touch carousels.*
 
-### 3. Chamber Arenas & Sub-Event Registrations
+### 2. Chamber Arenas & Sub-Event Registrations
 ![Live Chamber Arenas](docs/images/website_live_events.png)
 *Detailed summit tracks including the 24-Hour Flagship Hackathon, Speed DSA Knockout, RoboWars Combat, Midnight Security CTF, and Masterclasses.*
 
