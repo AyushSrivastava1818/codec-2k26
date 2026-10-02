@@ -1,4 +1,4 @@
-﻿/* ==========================================================================
+/* ==========================================================================
    CODEC 2K26 â€” MASTER ENTRY POINT
    TechKnow Council â€¢ IIIT Kota
    Integrated Cinematic 3D Engine, Procedural Audio, 5-Chamber Experience,
@@ -304,6 +304,11 @@ function initModals() {
     if (formView) formView.style.display = 'block';
     if (successView) successView.style.display = 'none';
     if (subeventView) subeventView.style.display = 'none';
+    const regForm = document.getElementById('summit-reg-form');
+    if (regForm) regForm.reset();
+    const fb = document.getElementById('reg-feedback');
+    if (fb) fb.style.display = 'none';
+    audioManager.playTick();
   });
 
   // Secret triple-click on crest to open registry
@@ -392,13 +397,13 @@ function initModals() {
 
       let res;
       try {
-        res = await fetch('http://' + apiHost + ':5000/api/events/batch-rsvp', {
+        res = await fetch('/api/events/batch-rsvp', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(batchPayload)
         });
       } catch (err) {
-        res = await fetch('/api/events/batch-rsvp', {
+        res = await fetch('http://' + apiHost + ':5000/api/events/batch-rsvp', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(batchPayload)
@@ -523,7 +528,7 @@ function initModals() {
 
       let response;
       try {
-        response = await fetch(directApiUrl, {
+        response = await fetch('/api/registrations', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -531,9 +536,8 @@ function initModals() {
           },
           body: JSON.stringify(payload)
         });
-      } catch (directErr) {
-        // Fallback to relative proxy path
-        response = await fetch('/api/registrations', {
+      } catch (err) {
+        response = await fetch(directApiUrl, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -564,7 +568,7 @@ function initModals() {
       const compEvents = selectedEvents.filter(e => !e.toLowerCase().includes('general'));
       if (compEvents.length > 0) {
         try {
-          fetch('http://' + apiHost + ':5000/api/events/batch-rsvp', {
+          fetch('/api/events/batch-rsvp', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
@@ -572,7 +576,17 @@ function initModals() {
               email,
               events: compEvents
             })
-          }).catch(() => {});
+          }).catch(() => {
+            fetch('http://' + apiHost + ':5000/api/events/batch-rsvp', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                name,
+                email,
+                events: compEvents
+              })
+            }).catch(() => {});
+          });
         } catch (e) {}
       }
 
@@ -673,7 +687,8 @@ function initAdminModal() {
 
   exportBtn?.addEventListener('click', () => {
     const apiHost = window.location.hostname || '127.0.0.1';
-    window.open('http://' + apiHost + ':5000/api/admin/export.csv', '_blank');
+    // Use relative endpoint if supported, or direct port 5000 fallback
+    window.open('/api/admin/export.csv', '_blank');
   });
 
   // Event Filter Pills Click Listeners
@@ -737,18 +752,40 @@ async function loadAdminRegistrations() {
   }
 
   const apiHost = window.location.hostname || '127.0.0.1';
-  const url = 'http://' + apiHost + ':5000/api/admin/registrations';
+  const endpoints = [
+    '/api/admin/registrations',
+    'http://' + apiHost + ':5000/api/admin/registrations'
+  ];
 
   try {
-    let res;
-    try {
-      res = await fetch(url);
-    } catch (e) {
-      res = await fetch('/api/admin/registrations');
+    let res = null;
+    for (const ep of endpoints) {
+      try {
+        const candidate = await fetch(ep, {
+          headers: { 'Accept': 'application/json' }
+        });
+        if (candidate && candidate.ok) {
+          res = candidate;
+          break;
+        }
+      } catch (e) {
+        // try next endpoint
+      }
     }
 
-    const data = await res.json();
-    if (!res.ok || !data.success) {
+    if (!res) {
+      throw new Error('Could not reach backend registry server. Ensure the backend server is running on port 5000.');
+    }
+
+    const text = await res.text();
+    let data;
+    try {
+      data = text ? JSON.parse(text) : {};
+    } catch (parseErr) {
+      throw new Error('Server returned invalid response format. Verify server status.');
+    }
+
+    if (!data.success) {
       throw new Error(data.error || 'Failed to fetch registrations');
     }
 
@@ -987,6 +1024,7 @@ function initNavButtons() {
 document.addEventListener('DOMContentLoaded', () => {
   // 1. Initialize Master Cinematic Controller
   cinematicController = new CinematicController();
+  window.cinematicController = cinematicController;
   cinematicController.init();
 
   // 2. Initialize Navigation, Audio, Modals & Tabs

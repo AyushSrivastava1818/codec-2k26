@@ -1230,7 +1230,7 @@
   gap: 0.8rem;
 }
 
-.btn-pass-copy, .btn-pass-done {
+.btn-pass-copy, .btn-pass-done, .btn-pass-new {
   flex: 1;
   padding: 0.7rem 1rem;
   border-radius: 8px;
@@ -1254,6 +1254,17 @@
 .btn-pass-copy:hover {
   background: rgba(255, 119, 0, 0.3);
   border-color: var(--gold-pure);
+}
+
+.btn-pass-new {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #e2e8f0;
+}
+.btn-pass-new:hover {
+  background: rgba(255, 255, 255, 0.16);
+  border-color: rgba(255, 255, 255, 0.4);
+  color: #ffffff;
 }
 
 .btn-pass-done {
