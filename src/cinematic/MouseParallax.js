@@ -80,9 +80,10 @@ export class MouseParallax {
     const effectiveTargetX = Math.max(-1, Math.min(1, this.targetX + swayX));
     const effectiveTargetY = Math.max(-1, Math.min(1, this.targetY + swayY));
 
-    // Damped interpolation
-    this.currentX += (effectiveTargetX - this.currentX) * this.damping;
-    this.currentY += (effectiveTargetY - this.currentY) * this.damping;
+    // Frame-rate independent exponential decay interpolation (fluid gaze without lag)
+    const decay = 1 - Math.exp(-7.5 * Math.min(delta, 0.05));
+    this.currentX += (effectiveTargetX - this.currentX) * decay;
+    this.currentY += (effectiveTargetY - this.currentY) * decay;
 
     // Subtle look angles (radians)
     // Looking right (positive currentX) -> yaw slightly negative for camera or positive

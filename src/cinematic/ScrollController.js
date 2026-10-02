@@ -64,11 +64,14 @@ export class ScrollController {
     this.targetProgress = Math.max(0, Math.min(1, scrolled / totalScrollable));
   }
 
-  update() {
+  update(delta = 0.016) {
     const diff = this.targetProgress - this.currentProgress;
 
-    if (Math.abs(diff) > 0.0003) {
-      this.currentProgress += diff * this.damping;
+    // Frame-rate independent exponential decay smoothing (silky smooth at 60-144Hz)
+    if (Math.abs(diff) > 0.0001) {
+      const clampedDelta = Math.min(delta, 0.05);
+      const factor = 1 - Math.exp(-9.5 * clampedDelta);
+      this.currentProgress += diff * factor;
     } else {
       this.currentProgress = this.targetProgress;
     }

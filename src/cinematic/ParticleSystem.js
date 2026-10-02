@@ -1,7 +1,7 @@
 /* ==========================================================================
    CODEC 2K26 — HIGH PERFORMANCE THREE.JS PARTICLE ENGINE
-   GPU-Accelerated 3D Particles: Night Stars, Volumetric Fog Motes,
-   Floating Embers & Chamber Portal Aura Filaments
+   Zero-Copy GPU Composited Particles:
+   Ambient Dust Motes, Rising Embers & Rotunda Portal Aura
    ========================================================================== */
 
 import * as THREE from 'three';
@@ -11,23 +11,19 @@ export class ParticleSystem {
     this.scene = scene;
 
     this.dustParticles = null;
-    this.dustGeometry = null;
-    this.dustCount = 650;
-
     this.emberParticles = null;
-    this.emberGeometry = null;
-    this.emberCount = 350;
-
     this.portalParticles = null;
-    this.portalGeometry = null;
-    this.portalCount = 400;
+
+    this.dustCount = 280;
+    this.emberCount = 140;
+    this.portalCount = 160;
 
     this.initDust();
     this.initEmbers();
     this.initPortalAura();
   }
 
-  // Soft circle sprite generator for natural dust & embers
+  // Circular sprite generator for soft motes & embers
   createCircleTexture() {
     const canvas = document.createElement('canvas');
     canvas.width = 32;
@@ -36,160 +32,124 @@ export class ParticleSystem {
 
     const grad = ctx.createRadialGradient(16, 16, 0, 16, 16, 16);
     grad.addColorStop(0, 'rgba(255, 255, 255, 1)');
-    grad.addColorStop(0.3, 'rgba(255, 200, 150, 0.8)');
-    grad.addColorStop(0.8, 'rgba(255, 120, 50, 0.2)');
+    grad.addColorStop(0.35, 'rgba(255, 180, 120, 0.85)');
+    grad.addColorStop(0.8, 'rgba(255, 90, 30, 0.25)');
     grad.addColorStop(1, 'rgba(0, 0, 0, 0)');
 
     ctx.fillStyle = grad;
     ctx.fillRect(0, 0, 32, 32);
 
     const texture = new THREE.CanvasTexture(canvas);
+    texture.generateMipmaps = false;
+    texture.minFilter = THREE.LinearFilter;
     texture.needsUpdate = true;
     return texture;
   }
 
-  // 1. Atmospheric Floating Dust & Fog Motes
+  // 1. Atmospheric Floating Dust & Mist Motes
   initDust() {
-    this.dustGeometry = new THREE.BufferGeometry();
+    const geom = new THREE.BufferGeometry();
     const positions = new Float32Array(this.dustCount * 3);
-    const speeds = new Float32Array(this.dustCount);
 
     for (let i = 0; i < this.dustCount; i++) {
-      positions[i * 3 + 0] = (Math.random() - 0.5) * 45; // X: -22m to +22m
-      positions[i * 3 + 1] = Math.random() * 14 + 0.2;  // Y: floor to ceiling
-      positions[i * 3 + 2] = (Math.random() - 0.5) * 85; // Z: across whole mansion
-      speeds[i] = 0.2 + Math.random() * 0.4;
+      positions[i * 3 + 0] = (Math.random() - 0.5) * 40;
+      positions[i * 3 + 1] = Math.random() * 12 + 0.3;
+      positions[i * 3 + 2] = (Math.random() - 0.5) * 75;
     }
 
-    this.dustGeometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
-    this.dustGeometry.setAttribute('speed', new THREE.BufferAttribute(speeds, 1));
+    geom.setAttribute('position', new THREE.BufferAttribute(positions, 3));
 
-    const dustMaterial = new THREE.PointsMaterial({
+    const mat = new THREE.PointsMaterial({
       size: 0.22,
       map: this.createCircleTexture(),
       transparent: true,
-      opacity: 0.45,
+      opacity: 0.42,
       blending: THREE.AdditiveBlending,
       depthWrite: false,
       color: 0xffdfaa
     });
 
-    this.dustParticles = new THREE.Points(this.dustGeometry, dustMaterial);
+    this.dustParticles = new THREE.Points(geom, mat);
     this.scene.add(this.dustParticles);
   }
 
-  // 2. Burning Floating Orange Embers
+  // 2. Rising Warm Embers
   initEmbers() {
-    this.emberGeometry = new THREE.BufferGeometry();
+    const geom = new THREE.BufferGeometry();
     const positions = new Float32Array(this.emberCount * 3);
-    const velocities = new Float32Array(this.emberCount * 3);
 
     for (let i = 0; i < this.emberCount; i++) {
-      positions[i * 3 + 0] = (Math.random() - 0.5) * 30;
-      positions[i * 3 + 1] = Math.random() * 10;
-      positions[i * 3 + 2] = (Math.random() - 0.5) * 60;
-
-      velocities[i * 3 + 0] = (Math.random() - 0.5) * 0.3;
-      velocities[i * 3 + 1] = 0.3 + Math.random() * 0.8; // float upward
-      velocities[i * 3 + 2] = (Math.random() - 0.5) * 0.3;
+      positions[i * 3 + 0] = (Math.random() - 0.5) * 26;
+      positions[i * 3 + 1] = Math.random() * 9 + 0.2;
+      positions[i * 3 + 2] = (Math.random() - 0.5) * 55;
     }
 
-    this.emberGeometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
-    this.emberGeometry.setAttribute('velocity', new THREE.BufferAttribute(velocities, 3));
+    geom.setAttribute('position', new THREE.BufferAttribute(positions, 3));
 
-    const emberMaterial = new THREE.PointsMaterial({
-      size: 0.35,
+    const mat = new THREE.PointsMaterial({
+      size: 0.32,
       map: this.createCircleTexture(),
       transparent: true,
-      opacity: 0.75,
+      opacity: 0.7,
       blending: THREE.AdditiveBlending,
       depthWrite: false,
       color: 0xff6600
     });
 
-    this.emberParticles = new THREE.Points(this.emberGeometry, emberMaterial);
+    this.emberParticles = new THREE.Points(geom, mat);
     this.scene.add(this.emberParticles);
   }
 
-  // 3. Portal Chamber Energy Aura (Rotunda Area)
+  // 3. Rotunda Portal Aura Ring (Z = -32m)
   initPortalAura() {
-    this.portalGeometry = new THREE.BufferGeometry();
+    const geom = new THREE.BufferGeometry();
     const positions = new Float32Array(this.portalCount * 3);
 
-    // Swirling ring near rotunda center (Z = -32)
     for (let i = 0; i < this.portalCount; i++) {
       const angle = (i / this.portalCount) * Math.PI * 2;
-      const radius = 9 + Math.random() * 5;
+      const radius = 9.5 + Math.random() * 4.5;
       positions[i * 3 + 0] = Math.sin(angle) * radius;
-      positions[i * 3 + 1] = 1.0 + Math.random() * 6.5;
-      positions[i * 3 + 2] = -32 + (Math.random() - 0.5) * 8;
+      positions[i * 3 + 1] = 1.2 + Math.random() * 5.8;
+      positions[i * 3 + 2] = -32 + (Math.random() - 0.5) * 6;
     }
 
-    this.portalGeometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+    geom.setAttribute('position', new THREE.BufferAttribute(positions, 3));
 
-    const portalMaterial = new THREE.PointsMaterial({
+    const mat = new THREE.PointsMaterial({
       size: 0.28,
       map: this.createCircleTexture(),
       transparent: true,
-      opacity: 0.5,
+      opacity: 0.45,
       blending: THREE.AdditiveBlending,
       depthWrite: false,
       color: 0xffa500
     });
 
-    this.portalParticles = new THREE.Points(this.portalGeometry, portalMaterial);
+    this.portalParticles = new THREE.Points(geom, mat);
     this.scene.add(this.portalParticles);
   }
 
+  // High performance transform-based animation (0 buffer re-allocations on GPU)
   update(delta = 0.016, mouseParallax = { currentX: 0, currentY: 0 }) {
-    // 1. Update dust motes (gentle drift)
-    if (this.dustGeometry) {
-      const positions = this.dustGeometry.attributes.position.array;
-      const speeds = this.dustGeometry.attributes.speed.array;
-
-      for (let i = 0; i < this.dustCount; i++) {
-        positions[i * 3 + 1] -= speeds[i] * delta * 0.5;
-        // gentle drift in direction of mouse look
-        positions[i * 3 + 0] += (mouseParallax.currentX * 0.2) * delta;
-
-        // Wrap around floor/ceiling
-        if (positions[i * 3 + 1] < 0.2) {
-          positions[i * 3 + 1] = 14.0;
-        }
-      }
-      this.dustGeometry.attributes.position.needsUpdate = true;
+    if (this.dustParticles) {
+      this.dustParticles.rotation.y += delta * 0.025;
+      this.dustParticles.position.x = mouseParallax.currentX * 0.25;
     }
 
-    // 2. Update embers (rise up into air and flicker)
-    if (this.emberGeometry) {
-      const positions = this.emberGeometry.attributes.position.array;
-      const velocities = this.emberGeometry.attributes.velocity.array;
-
-      for (let i = 0; i < this.emberCount; i++) {
-        positions[i * 3 + 0] += velocities[i * 3 + 0] * delta;
-        positions[i * 3 + 1] += velocities[i * 3 + 1] * delta;
-        positions[i * 3 + 2] += velocities[i * 3 + 2] * delta;
-
-        // Wrap ember if it ascends past ceiling
-        if (positions[i * 3 + 1] > 12.0) {
-          positions[i * 3 + 1] = 0.5;
-          positions[i * 3 + 0] = (Math.random() - 0.5) * 30;
-          positions[i * 3 + 2] = (Math.random() - 0.5) * 60;
-        }
-      }
-      this.emberGeometry.attributes.position.needsUpdate = true;
+    if (this.emberParticles) {
+      this.emberParticles.rotation.y += delta * 0.045;
+      this.emberParticles.position.y = (this.emberParticles.position.y + delta * 0.35) % 2.5;
     }
 
-    // 3. Update rotunda portal aura (subtle slow orbital rotation)
     if (this.portalParticles) {
-      this.portalParticles.rotation.y += delta * 0.08;
+      this.portalParticles.rotation.y += delta * 0.065;
     }
   }
 
   setHoverChamberIntensity(active) {
     if (this.portalParticles) {
-      this.portalParticles.material.size = active ? 0.42 : 0.28;
-      this.portalParticles.material.opacity = active ? 0.85 : 0.5;
+      this.portalParticles.material.size = active ? 0.38 : 0.28;
+      this.portalParticles.material.opacity = active ? 0.8 : 0.45;
     }
   }
 

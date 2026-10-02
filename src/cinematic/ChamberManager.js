@@ -14,7 +14,7 @@ export const CHAMBERS = {
     key: 'about',
     number: 'CHAMBER 00',
     title: 'THE ARCHIVAL VAULT',
-    subtitle: 'TECHKNOW SOCIETY • IIIT KOTA',
+    subtitle: 'TECHKNOW COUNCIL • IIIT KOTA',
     accentColor: '#f59e0b',
     bg: '/assets/arch_about.jpg',
     doorThumb: '/assets/arch_about.jpg',

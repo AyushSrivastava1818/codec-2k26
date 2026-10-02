@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>CODEC 2K26 | TechKnow Society - IIIT Kota</title>
-  <meta name="description" content="CODEC 2K26 by TechKnow Society, IIIT Kota. An interactive cinematic 3D journey through the gothic cyber mansion, 5 physical chambers, 24-Hour National Hackathon, Combat Robotics, and CTF." />
+  <title>CODEC 2K26 | TechKnow Council - IIIT Kota</title>
+  <meta name="description" content="CODEC 2K26 by TechKnow Council, IIIT Kota. An interactive cinematic 3D journey through the gothic cyber mansion, 5 physical chambers, 24-Hour National Hackathon, Combat Robotics, and CTF." />
 
   <!-- Google Fonts: JetBrains Mono, Michroma, Plus Jakarta Sans, Space Grotesk, Syncopate -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -19,7 +19,7 @@
   <!-- ================= CINEMATIC MINIMAL PRELOADER ================= -->
   <div class="cinematic-preloader" id="cinematic-preloader">
     <div class="loader-content">
-      <div class="loader-hud-brand">CODEC 2K26 &bull; TECHKNOW SOCIETY &bull; IIIT KOTA</div>
+      <div class="loader-hud-brand">CODEC 2K26 &bull; TECHKNOW COUNCIL &bull; IIIT KOTA</div>
       <div class="loader-status-title">INITIALIZING CINEMATIC ENVIRONMENT</div>
       <div class="loader-line-track">
         <div class="loader-line-fill" id="loader-line-fill"></div>
@@ -31,20 +31,6 @@
     </div>
   </div>
 
-  <!-- ================= CINEMATIC DEBUG HUD (PRESS 'D' TO TOGGLE) ================= -->
-  <div class="cinematic-debug-hud" id="cinematic-debug-hud" style="display: none;">
-    <div class="dbg-header">
-      <span>CINEMATIC DEBUG [KEY 'D']</span>
-      <span class="dbg-tag">DEV MODE</span>
-    </div>
-    <div class="dbg-row"><span>FPS:</span><span id="dbg-fps">60</span></div>
-    <div class="dbg-row"><span>SCROLL PROGRESS:</span><span id="dbg-progress">0.000</span></div>
-    <div class="dbg-row"><span>STAGE:</span><span id="dbg-stage">EXTERIOR_FAR</span></div>
-    <div class="dbg-row"><span>CAMERA XYZ:</span><span id="dbg-cam-pos">0.0, 1.7, 45.0m</span></div>
-    <div class="dbg-row"><span>CAMERA ROTATION:</span><span id="dbg-cam-rot">P: 0.0° Y: 0.0°</span></div>
-    <div class="dbg-row"><span>ACTIVE CHAMBER:</span><span id="dbg-active-chamber">NONE</span></div>
-    <div class="dbg-row"><span>HOVERED CHAMBER:</span><span id="dbg-hover-chamber">NONE</span></div>
-  </div>
 
   <!-- Ambient Lightning Layer -->
   <div class="lightning-flash-overlay" id="lightning-overlay"></div>
@@ -52,7 +38,7 @@
   <!-- ================= TOP HUD NAVIGATION ================= -->
   <header class="hud-nav-bar">
     <div class="hud-brand-logo" id="nav-brand-logo" onclick="scrollToSection('home')" style="cursor: pointer;">
-      <img src="/assets/techknow_logo.png" alt="TechKnow Society IIIT Kota" class="techknow-logo-img" />
+      <img src="/assets/techknow_logo.png" alt="TechKnow Council IIIT Kota" class="techknow-logo-img" />
       <div class="brand-divider"></div>
       <div class="brand-text">
         <span class="brand-name">TECHKNOW</span>
@@ -208,7 +194,7 @@
           </svg>
         </div>
 
-        <div class="codec-sub-tag">TECHKNOW SOCIETY <span class="tag-bullet">&bull;</span> IIIT KOTA</div>
+        <div class="codec-sub-tag">TECHKNOW COUNCIL <span class="tag-bullet">&bull;</span> IIIT KOTA</div>
       </div>
 
       <!-- BOTTOM CENTER SCROLL PROMPT -->
@@ -443,7 +429,7 @@
     <div class="footer-top-grid">
       <div class="footer-brand-col">
         <div class="footer-brand-row">
-          <img src="/assets/techknow_logo.png" alt="TechKnow Society IIIT Kota" class="techknow-logo-img" />
+          <img src="/assets/techknow_logo.png" alt="TechKnow Council IIIT Kota" class="techknow-logo-img" />
           <div class="brand-divider"></div>
           <div>
             <span class="footer-title">TECHKNOW</span>
@@ -474,40 +460,136 @@
     </div>
 
     <div class="footer-bottom-row">
-      <p>&copy; 2026 TechKnow Society &bull; Indian Institute of Information Technology Kota. All Rights Reserved.</p>
+      <p>&copy; 2026 TechKnow Council &bull; Indian Institute of Information Technology Kota. All Rights Reserved.</p>
       <p class="footer-sub-note">CODEC 2K26 Annual Technical Festival</p>
     </div>
   </footer>
 
-  <!-- ================= REGISTRATION MODAL ================= -->
+  <!-- ================= MOBILE FLOATING BOTTOM DOCK NAVIGATION ================= -->
+  <nav class="mobile-bottom-dock" id="mobile-bottom-dock" aria-label="Mobile Navigation">
+    <button class="mob-dock-btn active" id="mob-btn-home" onclick="scrollToSection('home')">
+      <i class="fa-solid fa-house"></i>
+      <span>Home</span>
+    </button>
+    <button class="mob-dock-btn" id="mob-btn-events" onclick="scrollToSection('events')">
+      <i class="fa-solid fa-door-open"></i>
+      <span>Chambers</span>
+    </button>
+    <button class="mob-dock-btn" id="mob-btn-hackathon" onclick="scrollToSection('hackathon')">
+      <i class="fa-solid fa-code-fork"></i>
+      <span>Hackathon</span>
+    </button>
+    <button class="mob-dock-btn" id="mob-btn-schedule" onclick="scrollToSection('schedule')">
+      <i class="fa-solid fa-calendar-days"></i>
+      <span>Schedule</span>
+    </button>
+    <button class="mob-dock-btn" id="mob-btn-prizes" onclick="scrollToSection('prizes')">
+      <i class="fa-solid fa-award"></i>
+      <span>Prizes</span>
+    </button>
+  </nav>
+
+  <!-- ================= REGISTRATION MODAL (CONNECTED TO SQLITE WAL BACKEND) ================= -->
   <div class="mansion-modal-backdrop" id="reg-modal-backdrop">
-    <div class="mansion-modal-box reg-box">
-      <button class="modal-close-btn" id="reg-close-btn">&times;</button>
-      <div class="reg-modal-header">
-        <span class="reg-pretitle"><i class="fa-solid fa-bolt"></i> ENTRY PASS</span>
-        <h2 class="reg-title">Claim Your Pass</h2>
-        <p class="reg-subtitle">Register your squad for CODEC 2K26 at IIIT Kota.</p>
+    <div class="mansion-modal-box reg-box" id="reg-modal-box">
+      <button class="modal-close-btn" id="reg-close-btn" aria-label="Close modal">&times;</button>
+
+      <!-- REGISTRATION FORM VIEW -->
+      <div id="reg-form-view">
+        <div class="reg-modal-header">
+          <span class="reg-pretitle"><i class="fa-solid fa-bolt"></i> OFFICIAL SUMMIT PASS</span>
+          <h2 class="reg-title">Claim Delegate Pass</h2>
+          <p class="reg-subtitle">Instant verified summit ticket generated via SQLite WAL engine with 0 lag.</p>
+        </div>
+
+        <form class="reg-form" id="summit-reg-form">
+          <div class="form-group">
+            <label for="reg-name"><i class="fa-solid fa-user"></i> Full Name / Team Lead</label>
+            <input type="text" id="reg-name" required placeholder="e.g. Ayush Srivastava" autocomplete="name" />
+          </div>
+
+          <div class="form-group">
+            <label for="reg-email"><i class="fa-solid fa-envelope"></i> Email Address</label>
+            <input type="email" id="reg-email" required placeholder="name@iiitkota.ac.in" autocomplete="email" />
+          </div>
+
+          <div class="form-row-2col">
+            <div class="form-group">
+              <label for="reg-college"><i class="fa-solid fa-building-columns"></i> College / Institute</label>
+              <input type="text" id="reg-college" required placeholder="e.g. IIIT Kota" value="IIIT Kota" />
+            </div>
+            <div class="form-group">
+              <label for="reg-phone"><i class="fa-solid fa-phone"></i> Phone Number</label>
+              <input type="tel" id="reg-phone" placeholder="+91 9876543210" autocomplete="tel" />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="reg-chamber-select"><i class="fa-solid fa-door-open"></i> Preferred Arena / Chamber</label>
+            <select id="reg-chamber-select">
+              <option value="General Summit Delegate">General Summit Delegate (All Access)</option>
+              <option value="24-Hour National Hackathon" selected>Chamber II: 24-Hour Flagship Hackathon</option>
+              <option value="Speed DSA & Coding Arena">Chamber I: Speed DSA & Competitive Coding</option>
+              <option value="RoboWars Combat Gladiator">Chamber I: RoboWars Combat Gladiator Arena</option>
+              <option value="Midnight Security CTF">Chamber I: Midnight Security CTF Challenge</option>
+              <option value="Microservices Plenary">Chamber III: Microservices Architecture Plenary</option>
+            </select>
+          </div>
+
+          <button type="submit" class="btn-submit-pass" id="reg-submit-btn">
+            <span id="reg-submit-text">GENERATE OFFICIAL PASS <i class="fa-solid fa-arrow-right"></i></span>
+            <span id="reg-submit-spinner" style="display: none;"><i class="fa-solid fa-circle-notch fa-spin"></i> ISSUING PASS...</span>
+          </button>
+
+          <div class="reg-form-feedback" id="reg-feedback" style="display: none;"></div>
+        </form>
       </div>
-      <form class="reg-form" id="summit-reg-form" onsubmit="event.preventDefault(); alert('Registration received! We will send confirmation to your email.'); document.getElementById('reg-modal-backdrop').classList.remove('active');">
-        <div class="form-group">
-          <label>Full Name / Team Leader</label>
-          <input type="text" required placeholder="e.g. Alex Hunter" />
+
+      <!-- SUCCESS PASS VIEW -->
+      <div id="reg-success-view" style="display: none;">
+        <div class="pass-card-digital">
+          <div class="pass-card-header">
+            <div class="pass-brand">
+              <img src="/assets/techknow_logo.png" alt="TechKnow Council" class="pass-logo" />
+              <div>
+                <span class="pass-brand-title">CODEC 2K26</span>
+                <span class="pass-brand-sub">TECHKNOW COUNCIL &bull; IIIT KOTA</span>
+              </div>
+            </div>
+            <div class="pass-status-pill"><i class="fa-solid fa-circle-check"></i> VERIFIED</div>
+          </div>
+
+          <div class="pass-ticket-barcode-row">
+            <div class="pass-ticket-code" id="pass-display-code">CODEC-26-XXXX</div>
+            <div class="pass-type-badge" id="pass-display-type">ALL ACCESS PASS</div>
+          </div>
+
+          <div class="pass-details-grid">
+            <div class="pass-detail-col">
+              <span class="pass-lbl">DELEGATE</span>
+              <span class="pass-val" id="pass-display-name">Delegate Name</span>
+            </div>
+            <div class="pass-detail-col">
+              <span class="pass-lbl">INSTITUTION</span>
+              <span class="pass-val" id="pass-display-college">IIIT Kota</span>
+            </div>
+            <div class="pass-detail-col">
+              <span class="pass-lbl">TRACK</span>
+              <span class="pass-val" id="pass-display-track">Hackathon 24h</span>
+            </div>
+            <div class="pass-detail-col">
+              <span class="pass-lbl">VENUE</span>
+              <span class="pass-val">Ranpur Campus, Kota</span>
+            </div>
+          </div>
+
+          <div class="pass-actions-row">
+            <button class="btn-pass-copy" id="btn-copy-ticket" type="button"><i class="fa-solid fa-copy"></i> COPY TICKET</button>
+            <button class="btn-pass-done" id="btn-done-pass" type="button"><i class="fa-solid fa-check"></i> CLOSE</button>
+          </div>
         </div>
-        <div class="form-group">
-          <label>College / Institute Email</label>
-          <input type="email" required placeholder="alex@institute.edu" />
-        </div>
-        <div class="form-group">
-          <label>Arena / Chamber Choice</label>
-          <select id="reg-chamber-select">
-            <option value="Coding Arena">Chamber I: Coding Arena (Speed DSA & LAN)</option>
-            <option value="24-Hour National Hackathon" selected>Chamber II: 24-Hour Flagship Hackathon</option>
-            <option value="RoboWars Combat Arena">Chamber II: RoboWars Combat Arena</option>
-            <option value="Grand Finale">Chamber IV: Grand Finale & Keynotes</option>
-          </select>
-        </div>
-        <button type="submit" class="btn-submit-pass">CONFIRM REGISTRATION <i class="fa-solid fa-arrow-right"></i></button>
-      </form>
+      </div>
+
     </div>
   </div>
 

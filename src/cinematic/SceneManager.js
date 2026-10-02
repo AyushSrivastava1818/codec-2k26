@@ -26,6 +26,7 @@ export class SceneManager {
     this.mouseVec = new THREE.Vector2();
     this.chamberMeshes = [];
     this.hoveredChamberKey = null;
+    this.mouseMoved = false;
 
     // Callbacks
     this.onChamberHover = null;
@@ -144,6 +145,7 @@ export class SceneManager {
   onPointerMove(e) {
     this.mouseVec.x = (e.clientX / window.innerWidth) * 2 - 1;
     this.mouseVec.y = -(e.clientY / window.innerHeight) * 2 + 1;
+    this.mouseMoved = true;
   }
 
   onPointerClick(e) {
@@ -154,7 +156,7 @@ export class SceneManager {
   }
 
   checkRaycast() {
-    // Only raycast when camera is deep in the rotunda (Z < -15m)
+    // Only raycast when camera is deep in the rotunda (Z < -16m)
     if (!this.camera || this.camera.position.z > -16) {
       if (this.hoveredChamberKey) {
         this.hoveredChamberKey = null;
@@ -162,6 +164,12 @@ export class SceneManager {
       }
       return;
     }
+
+    // Skip raycast computation if pointer hasn't moved
+    if (!this.mouseMoved && this.hoveredChamberKey !== null) {
+      return;
+    }
+    this.mouseMoved = false;
 
     this.raycaster.setFromCamera(this.mouseVec, this.camera);
     const intersects = this.raycaster.intersectObjects(this.chamberMeshes);

@@ -1,6 +1,6 @@
 /* ==========================================================================
    CODEC 2K26 — MASTER ENTRY POINT
-   TechKnow Society • IIIT Kota
+   TechKnow Council • IIIT Kota
    Integrated Cinematic 3D Engine, Procedural Audio, 5-Chamber Experience,
    and Schedule / Pass Registration Modules
    ========================================================================== */
@@ -87,13 +87,23 @@ function setActiveNavState(activeSection) {
     prizes: document.getElementById('dock-btn-prizes')
   };
 
+  const mobBtns = {
+    home: document.getElementById('mob-btn-home'),
+    events: document.getElementById('mob-btn-events'),
+    hackathon: document.getElementById('mob-btn-hackathon'),
+    schedule: document.getElementById('mob-btn-schedule'),
+    prizes: document.getElementById('mob-btn-prizes')
+  };
+
   Object.keys(navBtns).forEach(key => {
     if (key === activeSection) {
       navBtns[key]?.classList.add('active');
       dockBtns[key]?.classList.add('active');
+      mobBtns[key]?.classList.add('active');
     } else {
       navBtns[key]?.classList.remove('active');
       dockBtns[key]?.classList.remove('active');
+      mobBtns[key]?.classList.remove('active');
     }
   });
 }
@@ -129,10 +139,32 @@ function updateScrollSpy() {
   setActiveNavState(activeSection);
 }
 
-// Registration Pass Modal
+// Registration Pass Modal - Connected to High-Concurrency SQLite WAL Backend
 window.openRegistrationModal = function(presetChamber = '') {
   const modal = document.getElementById('reg-modal-backdrop');
   if (!modal) return;
+
+  const formView = document.getElementById('reg-form-view');
+  const successView = document.getElementById('reg-success-view');
+  const existingPass = localStorage.getItem('codec_summit_pass');
+
+  // If user already has an issued pass and didn't explicitly pick an event track to add
+  if (existingPass && !presetChamber) {
+    try {
+      const pass = JSON.parse(existingPass);
+      showDigitalPass(pass);
+      modal.classList.add('active');
+      audioManager.playWhoosh();
+      return;
+    } catch (e) {
+      localStorage.removeItem('codec_summit_pass');
+    }
+  }
+
+  // Otherwise show the registration form
+  if (formView) formView.style.display = 'block';
+  if (successView) successView.style.display = 'none';
+
   const sel = document.getElementById('reg-chamber-select');
   if (sel && presetChamber) {
     for (let i = 0; i < sel.options.length; i++) {
@@ -143,22 +175,182 @@ window.openRegistrationModal = function(presetChamber = '') {
       }
     }
   }
+
   modal.classList.add('active');
   audioManager.playWhoosh();
 };
 
+function showDigitalPass(pass) {
+  const formView = document.getElementById('reg-form-view');
+  const successView = document.getElementById('reg-success-view');
+
+  if (formView) formView.style.display = 'none';
+  if (successView) successView.style.display = 'block';
+
+  const codeEl = document.getElementById('pass-display-code');
+  const nameEl = document.getElementById('pass-display-name');
+  const collEl = document.getElementById('pass-display-college');
+  const trackEl = document.getElementById('pass-display-track');
+  const typeEl = document.getElementById('pass-display-type');
+
+  if (codeEl) codeEl.textContent = pass.ticket_code || pass.ticketCode || 'CODEC-26-CONFIRMED';
+  if (nameEl) nameEl.textContent = pass.name || 'Summit Delegate';
+  if (collEl) collEl.textContent = pass.college || 'IIIT Kota';
+  if (trackEl) trackEl.textContent = pass.track || 'All Chambers';
+  if (typeEl) typeEl.textContent = (pass.pass_type || 'SUMMIT PASS').replace(/_/g, ' ');
+
+  // Update top register button to show badge
+  const topPassBtn = document.getElementById('open-pass-btn');
+  if (topPassBtn) {
+    topPassBtn.innerHTML = `<i class="fa-solid fa-ticket"></i> <span>MY PASS</span>`;
+    topPassBtn.style.background = 'linear-gradient(135deg, #10b981 0%, #059669 100%)';
+    topPassBtn.style.borderColor = '#34d399';
+  }
+}
+
 function initModals() {
-  document.getElementById('reg-close-btn')?.addEventListener('click', () => {
-    document.getElementById('reg-modal-backdrop')?.classList.remove('active');
-  });
-  document.getElementById('reg-modal-backdrop')?.addEventListener('click', (e) => {
+  const modal = document.getElementById('reg-modal-backdrop');
+  const closeBtn = document.getElementById('reg-close-btn');
+  const doneBtn = document.getElementById('btn-done-pass');
+  const copyBtn = document.getElementById('btn-copy-ticket');
+  const form = document.getElementById('summit-reg-form');
+  const feedback = document.getElementById('reg-feedback');
+  const submitBtn = document.getElementById('reg-submit-btn');
+  const submitText = document.getElementById('reg-submit-text');
+  const submitSpinner = document.getElementById('reg-submit-spinner');
+
+  closeBtn?.addEventListener('click', () => modal?.classList.remove('active'));
+  doneBtn?.addEventListener('click', () => modal?.classList.remove('active'));
+
+  modal?.addEventListener('click', (e) => {
     if (e.target.id === 'reg-modal-backdrop') {
-      e.target.classList.remove('active');
+      modal.classList.remove('active');
     }
   });
+
   document.getElementById('open-pass-btn')?.addEventListener('click', () => {
     window.openRegistrationModal();
   });
+
+  // Copy Ticket Code
+  copyBtn?.addEventListener('click', () => {
+    const code = document.getElementById('pass-display-code')?.textContent;
+    if (code) {
+      navigator.clipboard.writeText(code).then(() => {
+        const originalHtml = copyBtn.innerHTML;
+        copyBtn.innerHTML = `<i class="fa-solid fa-circle-check"></i> COPIED!`;
+        copyBtn.style.color = '#34d399';
+        setTimeout(() => {
+          copyBtn.innerHTML = originalHtml;
+          copyBtn.style.color = '';
+        }, 2000);
+      });
+    }
+  });
+
+  // Handle Form Submission to Backend
+  const handlePassSubmission = async (e) => {
+    if (e) e.preventDefault();
+
+    const name = document.getElementById('reg-name')?.value.trim();
+    const email = document.getElementById('reg-email')?.value.trim();
+    const college = document.getElementById('reg-college')?.value.trim();
+    const phone = document.getElementById('reg-phone')?.value.trim();
+    const track = document.getElementById('reg-chamber-select')?.value;
+
+    if (!name || !email || !college) {
+      if (feedback) {
+        feedback.className = 'reg-form-feedback error';
+        feedback.textContent = 'Please fill out all required fields.';
+        feedback.style.display = 'block';
+      }
+      return;
+    }
+
+    // Set UI loading state
+    if (submitBtn) submitBtn.disabled = true;
+    if (submitText) submitText.style.display = 'none';
+    if (submitSpinner) submitSpinner.style.display = 'inline-block';
+    if (feedback) feedback.style.display = 'none';
+
+    try {
+      const payload = {
+        name,
+        email,
+        college,
+        phone,
+        track,
+        passType: 'ALL_ACCESS_SUMMIT_PASS'
+      };
+
+      let response;
+      try {
+        response = await fetch('/api/registrations', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+          },
+          body: JSON.stringify(payload)
+        });
+      } catch (proxyErr) {
+        // Direct backend fallback if proxy is delayed
+        response = await fetch('http://127.0.0.1:5000/api/registrations', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+          },
+          body: JSON.stringify(payload)
+        });
+      }
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || 'Failed to issue pass');
+      }
+
+      // Save pass locally
+      localStorage.setItem('codec_summit_pass', JSON.stringify(data.pass));
+      showDigitalPass(data.pass);
+      audioManager.playWhoosh();
+    } catch (err) {
+      console.error('Registration failed:', err);
+      if (feedback) {
+        feedback.className = 'reg-form-feedback error';
+        feedback.textContent = err.message || 'Server connection error. Please try again.';
+        feedback.style.display = 'block';
+      }
+    } finally {
+      if (submitBtn) submitBtn.disabled = false;
+      if (submitText) submitText.style.display = 'inline-block';
+      if (submitSpinner) submitSpinner.style.display = 'none';
+    }
+  };
+
+  form?.addEventListener('submit', handlePassSubmission);
+  submitBtn?.addEventListener('click', (e) => {
+    if (form && form.checkValidity && !form.checkValidity()) {
+      form.reportValidity();
+      return;
+    }
+    handlePassSubmission(e);
+  });
+
+  // Check if existing pass is already stored
+  const savedPass = localStorage.getItem('codec_summit_pass');
+  if (savedPass) {
+    try {
+      const pass = JSON.parse(savedPass);
+      const topPassBtn = document.getElementById('open-pass-btn');
+      if (topPassBtn) {
+        topPassBtn.innerHTML = `<i class="fa-solid fa-ticket"></i> <span>MY PASS</span>`;
+        topPassBtn.style.background = 'linear-gradient(135deg, #10b981 0%, #059669 100%)';
+        topPassBtn.style.borderColor = '#34d399';
+      }
+    } catch (e) {}
+  }
 }
 
 // Timetable Stream Injection

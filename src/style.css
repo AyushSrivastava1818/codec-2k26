@@ -2,7 +2,7 @@
 
 /* ==========================================================================
    CODEC 2K26 FLAGSHIP STYLESHEET
-   TechKnow Society • IIIT Kota
+   TechKnow Council • IIIT Kota
    Ultra-Smooth 120 FPS Composited Performance (Zero Jitter, Zero Layout Shifts)
    Exact Mansion-to-Rotunda Scroll Engine + Hover Fluidity
    ========================================================================== */
@@ -2633,3 +2633,117 @@ body.mansion-body {
   box-shadow: 0 0 30px rgba(255, 119, 0, 0.65);
   background: #ff881a;
 }
+
+/* ==========================================================================
+   GLOBAL MOBILE RESPONSIVENESS & TOUCH OPTIMIZATION (ALL SCREENS)
+   ========================================================================== */
+@media (max-width: 900px) {
+  .hud-dock-left,
+  .hud-dock-right,
+  .spooky-spider-rig {
+    display: none !important;
+  }
+
+  .footer-top-grid {
+    grid-template-columns: 1fr !important;
+    gap: 2.5rem !important;
+  }
+
+  .guilds-grid {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+@media (max-width: 768px) {
+  .section-container {
+    padding: 3.5rem 1.2rem;
+  }
+
+  .codec-vector-svg {
+    max-width: 92vw;
+    height: auto;
+  }
+
+  .codec-hero-title {
+    font-size: 2.2rem;
+  }
+
+  .codec-sub-tag {
+    font-size: 0.72rem;
+    letter-spacing: 1.5px;
+  }
+
+  .schedule-item-card {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+    padding: 1.2rem;
+  }
+
+  .item-action-col {
+    width: 100%;
+  }
+
+  .item-action-col .btn-card-primary {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .schedule-tabs-track {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .schedule-tab-btn {
+    width: 100%;
+    text-align: center;
+    border-radius: 8px !important;
+  }
+
+  .prizes-podium-grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  .podium-card.champion {
+    order: -1;
+  }
+}
+
+@media (max-width: 480px) {
+  .section-title {
+    font-size: 1.5rem;
+  }
+
+  .section-desc {
+    font-size: 0.85rem;
+  }
+
+  .hud-nav-bar {
+    padding: 0.5rem 0.8rem;
+  }
+
+  .techknow-logo-img {
+    width: 32px;
+    height: 32px;
+  }
+
+  .brand-name {
+    font-size: 0.95rem;
+  }
+
+  .hud-pass-btn span {
+    font-size: 0.7rem;
+  }
+
+  .brief-actions {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .btn-primary-action {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
