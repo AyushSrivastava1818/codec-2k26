@@ -57,9 +57,9 @@
 
     <!-- Top Right Controls -->
     <div class="hud-right-actions">
-      <button class="hud-admin-btn" id="open-admin-btn" title="View SQLite Registrations Database">
-        <i class="fa-solid fa-database"></i>
-        <span>DATABASE</span>
+      <button class="hud-admin-btn" id="open-admin-btn" title="View Summit Delegate Registry">
+        <i class="fa-solid fa-address-book"></i>
+        <span>REGISTRY</span>
       </button>
       <button class="hud-sound-toggle" id="audio-toggle-btn" title="Toggle Haunted Mansion Audio">
         <i class="fa-solid fa-volume-xmark" id="audio-icon"></i>
@@ -503,7 +503,7 @@
         <div class="reg-modal-header">
           <span class="reg-pretitle"><i class="fa-solid fa-bolt"></i> OFFICIAL SUMMIT PASS</span>
           <h2 class="reg-title">Claim Delegate Pass</h2>
-          <p class="reg-subtitle">Instant verified summit ticket generated via SQLite WAL engine with 0 lag.</p>
+          <p class="reg-subtitle">Official verified delegate credentials issued with cryptographic validation.</p>
         </div>
 
         <form class="reg-form" id="summit-reg-form">
@@ -640,8 +640,8 @@
       <div class="admin-modal-header">
         <div class="admin-title-row">
           <div>
-            <span class="admin-pretitle"><i class="fa-solid fa-database"></i> SQLITE WAL STORAGE ENGINE (server/data/codec.db)</span>
-            <h2 class="admin-title">Live Summit Registrations Viewer</h2>
+            <span class="admin-pretitle"><i class="fa-solid fa-shield-halved"></i> SUMMIT OPERATIONS &bull; OFFICIAL ATTENDEE DIRECTORY</span>
+            <h2 class="admin-title">Summit Delegate Registry & RSVPs</h2>
           </div>
           <div class="admin-actions-bar">
             <button class="btn-admin-refresh" id="admin-refresh-btn"><i class="fa-solid fa-arrows-rotate"></i> REFRESH</button>
@@ -699,14 +699,14 @@
           </thead>
           <tbody id="admin-table-body">
             <tr>
-              <td colspan="9" style="text-align: center; padding: 2rem;">Loading registrations from SQLite WAL...</td>
+              <td colspan="9" style="text-align: center; padding: 2rem;">Loading verified delegate credentials...</td>
             </tr>
           </tbody>
         </table>
       </div>
 
       <div class="admin-footer-bar">
-        <span>SQLite Path: <code>server/data/codec.db</code> &bull; Mode: WAL Concurrency (300-500 users)</span>
+        <span>CODEC 2K26 Delegate Registry &bull; TechKnow Council, IIIT Kota</span>
         <button class="btn-admin-close" id="admin-bottom-close-btn">DONE</button>
       </div>
     </div>

@@ -95,20 +95,74 @@ This web platform delivers an immersive, photorealistic Gothic Cyber-Mansion exp
 
 ---
 
-## 🎟️ Unified Registration System & Sub-Event RSVPs
+## 📋 Official Registration Procedure & Delegate Onboarding
 
-CODEC 2K26 implements a high-performance, two-tier registration workflow:
+CODEC 2K26 features a streamlined, two-tier delegate registration and competition reservation architecture designed for effortless onboarding.
 
-1. **Main Summit Pass Issuance**:
-   - Delegates register their credentials (Name, Email, Institution, Phone, Preferred Track).
-   - The backend validates uniqueness and issues a verifiable digital **CODEC 2K26 Summit Pass** with a unique ticket code (`CODEC-26-XXXX`) and encrypted QR payload.
-   - The pass is cached locally in `localStorage` so returning attendees immediately see their active pass.
+```
+                           ┌──────────────────────────────┐
+                           │    Attendee Visits Summit    │
+                           └──────────────┬───────────────┘
+                                          │
+                    ┌─────────────────────┴─────────────────────┐
+                    ▼                                           ▼
+        [Already Has Summit Pass]                    [New Delegate / First Visit]
+                    │                                           │
+    ┌───────────────┴───────────────┐           ┌───────────────┴───────────────┐
+    │  Click ANY Competition:       │           │  Click ANY Competition:       │
+    │  • 24h National Hackathon     │           │  • Form opens with that arena │
+    │  • Speed DSA Knockout Arena   │           │    pre-selected automatically.│
+    │  • RoboWars Combat Arena      │           │                               │
+    │  • Midnight Security CTF      │           │  Submit Registration:         │
+    │  • Microservices Masterclass  │           │  • Digital Pass Generated.    │
+    │                               │           │  • Sub-Event RSVP reserved    │
+    │  1-Click RSVP Confirmation:   │           │    in one single transaction. │
+    │  • Auto-populates credentials │           └───────────────┬───────────────┘
+    │  • Confirms seat instantly    │                           │
+    │  • No re-typing required!     │                           ▼
+    └───────────────┬───────────────┘           ┌───────────────────────────────┐
+                    │                           │  Digital Pass Displayed with  │
+                    └──────────────────────────►│  Unique Ticket Code & QR Data │
+                                                └───────────────────────────────┘
+```
 
-2. **1-Click Sub-Event Registration (Hackathon, Speed DSA, RoboWars, CTF, etc.)**:
-   - When an attendee with an active pass clicks **"PASS"** or **"REGISTER"** on any sub-event anywhere on the site, the system opens the **Sub-Event Registration Modal**.
-   - The attendee's delegate name, college, and active ticket code are automatically populated.
-   - Clicking **"CONFIRM SUB-EVENT SEAT"** registers their RSVP in SQLite with **1 click** without re-typing their details.
-   - If an attendee has not registered yet, clicking any sub-event pre-selects that arena in the registration form and issues both their Summit Pass and Sub-Event reservation simultaneously.
+### 1️⃣ Step-by-Step Registration Procedure
+
+#### Step 1: Claiming Your Official Summit Pass (All-Access)
+1. **Access Registration**: Click the **"REGISTER NOW"** button on the home hero banner, the **"PASS"** button in the top navigation bar, or select any chamber portal in the 3D Rotunda.
+2. **Enter Delegate Credentials**:
+   - **Full Legal / Delegate Name**
+   - **Academic / Personal Email Address** (Used for ticket issuance and schedule updates)
+   - **Institution / College / Organization** (e.g. *IIIT Kota*, *IITs*, *NITs*, etc.)
+   - **Contact Phone Number**
+   - **Preferred Primary Track** (Select *General Summit Delegate*, *24-Hour National Hackathon*, *Speed DSA Arena*, etc.)
+3. **Instant Pass Issuance**:
+   - Click **"GENERATE OFFICIAL PASS"**.
+   - Your verifiable digital **CODEC 2K26 Summit Pass** is issued immediately with a unique ticket identifier (`CODEC-26-XXXX`), cryptographic QR token, and admission category.
+   - The pass is securely cached in your local browser session. Returning attendees can view their credentials at any time by clicking the green **"MY PASS"** button in the header.
+
+#### Step 2: Enrolling in Sub-Events & Competitions (1-Click RSVP)
+Delegates can participate in individual arena competitions and technical tracks:
+- **Flagship 24-Hour National Hackathon** (Chamber II — Software, AI & Hardware tracks)
+- **Speed DSA Knockout Arena** (Chamber I — Rapid algorithmic problem-solving)
+- **RoboWars Combat Gladiator** (Chamber I — High-intensity robotics arena)
+- **Midnight Security CTF Challenge** (Chamber I — Nocturnal cybersecurity competition)
+- **Microservices Architecture Masterclass** (Chamber III — Cloud infrastructure and distributed systems)
+- **Campus LAN Esports Showdown** (Chamber I — Competitive gaming tournament)
+
+**Workflow for Pass Holders:**
+1. Navigate to the competition or workshop on the site (via the 3D Rotunda, chamber cards, or chronological timetable).
+2. Click **"REGISTER"** or **"PASS"** on that event card.
+3. The **Sub-Event Registration Modal** opens with your delegate name, college, and active ticket code pre-populated.
+4. Click **"CONFIRM SUB-EVENT SEAT"**. Your seat is confirmed with **one click**, logging an RSVP in the summit registry without redundant data entry.
+
+**Workflow for First-Time Attendees:**
+1. Clicking **"REGISTER"** on any specific event opens the registration modal with that event automatically selected.
+2. Complete the form to simultaneously receive your official Summit Pass and secure your seat for that competition in a single step.
+
+#### Step 3: Check-in & On-Campus Admission
+- Upon arrival at the **IIIT Kota permanent campus venue**, present your digital Summit Pass (or physical printout) at the registration desk.
+- Summit volunteers will scan your pass QR token or enter your ticket code (`CODEC-26-XXXX`) in the **Summit Delegate Registry** to issue your physical delegate badge, summit kit, and meal coupons.
 
 ---
 
@@ -134,7 +188,7 @@ All attendee passes and sub-event RSVPs are stored locally in a high-concurrency
 You can view and export registration data in multiple ways:
 
 1. **In-App Live Admin Dashboard**:
-   - Click the **"DATABASE"** button located in the top-right header HUD.
+   - Click the **"REGISTRY"** button located in the top-right header HUD.
    - Displays live summit statistics (Total Delegates, Hackathon Squads, DSA Arena, RoboWars, Sub-Event RSVPs).
    - Includes real-time search filtering across names, emails, colleges, ticket codes, and event tracks.
    - Clean tabular display with live timestamps and status badges.

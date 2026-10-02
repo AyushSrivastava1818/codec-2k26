@@ -593,7 +593,7 @@ function initAdminModal() {
 async function loadAdminRegistrations() {
   const tbody = document.getElementById('admin-table-body');
   if (tbody) {
-    tbody.innerHTML = '<tr><td colspan="9" style="text-align: center; padding: 2.5rem; color: var(--gold-warm);"><i class="fa-solid fa-spinner fa-spin"></i> Reading records from SQLite WAL storage (server/data/codec.db)...</td></tr>';
+    tbody.innerHTML = '<tr><td colspan="9" style="text-align: center; padding: 2.5rem; color: var(--gold-warm);"><i class="fa-solid fa-spinner fa-spin"></i> Loading verified delegate credentials...</td></tr>';
   }
 
   const apiHost = window.location.hostname || '127.0.0.1';
@@ -651,7 +651,7 @@ async function loadAdminRegistrations() {
   } catch (err) {
     console.error('Admin Fetch Failed:', err);
     if (tbody) {
-      tbody.innerHTML = '<tr><td colspan="9" style="text-align: center; padding: 2rem; color: #ef4444;"><i class="fa-solid fa-triangle-exclamation"></i> Error loading registrations: ' + err.message + '. Please verify backend is running on port 5000.</td></tr>';
+      tbody.innerHTML = '<tr><td colspan="9" style="text-align: center; padding: 2rem; color: #ef4444;"><i class="fa-solid fa-triangle-exclamation"></i> Error loading registrations: ' + err.message + '. Please check connection to the summit registry server.</td></tr>';
     }
   }
 }
