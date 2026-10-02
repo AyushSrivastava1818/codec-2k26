@@ -1,4 +1,4 @@
-﻿# CODEC 2K26 — Official Technical Summit
+﻿# CODEC 2K26 — Flagship Technical Summit
 ### Presented by TechKnow Council — Indian Institute of Information Technology Kota
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
@@ -7,27 +7,13 @@
 [![WebGL](https://img.shields.io/badge/3D%20Engine-Three.js%20WebGL-black.svg)](https://threejs.org/)
 [![Build Status](https://img.shields.io/badge/Build-Passing-success.svg)](https://github.com/AyushSrivastava1818/codec-2k26)
 
-**CODEC 2K26** is the flagship annual technical summit of **IIIT Kota**, hosted and orchestrated by the **TechKnow Council**. The web platform delivers an immersive, cinematic 3D visual journey through the summit's five core chambers, integrated with a high-concurrency, zero-latency registration and event reservation engine.
+**CODEC 2K26** is the flagship annual technical summit of **IIIT Kota**, curated and engineered by the **TechKnow Council**. The platform combines an interactive, 3D WebGL portal journey across five summit chambers with a robust, zero-latency registration and event reservation engine.
 
 ---
 
-## 🏛️ Live Platform Showcase
+## 📋 Delegate Registration & Onboarding Architecture
 
-| 3D Chamber Rotunda & Portals | Hero Arena & Real-Time Summit HUD |
-| :---: | :---: |
-| ![CODEC 2K26 3D Rotunda](docs/images/website_live_rotunda.png) | ![CODEC 2K26 Hero Arena](docs/images/website_live_hero.png) |
-| *Photorealistic stone chamber archways with dynamic raycasting & particle field* | *Summit countdown HUD, pass generation entry, and real-time delegate stats* |
-
-| Competitions, Tracks & Workshops Arena |
-| :---: |
-| ![CODEC 2K26 Competitions & Schedule](docs/images/website_live_events.png) |
-| *Chronological multi-event schedule, live arena breakdown, and 1-click reservations* |
-
----
-
-## 🎟️ Registration Procedure & Delegate Onboarding
-
-CODEC 2K26 features a streamlined, two-tier delegate registration and competition reservation architecture designed for effortless onboarding with zero redundant data entry.
+The CODEC 2K26 portal implements a seamless two-tier registration workflow: general all-access summit credentials coupled with one-click enrollment across specialized technical arenas.
 
 ```
                            +--------------------------------+
@@ -50,24 +36,24 @@ CODEC 2K26 features a streamlined, two-tier delegate registration and competitio
     |  1-Click RSVP Confirmation:   |             |    recorded simultaneously.   |
     |  • Auto-populates credentials |             +---------------+---------------+
     |  • Confirms seat instantly    |                             |
-    |  • No re-typing required!     |                             v
+    |  • No redundant form entry    |                             v
     +---------------+---------------+             +---------------+---------------+
                     |                             |  Digital Pass Displayed with  |
                     +---------------------------->|  Unique Ticket Code & QR Data |
                                                   +-------------------------------+
 ```
 
-### Step-by-Step Registration Guide
+### Delegate Onboarding Guide
 
-#### Step 1: Claiming Your Official Summit Pass (All-Access)
-1. **Access Registration**: Click the **"REGISTER NOW"** button on the hero banner, the **"PASS"** button in the navigation bar, or select any chamber portal in the 3D Rotunda.
+#### 1. Claiming Your Official Summit Pass (All-Access)
+1. **Access Registration**: Click **"REGISTER NOW"** on the main hero banner, the **"PASS"** button in the header dock, or select any portal in the 3D Chamber Rotunda.
 2. **Enter Delegate Information**:
    - **Full Legal / Delegate Name**
-   - **Email Address** (Used for ticket verification and schedule updates)
-   - **Institution / College / University** (e.g. *IIIT Kota*, *IITs*, *NITs*, etc.)
+   - **Email Address** (Used for ticket delivery and schedule notifications)
+   - **Institution / College / University** (e.g., *IIIT Kota*, *IITs*, *NITs*, etc.)
    - **Contact Phone Number**
-3. **Select Competitions & Arenas**:
-   - Check any combination of technical arenas you wish to compete in:
+3. **Select Desired Competitions & Tracks**:
+   - Attendees can check any combination of events during initial pass generation:
      - 🎟️ **General Summit Delegate** *(Keynotes, Exhibits & Grand Pass)*
      - ⚡ **24-Hour National Hackathon** *(Flagship 24h Hackathon)*
      - 💻 **Speed DSA Knockout Arena** *(Algorithmic Arena)*
@@ -75,54 +61,56 @@ CODEC 2K26 features a streamlined, two-tier delegate registration and competitio
      - 🛡️ **Midnight Security CTF** *(Cybersecurity Challenge)*
      - ☁️ **Microservices Architecture** *(Engineering Workshop)*
      - 🎮 **Campus LAN Esports** *(Tournament Bracket)*
-4. **Instant Pass Issuance**:
-   - Click **"GENERATE OFFICIAL PASS"**.
-   - Your verifiable digital **CODEC 2K26 Summit Pass** is issued immediately with a unique ticket identifier (`CODEC-26-XXXX`), cryptographic QR token, and all enrolled event categories.
-   - The pass is securely saved in your browser session. Returning attendees can view their credentials at any time by clicking the green **"MY PASS"** button in the header.
+4. **Instant Pass Generation**:
+   - Upon clicking **"GENERATE OFFICIAL PASS"**, a verifiable digital pass is issued with a unique ticket identifier (`CODEC-26-XXXX`) and encrypted QR verification payload.
+   - Credentials are saved in local session storage, allowing returning attendees to access their ticket via the green **"MY PASS"** header button at any time.
 
-#### Step 2: Enrolling in Individual Arenas & Workshops (1-Click RSVP)
-Delegates can participate in individual arena competitions and technical tracks:
-- **Flagship 24-Hour National Hackathon** (Chamber II — Software, AI & Hardware tracks)
-- **Speed DSA Knockout Arena** (Chamber I — Rapid algorithmic problem-solving)
-- **RoboWars Combat Gladiator** (Chamber I — High-intensity robotics arena)
-- **Midnight Security CTF Challenge** (Chamber I — Nocturnal cybersecurity competition)
-- **Microservices Architecture Masterclass** (Chamber III — Cloud infrastructure and distributed systems)
-- **Campus LAN Esports Showdown** (Chamber I — Competitive gaming tournament)
+#### 2. Individual Arena & Sub-Event Enrollment (1-Click RSVP)
+For attendees who already possess a Summit Pass:
+1. Browse to any event card in the 3D Rotunda, Chamber directory, or schedule.
+2. Click **"REGISTER"** or **"PASS"** on the specific competition.
+3. The registration modal opens with your name, college, and ticket code automatically filled.
+4. Confirm your selection with **one click** without re-typing credentials.
 
-**Workflow for Active Pass Holders:**
-1. Navigate to the competition or workshop on the site (via the 3D Rotunda, chamber cards, or timetable).
-2. Click **"REGISTER"** or **"PASS"** on that event card.
-3. The **Sub-Event Registration Modal** opens with your delegate name, college, and active ticket code pre-populated.
-4. Optionally check any additional competitions to enroll in them at the same time.
-5. Click **"CONFIRM EVENT REGISTRATION"**. Your seat is confirmed with **one click**, logging an official entry in the summit registry without redundant form entry.
+#### 3. On-Campus Venue Admission
+- Present your digital pass or QR token at the **IIIT Kota campus registration desk** on summit morning.
+- Coordinators verify ticket validity to issue physical badges, access passes, and delegate kits.
 
-#### Step 3: Check-in & On-Campus Admission
-- Upon arrival at the **IIIT Kota permanent campus venue**, present your digital Summit Pass (or physical printout) at the registration desk.
-- Summit coordinators will scan your pass QR token or enter your ticket code (`CODEC-26-XXXX`) to issue your physical delegate badge, summit kit, and meal access credentials.
+---
+
+## 🏆 Summit Chambers & Competitions
+
+| Chamber | Track / Event | Format | Focus Area |
+|---|---|---|---|
+| **Chamber 00** | **Archival Vault** | Interactive Exhibit | Summit history, council charter & technical showcase |
+| **Chamber I** | **Coding Arena & Gladiator** | Competitive Rounds | Speed DSA Knockout, RoboWars Arena & Midnight CTF |
+| **Chamber II** | **24-Hour National Hackathon** | 24-Hour Sprint | AI/ML, Distributed Systems, Web3 & Open Innovation |
+| **Chamber III** | **Chrono Archive & Workshops** | Masterclass Sessions | Microservices, Cloud Architecture & gRPC Engineering |
+| **Chamber IV** | **Ceremonial Hall** | Keynotes & Awards | Keynote addresses, panel discussions & grand prize distributions |
 
 ---
 
 ## ⚡ Architecture & Concurrency Engineering
 
-The CODEC 2K26 platform is engineered for seamless scalability under heavy peak traffic during summit announcements and hackathon releases.
+The CODEC 2K26 system is architected for maximum throughput, low memory footprint, and consistent sub-5ms latency under peak registration traffic:
 
-- **High-Performance SQLite WAL Engine**:
-  - Implemented using Node.js, Express, and `better-sqlite3`.
+- **High-Concurrency SQLite Engine (WAL Mode)**:
+  - Powered by Node.js, Express, and `better-sqlite3`.
   - Configured with `PRAGMA journal_mode = WAL;`, `PRAGMA synchronous = NORMAL;`, and `PRAGMA busy_timeout = 5000;`.
-  - Benchmarked up to **300–400 simultaneous users** with zero transaction dropouts and sub-5ms response latency.
-  - Non-blocking concurrent reads and serialized atomic writes prevent race conditions during high-volume registration spikes.
+  - Concurrency benchmarks verify stable execution across **300–400 simultaneous users** with zero locking timeouts or dropped transactions.
+  - Reads operate concurrently without blocking database write transactions.
 
-- **Butter-Smooth 60–120 FPS Cinematic Render Pipeline**:
+- **60–120 FPS Hardware-Accelerated 3D Engine**:
+  - Three.js WebGL render pipeline featuring physical human-eye height dolly controls.
   - Frame-rate independent exponential decay damping (`1 - Math.exp(-k * delta)`).
-  - WebGL Raycasting throttled strictly to pointer movement events, eliminating redundant collision tests when stationary.
-  - Automatic GPU composition visibility culling (`display: none` on off-screen layers) preventing fill-rate bottlenecks.
-  - Zero-copy particle matrix transforms for 580 simultaneous ambient motes and portal embers.
+  - Raycasting throttled to active pointer movements to eliminate redundant GPU/CPU cycle consumption.
+  - GPU particle matrix buffers rendering 580 simultaneous ambient particles and portal embers.
 
-- **Fully Responsive Mobile Experience**:
-  - **Horizontal Touch Carousel**: Rotunda chamber arch cards dynamically convert to a buttery-smooth horizontal touch track with mandatory snap (`scroll-snap-type: x mandatory`).
-  - **Floating Mobile Bottom Dock**: Thumb-accessible navigation bar on phone screens (`HOME`, `CHAMBERS`, `HACKATHON`, `SCHEDULE`, `PRIZES`).
-  - Desktop-only side panels automatically hide on viewports `<= 860px`.
-  - All registration modals, inputs, and tickets scale smoothly down to 360px width.
+- **Adaptive Mobile & Touch Responsiveness**:
+  - Horizontal CSS snap-carousel (`scroll-snap-type: x mandatory`) for touch screens.
+  - Ergonomic bottom navigation dock for mobile devices (`HOME`, `CHAMBERS`, `HACKATHON`, `SCHEDULE`, `PRIZES`).
+  - Desktop-only side panels automatically culled on viewports `<= 860px`.
+  - Forms and pass layouts adapt down to 360px screen widths.
 
 ---
 
@@ -130,14 +118,14 @@ The CODEC 2K26 platform is engineered for seamless scalability under heavy peak 
 
 | Method | Endpoint | Description |
 |---|---|---|
-| `GET` | `/api/health` | Service health check and database status |
-| `GET` | `/api/stats` | Real-time summit counters (registered delegates, seats remaining, guilds formed) |
-| `POST` | `/api/registrations` | Claim instant Summit Pass (returns unique ticket code and QR payload) |
-| `GET` | `/api/registrations/my?email=...` | Retrieve all passes linked to an email address |
-| `GET` | `/api/registrations/verify/:ticketCode` | Public ticket verification endpoint |
-| `POST` | `/api/events/rsvp` | RSVP for individual competition, workshop, or hackathon track |
+| `GET` | `/api/health` | Health check endpoint and database operational status |
+| `GET` | `/api/stats` | Real-time counters (delegates registered, seats remaining, guilds formed) |
+| `POST` | `/api/registrations` | Generate new Summit Pass with ticket code and QR payload |
+| `GET` | `/api/registrations/my?email=...` | Retrieve existing summit passes by email address |
+| `GET` | `/api/registrations/verify/:ticketCode` | Public ticket authenticity verification endpoint |
+| `POST` | `/api/events/rsvp` | Enroll in individual competition or workshop |
 | `POST` | `/api/events/batch-rsvp` | Batch register for multiple competitions simultaneously |
-| `GET` | `/api/events/my?email=...` | Fetch all event reservations linked to an attendee email |
+| `GET` | `/api/events/my?email=...` | Fetch all active competition reservations for an email |
 
 ---
 
@@ -160,23 +148,23 @@ The CODEC 2K26 platform is engineered for seamless scalability under heavy peak 
    npm install
    ```
 
-3. **Start the High-Concurrency Backend Server**:
+3. **Start the Backend Server**:
    ```bash
    npm run server
    ```
-   *Starts the Express server on `http://127.0.0.1:5000` with SQLite WAL storage.*
+   *Runs on `http://127.0.0.1:5000` backed by SQLite WAL storage.*
 
 4. **Start the Frontend Development Server**:
    ```bash
    npm run dev
    ```
-   *Launches Vite on `http://localhost:5174` (proxies `/api` requests to the backend).*
+   *Runs on `http://localhost:5174` (automatically proxies `/api` to the backend).*
 
-5. **Run Concurrency Benchmark**:
+5. **Run Concurrency Load Test**:
    ```bash
    node scratch/stress_test.js
    ```
-   *Executes a concurrent load test verifying zero latency spikes under multi-user bursts.*
+   *Verifies sub-5ms database transaction response under concurrent multi-user bursts.*
 
 6. **Production Build**:
    ```bash
@@ -189,15 +177,14 @@ The CODEC 2K26 platform is engineered for seamless scalability under heavy peak 
 
 ```
 codec-2k26/
-├── docs/
-│   └── images/                   # High-resolution website screenshots & storyboard previews
+├── docs/                         # Summit documentation & design specifications
 ├── public/
-│   └── assets/                   # Photorealistic arch textures & branding assets
+│   └── assets/                   # Archway textures and brand assets
 ├── server/
 │   ├── data/
 │   │   └── codec.db              # High-concurrency SQLite database (WAL mode)
 │   ├── routes/
-│   │   ├── admin.js              # Organizer reporting and registry services
+│   │   ├── admin.js              # Administrative registry services
 │   │   ├── auth.js               # User authentication services
 │   │   ├── events.js             # Event RSVP & batch-registration routes
 │   │   ├── registrations.js      # Summit Pass ticket generation
