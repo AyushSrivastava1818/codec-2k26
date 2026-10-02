@@ -1,4 +1,4 @@
-import express from 'express';
+﻿import express from 'express';
 import cors from 'cors';
 import { db } from './db.js';
 import authRoutes from './routes/auth.js';
@@ -18,7 +18,7 @@ app.use(cors({
 }));
 app.use(express.json({ limit: '10mb' }));
 
-// Request logging in development
+// Request logging
 app.use((req, res, next) => {
   const start = Date.now();
   res.on('finish', () => {
@@ -66,33 +66,10 @@ process.on('SIGTERM', () => {
   process.exit(0);
 });
 
-// Seed default demo data if table is brand new
-try {
-  const userCount = db.prepare('SELECT COUNT(*) as count FROM users').get().count;
-  if (userCount === 0) {
-    console.log('Seeding initial demo delegates and summit credentials...');
-    import('./auth.js').then(({ hashPassword }) => {
-      const demoHash = hashPassword('codec2026');
-      db.prepare(`
-        INSERT INTO users (name, email, password_hash, college, phone, year)
-        VALUES ('Ayush Srivastava', 'lead@codec2k26.iiitkota.ac.in', ?, 'IIIT Kota', '+91 9876543210', 'Final Year')
-      `).run(demoHash);
-
-      db.prepare(`
-        INSERT INTO registrations (ticket_code, user_id, name, email, college, phone, track, pass_type, qr_data)
-        VALUES ('CODEC-26-APEX01', 1, 'Ayush Srivastava', 'lead@codec2k26.iiitkota.ac.in', 'IIIT Kota', '+91 9876543210', 'Hackathon 24h & Robotics', 'VIP_FOUNDER_PASS', 'CODEC:2026:TICKET:CODEC-26-APEX01')
-      `).run();
-      console.log('Demo seed completed.');
-    });
-  }
-} catch (e) {
-  console.warn('Seed notice:', e.message);
-}
-
 app.listen(PORT, '0.0.0.0', () => {
   console.log(`====================================================`);
-  console.log(`⚡ CODEC 2K26 BACKEND SERVER RUNNING ON PORT ${PORT}`);
-  console.log(`⚡ SQLite WAL Engine Active [Concurrency: 200-500+ users]`);
-  console.log(`⚡ URL: http://127.0.0.1:${PORT}`);
+  console.log(`CODEC 2K26 BACKEND SERVER RUNNING ON PORT ${PORT}`);
+  console.log(`SQLite WAL Engine Active [Concurrency: 200-500+ users]`);
+  console.log(`URL: http://127.0.0.1:${PORT}`);
   console.log(`====================================================`);
 });

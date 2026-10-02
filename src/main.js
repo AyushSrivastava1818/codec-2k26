@@ -1,6 +1,6 @@
-/* ==========================================================================
-   CODEC 2K26 — MASTER ENTRY POINT
-   TechKnow Council • IIIT Kota
+﻿/* ==========================================================================
+   CODEC 2K26 â€” MASTER ENTRY POINT
+   TechKnow Council â€¢ IIIT Kota
    Integrated Cinematic 3D Engine, Procedural Audio, 5-Chamber Experience,
    and Schedule / Pass Registration Modules
    ========================================================================== */
@@ -385,6 +385,8 @@ function initModals() {
       const batchPayload = {
         name: pass.name,
         email: pass.email,
+        college: pass.college || '',
+        phone: pass.phone || '',
         events: selectedEvents
       };
 
@@ -511,7 +513,8 @@ function initModals() {
         college,
         phone,
         track: primaryTrack,
-        passType: 'ALL_ACCESS_SUMMIT_PASS'
+        passType: 'ALL_ACCESS_SUMMIT_PASS',
+        events: selectedEvents  // Send all selected competitions atomically with the pass
       };
 
       // Determine backend port 5000 base URL dynamically
@@ -854,8 +857,8 @@ function renderAdminTable(list) {
         <td><code class="ticket-code-tag">${escapeHtml(reg.ticket_code || 'CODEC-26')}</code></td>
         <td><strong>${escapeHtml(reg.name || 'Anonymous')}</strong></td>
         <td><a href="mailto:${escapeHtml(reg.email)}" style="color: #38bdf8; text-decoration: none;">${escapeHtml(reg.email || '')}</a></td>
-        <td>${escapeHtml(reg.college || '—')}</td>
-        <td class="td-muted">${escapeHtml(reg.phone || '—')}</td>
+        <td>${escapeHtml(reg.college || 'â€”')}</td>
+        <td class="td-muted">${escapeHtml(reg.phone || 'â€”')}</td>
         <td><div class="events-tag-container">${eventsHtml}</div></td>
         <td>${statusBadge}</td>
         <td class="td-muted" style="font-size: 0.75rem;">${dateStr}</td>

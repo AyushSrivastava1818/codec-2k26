@@ -1,4 +1,4 @@
-import { Router } from 'express';
+﻿import { Router } from 'express';
 import crypto from 'crypto';
 import { db } from '../db.js';
 
@@ -7,6 +7,15 @@ const router = Router();
 const insertPassStmt = db.prepare(`
   INSERT INTO registrations (ticket_code, user_id, name, email, college, phone, track, pass_type, qr_data)
   VALUES (@ticket_code, @user_id, @name, @email, @college, @phone, @track, @pass_type, @qr_data)
+`);
+
+const checkRsvpStmt = db.prepare(`
+  SELECT id FROM event_rsvps WHERE email = ? AND event_title = ?
+`);
+
+const insertRsvpStmt = db.prepare(`
+  INSERT INTO event_rsvps (name, email, event_title, track)
+  VALUES (@name, @email, @event_title, @track)
 `);
 
 const findPassByCodeStmt = db.prepare(`
@@ -20,30 +29,54 @@ const findPassesByEmailStmt = db.prepare(`
 // Register for a Summit Pass (Direct Pass issuance)
 router.post('/', (req, res) => {
   try {
-    const { name, email, college, phone, track, passType } = req.body;
+    const { name, email, college, phone, track, passType, events } = req.body;
 
     if (!name || !email || !college) {
       return res.status(400).json({ error: 'Name, email, and institution are required.' });
     }
 
     const cleanEmail = email.trim().toLowerCase();
+    const cleanName = name.trim();
+    const cleanCollege = college.trim();
+    const cleanPhone = phone ? phone.trim() : null;
+
     const ticketCode = `CODEC-26-${crypto.randomBytes(3).toString('hex').toUpperCase()}`;
     const chosenTrack = track || 'General Summit';
     const chosenPassType = passType || 'SUMMIT_ACCESS_PASS';
+    const qrData = `CODEC:2026:TICKET:${ticketCode}:NAME:${encodeURIComponent(cleanName)}:COLLEGE:${encodeURIComponent(cleanCollege)}`;
 
-    const qrData = `CODEC:2026:TICKET:${ticketCode}:NAME:${encodeURIComponent(name.trim())}:COLLEGE:${encodeURIComponent(college.trim())}`;
+    const eventList = Array.isArray(events) ? events : [];
 
-    insertPassStmt.run({
-      ticket_code: ticketCode,
-      user_id: req.body.userId || null,
-      name: name.trim(),
-      email: cleanEmail,
-      college: college.trim(),
-      phone: phone ? phone.trim() : null,
-      track: chosenTrack,
-      pass_type: chosenPassType,
-      qr_data: qrData
+    const registerTx = db.transaction(() => {
+      insertPassStmt.run({
+        ticket_code: ticketCode,
+        user_id: req.body.userId || null,
+        name: cleanName,
+        email: cleanEmail,
+        college: cleanCollege,
+        phone: cleanPhone,
+        track: chosenTrack,
+        pass_type: chosenPassType,
+        qr_data: qrData
+      });
+
+      // Insert any selected competitions into event_rsvps in the same transaction
+      for (const evt of eventList) {
+        const cleanTitle = String(evt).trim();
+        if (!cleanTitle || cleanTitle.toLowerCase().includes('general summit')) continue;
+        const exists = checkRsvpStmt.get(cleanEmail, cleanTitle);
+        if (!exists) {
+          insertRsvpStmt.run({
+            name: cleanName,
+            email: cleanEmail,
+            event_title: cleanTitle,
+            track: cleanTitle
+          });
+        }
+      }
     });
+
+    registerTx();
 
     const pass = findPassByCodeStmt.get(ticketCode);
 

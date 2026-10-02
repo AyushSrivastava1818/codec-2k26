@@ -1,4 +1,5 @@
-import { Router } from 'express';
+﻿import { Router } from 'express';
+import crypto from 'crypto';
 import { db } from '../db.js';
 
 const router = Router();
@@ -22,11 +23,59 @@ const getStatsStmt = db.prepare(`
     (SELECT COUNT(*) FROM users) as total_users
 `);
 
+const insertMissingRegStmt = db.prepare(`
+  INSERT INTO registrations (ticket_code, name, email, college, phone, track, pass_type, status, qr_data)
+  VALUES (@ticket_code, @name, @email, @college, @phone, @track, 'SUBEVENT_PASS', 'CONFIRMED', @qr_data)
+`);
+
 // 1. Get all registrations & summary statistics
 router.get('/registrations', (req, res) => {
   try {
-    const registrations = getAllRegistrationsStmt.all();
+    let registrations = getAllRegistrationsStmt.all();
     const rsvps = getAllRsvpsStmt.all();
+
+    // Set of emails already in registrations
+    const registeredEmails = new Set(registrations.map(r => (r.email || '').toLowerCase().trim()));
+
+    // Find any attendees who registered for subevents but lack a primary registration record
+    const missingAttendees = {};
+    rsvps.forEach(r => {
+      const em = (r.email || '').toLowerCase().trim();
+      if (em && !registeredEmails.has(em)) {
+        if (!missingAttendees[em]) {
+          missingAttendees[em] = {
+            name: r.name || 'Delegate',
+            email: em,
+            events: []
+          };
+        }
+        if (!missingAttendees[em].events.includes(r.event_title)) {
+          missingAttendees[em].events.push(r.event_title);
+        }
+      }
+    });
+
+    // Auto-heal: Insert missing attendees into registrations so they have official tickets
+    for (const [em, data] of Object.entries(missingAttendees)) {
+      const ticketCode = `CODEC-26-${crypto.randomBytes(3).toString('hex').toUpperCase()}`;
+      const qrData = `CODEC:2026:TICKET:${ticketCode}:NAME:${encodeURIComponent(data.name)}:COLLEGE:IIIT%20Kota`;
+      insertMissingRegStmt.run({
+        ticket_code: ticketCode,
+        name: data.name,
+        email: em,
+        college: 'IIIT Kota',
+        phone: null,
+        track: data.events[0] || 'Sub-Event Arena',
+        qr_data: qrData
+      });
+      registeredEmails.add(em);
+    }
+
+    // Refresh registrations if any missing attendees were inserted
+    if (Object.keys(missingAttendees).length > 0) {
+      registrations = getAllRegistrationsStmt.all();
+    }
+
     const stats = getStatsStmt.get();
 
     // Group all RSVPs by email
@@ -60,25 +109,45 @@ router.get('/registrations', (req, res) => {
         allEvents.unshift(reg.track);
       }
 
-      // Tally event breakdown
-      let hasSubEvent = false;
+      // Check category flags
+      let hasHackathon = false;
+      let hasDsa = false;
+      let hasRobowars = false;
+      let hasCtf = false;
+      let hasWorkshop = false;
+      let hasEsports = false;
+
       allEvents.forEach(evt => {
         const low = evt.toLowerCase();
-        if (low.includes('hackathon')) { eventCounts.hackathon++; hasSubEvent = true; }
-        else if (low.includes('dsa') || low.includes('speed') || low.includes('coding')) { eventCounts.dsa++; hasSubEvent = true; }
-        else if (low.includes('robowars') || low.includes('gladiator') || low.includes('robo')) { eventCounts.robowars++; hasSubEvent = true; }
-        else if (low.includes('ctf') || low.includes('security')) { eventCounts.ctf++; hasSubEvent = true; }
-        else if (low.includes('microservice')) { eventCounts.microservices++; hasSubEvent = true; }
-        else if (low.includes('esport') || low.includes('lan')) { eventCounts.esports++; hasSubEvent = true; }
+        if (low.includes('hackathon')) { hasHackathon = true; }
+        if (low.includes('dsa') || low.includes('speed') || low.includes('coding')) { hasDsa = true; }
+        if (low.includes('robowars') || low.includes('gladiator') || low.includes('robo')) { hasRobowars = true; }
+        if (low.includes('ctf') || low.includes('security')) { hasCtf = true; }
+        if (low.includes('microservice') || low.includes('workshop')) { hasWorkshop = true; }
+        if (low.includes('esport') || low.includes('lan') || low.includes('game')) { hasEsports = true; }
       });
 
-      if (!hasSubEvent) {
+      if (hasHackathon) eventCounts.hackathon++;
+      if (hasDsa) eventCounts.dsa++;
+      if (hasRobowars) eventCounts.robowars++;
+      if (hasCtf) eventCounts.ctf++;
+      if (hasWorkshop) eventCounts.microservices++;
+      if (hasEsports) eventCounts.esports++;
+
+      const hasAnySubEvent = hasHackathon || hasDsa || hasRobowars || hasCtf || hasWorkshop || hasEsports;
+      if (!hasAnySubEvent) {
         eventCounts.generalOnly++;
       }
 
       return {
         ...reg,
-        enrolledEvents: allEvents.length > 0 ? allEvents : ['General Summit Delegate']
+        enrolledEvents: allEvents.length > 0 ? allEvents : ['General Summit Delegate'],
+        hasHackathon,
+        hasDsa,
+        hasRobowars,
+        hasCtf,
+        hasWorkshop,
+        hasEsports
       };
     });
 
@@ -114,7 +183,25 @@ router.get('/export.csv', (req, res) => {
       }
     });
 
-    const headers = ['ID', 'Ticket Code', 'Name', 'Email', 'College', 'Phone', 'All Registered Events / Arenas', 'Pass Type', 'Status', 'Registered At'];
+    const headers = [
+      'ID',
+      'Ticket Code',
+      'Name',
+      'Email',
+      'College',
+      'Phone',
+      'Hackathon (24h)',
+      'Speed DSA',
+      'RoboWars',
+      'Security CTF',
+      'Microservices Workshop',
+      'Campus Esports',
+      'All Enrolled Events',
+      'Pass Type',
+      'Status',
+      'Registered At'
+    ];
+
     const rows = registrations.map(r => {
       const em = (r.email || '').toLowerCase().trim();
       const rsvpList = emailToEvents[em] || [];
@@ -122,6 +209,18 @@ router.get('/export.csv', (req, res) => {
       if (r.track && !r.track.toLowerCase().includes('general') && !evts.includes(r.track)) {
         evts.unshift(r.track);
       }
+
+      let hasHack = false, hasDsa = false, hasRobo = false, hasCtf = false, hasMicro = false, hasEsp = false;
+      evts.forEach(evt => {
+        const low = evt.toLowerCase();
+        if (low.includes('hackathon')) hasHack = true;
+        if (low.includes('dsa') || low.includes('speed') || low.includes('coding')) hasDsa = true;
+        if (low.includes('robowars') || low.includes('gladiator') || low.includes('robo')) hasRobo = true;
+        if (low.includes('ctf') || low.includes('security')) hasCtf = true;
+        if (low.includes('microservice') || low.includes('workshop')) hasMicro = true;
+        if (low.includes('esport') || low.includes('lan') || low.includes('game')) hasEsp = true;
+      });
+
       const eventString = evts.length > 0 ? evts.join('; ') : 'General Summit Delegate';
 
       return [
@@ -131,6 +230,12 @@ router.get('/export.csv', (req, res) => {
         `"${(r.email || '').replace(/"/g, '""')}"`,
         `"${(r.college || '').replace(/"/g, '""')}"`,
         `"${(r.phone || '').replace(/"/g, '""')}"`,
+        hasHack ? '"YES"' : '"NO"',
+        hasDsa ? '"YES"' : '"NO"',
+        hasRobo ? '"YES"' : '"NO"',
+        hasCtf ? '"YES"' : '"NO"',
+        hasMicro ? '"YES"' : '"NO"',
+        hasEsp ? '"YES"' : '"NO"',
         `"${eventString.replace(/"/g, '""')}"`,
         `"${(r.pass_type || '').replace(/"/g, '""')}"`,
         `"${(r.status || '').replace(/"/g, '""')}"`,
