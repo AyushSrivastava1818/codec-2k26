@@ -57,6 +57,10 @@
 
     <!-- Top Right Controls -->
     <div class="hud-right-actions">
+      <button class="hud-admin-btn" id="open-admin-btn" title="View SQLite Registrations Database">
+        <i class="fa-solid fa-database"></i>
+        <span>DATABASE</span>
+      </button>
       <button class="hud-sound-toggle" id="audio-toggle-btn" title="Toggle Haunted Mansion Audio">
         <i class="fa-solid fa-volume-xmark" id="audio-icon"></i>
         <span id="audio-label">Sound: Off</span>
@@ -545,6 +549,41 @@
         </form>
       </div>
 
+      <!-- SUB-EVENT DIRECT RSVP VIEW (FOR EXISTING PASS HOLDERS) -->
+      <div id="reg-subevent-view" style="display: none;">
+        <div class="reg-modal-header">
+          <span class="reg-pretitle"><i class="fa-solid fa-calendar-check"></i> SUB-EVENT REGISTRATION</span>
+          <h2 class="reg-title" id="subevent-title">Speed DSA Knockout Arena</h2>
+          <p class="reg-subtitle">Confirm your seat instantly using your active CODEC 2K26 Summit Pass.</p>
+        </div>
+
+        <div class="subevent-delegate-card">
+          <div class="subevent-info-row">
+            <span class="subevent-lbl">DELEGATE:</span>
+            <strong class="subevent-val" id="subevent-delegate-name">Ayush Srivastava</strong>
+          </div>
+          <div class="subevent-info-row">
+            <span class="subevent-lbl">COLLEGE:</span>
+            <strong class="subevent-val" id="subevent-delegate-college">IIIT Kota</strong>
+          </div>
+          <div class="subevent-info-row">
+            <span class="subevent-lbl">ACTIVE PASS:</span>
+            <strong class="subevent-val ticket-highlight" id="subevent-delegate-code">CODEC-26-XXXX</strong>
+          </div>
+          <div class="subevent-info-row">
+            <span class="subevent-lbl">SUB-EVENT ARENA:</span>
+            <strong class="subevent-val" id="subevent-arena-name" style="color: var(--gold-warm);">Coding Arena</strong>
+          </div>
+        </div>
+
+        <button type="button" class="btn-submit-pass" id="subevent-confirm-btn">
+          <span id="subevent-btn-text">CONFIRM SUB-EVENT SEAT <i class="fa-solid fa-circle-check"></i></span>
+          <span id="subevent-btn-spinner" style="display: none;"><i class="fa-solid fa-circle-notch fa-spin"></i> RECORDING RSVP...</span>
+        </button>
+
+        <div class="reg-form-feedback" id="subevent-feedback" style="display: none;"></div>
+      </div>
+
       <!-- SUCCESS PASS VIEW -->
       <div id="reg-success-view" style="display: none;">
         <div class="pass-card-digital">
@@ -574,7 +613,7 @@
               <span class="pass-val" id="pass-display-college">IIIT Kota</span>
             </div>
             <div class="pass-detail-col">
-              <span class="pass-lbl">TRACK</span>
+              <span class="pass-lbl">TRACK / EVENT</span>
               <span class="pass-val" id="pass-display-track">Hackathon 24h</span>
             </div>
             <div class="pass-detail-col">
@@ -590,6 +629,86 @@
         </div>
       </div>
 
+    </div>
+  </div>
+
+  <!-- ================= ADMIN LIVE SQLITE DATABASE REGISTRATIONS VIEWER ================= -->
+  <div class="mansion-modal-backdrop admin-modal-backdrop" id="admin-modal-backdrop">
+    <div class="mansion-modal-box admin-box" id="admin-modal-box">
+      <button class="modal-close-btn" id="admin-close-btn" aria-label="Close modal">&times;</button>
+
+      <div class="admin-modal-header">
+        <div class="admin-title-row">
+          <div>
+            <span class="admin-pretitle"><i class="fa-solid fa-database"></i> SQLITE WAL STORAGE ENGINE (server/data/codec.db)</span>
+            <h2 class="admin-title">Live Summit Registrations Viewer</h2>
+          </div>
+          <div class="admin-actions-bar">
+            <button class="btn-admin-refresh" id="admin-refresh-btn"><i class="fa-solid fa-arrows-rotate"></i> REFRESH</button>
+            <button class="btn-admin-csv" id="admin-export-csv-btn"><i class="fa-solid fa-file-csv"></i> EXPORT CSV</button>
+          </div>
+        </div>
+
+        <!-- Metrics Row -->
+        <div class="admin-metrics-grid">
+          <div class="metric-card">
+            <span class="metric-num" id="admin-stat-total">0</span>
+            <span class="metric-lbl">TOTAL DELEGATES</span>
+          </div>
+          <div class="metric-card">
+            <span class="metric-num" id="admin-stat-hackathon">0</span>
+            <span class="metric-lbl">HACKATHON SQUADS</span>
+          </div>
+          <div class="metric-card">
+            <span class="metric-num" id="admin-stat-dsa">0</span>
+            <span class="metric-lbl">DSA ARENA</span>
+          </div>
+          <div class="metric-card">
+            <span class="metric-num" id="admin-stat-robowars">0</span>
+            <span class="metric-lbl">ROBOWARS</span>
+          </div>
+          <div class="metric-card">
+            <span class="metric-num" id="admin-stat-rsvps">0</span>
+            <span class="metric-lbl">SUB-EVENT RSVPS</span>
+          </div>
+        </div>
+
+        <!-- Search input & filter -->
+        <div class="admin-search-bar">
+          <i class="fa-solid fa-magnifying-glass search-icon"></i>
+          <input type="text" id="admin-search-input" placeholder="Search by name, email, college, ticket code (e.g. CODEC-26), or track..." />
+          <span class="admin-counter" id="admin-search-count">Showing all records</span>
+        </div>
+      </div>
+
+      <!-- Registrations Data Table -->
+      <div class="admin-table-container">
+        <table class="admin-data-table" id="admin-registrations-table">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>TICKET CODE</th>
+              <th>DELEGATE NAME</th>
+              <th>EMAIL</th>
+              <th>INSTITUTION</th>
+              <th>PHONE</th>
+              <th>TRACK / EVENT</th>
+              <th>STATUS</th>
+              <th>TIMESTAMP</th>
+            </tr>
+          </thead>
+          <tbody id="admin-table-body">
+            <tr>
+              <td colspan="9" style="text-align: center; padding: 2rem;">Loading registrations from SQLite WAL...</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="admin-footer-bar">
+        <span>SQLite Path: <code>server/data/codec.db</code> &bull; Mode: WAL Concurrency (300-500 users)</span>
+        <button class="btn-admin-close" id="admin-bottom-close-btn">DONE</button>
+      </div>
     </div>
   </div>
 

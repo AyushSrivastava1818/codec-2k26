@@ -140,39 +140,101 @@ function updateScrollSpy() {
 }
 
 // Registration Pass Modal - Connected to High-Concurrency SQLite WAL Backend
+let currentSubeventTarget = '';
+
 window.openRegistrationModal = function(presetChamber = '') {
   const modal = document.getElementById('reg-modal-backdrop');
   if (!modal) return;
 
   const formView = document.getElementById('reg-form-view');
+  const subeventView = document.getElementById('reg-subevent-view');
   const successView = document.getElementById('reg-success-view');
-  const existingPass = localStorage.getItem('codec_summit_pass');
+  const existingPassRaw = localStorage.getItem('codec_summit_pass');
 
-  // If user already has an issued pass and didn't explicitly pick an event track to add
-  if (existingPass && !presetChamber) {
+  let existingPass = null;
+  if (existingPassRaw) {
     try {
-      const pass = JSON.parse(existingPass);
-      showDigitalPass(pass);
-      modal.classList.add('active');
-      audioManager.playWhoosh();
-      return;
+      existingPass = JSON.parse(existingPassRaw);
     } catch (e) {
       localStorage.removeItem('codec_summit_pass');
     }
   }
 
-  // Otherwise show the registration form
-  if (formView) formView.style.display = 'block';
-  if (successView) successView.style.display = 'none';
+  // CASE 1: User has an active pass and clicked a specific sub-event -> Show 1-Click RSVP View!
+  if (existingPass && presetChamber) {
+    currentSubeventTarget = presetChamber;
+    if (formView) formView.style.display = 'none';
+    if (successView) successView.style.display = 'none';
+    if (subeventView) {
+      subeventView.style.display = 'block';
 
+      // Populate details
+      const titleEl = document.getElementById('subevent-title');
+      const nameEl = document.getElementById('subevent-delegate-name');
+      const collEl = document.getElementById('subevent-delegate-college');
+      const codeEl = document.getElementById('subevent-delegate-code');
+      const arenaEl = document.getElementById('subevent-arena-name');
+      const confirmBtn = document.getElementById('subevent-confirm-btn');
+      const btnText = document.getElementById('subevent-btn-text');
+      const btnSpinner = document.getElementById('subevent-btn-spinner');
+      const feedback = document.getElementById('subevent-feedback');
+
+      if (titleEl) titleEl.textContent = presetChamber;
+      if (nameEl) nameEl.textContent = existingPass.name || 'Summit Delegate';
+      if (collEl) collEl.textContent = existingPass.college || 'IIIT Kota';
+      if (codeEl) codeEl.textContent = existingPass.ticket_code || existingPass.ticketCode || 'CODEC-26-CONFIRMED';
+      if (arenaEl) arenaEl.textContent = presetChamber;
+
+      if (confirmBtn) {
+        confirmBtn.disabled = false;
+        confirmBtn.style.background = '';
+      }
+      if (btnText) {
+        btnText.innerHTML = 'CONFIRM SUB-EVENT SEAT <i class="fa-solid fa-circle-check"></i>';
+        btnText.style.display = 'inline-block';
+      }
+      if (btnSpinner) btnSpinner.style.display = 'none';
+      if (feedback) feedback.style.display = 'none';
+    }
+
+    modal.classList.add('active');
+    audioManager.playWhoosh();
+    return;
+  }
+
+  // CASE 2: User has an active pass and clicked "MY PASS" (no preset event) -> Show Digital Pass!
+  if (existingPass && !presetChamber) {
+    if (subeventView) subeventView.style.display = 'none';
+    showDigitalPass(existingPass);
+    modal.classList.add('active');
+    audioManager.playWhoosh();
+    return;
+  }
+
+  // CASE 3: User does NOT have an active pass -> Show Registration Form!
+  if (subeventView) subeventView.style.display = 'none';
+  if (successView) successView.style.display = 'none';
+  if (formView) formView.style.display = 'block';
+
+  // Automatically select or add the preset chamber in the select dropdown
   const sel = document.getElementById('reg-chamber-select');
   if (sel && presetChamber) {
+    let matched = false;
     for (let i = 0; i < sel.options.length; i++) {
       if (sel.options[i].value.toLowerCase().includes(presetChamber.toLowerCase()) || 
           presetChamber.toLowerCase().includes(sel.options[i].value.toLowerCase())) {
         sel.selectedIndex = i;
+        matched = true;
         break;
       }
+    }
+    // If not found in default list, dynamically append and select it
+    if (!matched) {
+      const opt = document.createElement('option');
+      opt.value = presetChamber;
+      opt.textContent = 'Event: ' + presetChamber;
+      opt.selected = true;
+      sel.appendChild(opt);
     }
   }
 
@@ -182,9 +244,11 @@ window.openRegistrationModal = function(presetChamber = '') {
 
 function showDigitalPass(pass) {
   const formView = document.getElementById('reg-form-view');
+  const subeventView = document.getElementById('reg-subevent-view');
   const successView = document.getElementById('reg-success-view');
 
   if (formView) formView.style.display = 'none';
+  if (subeventView) subeventView.style.display = 'none';
   if (successView) successView.style.display = 'block';
 
   const codeEl = document.getElementById('pass-display-code');
@@ -202,7 +266,7 @@ function showDigitalPass(pass) {
   // Update top register button to show badge
   const topPassBtn = document.getElementById('open-pass-btn');
   if (topPassBtn) {
-    topPassBtn.innerHTML = `<i class="fa-solid fa-ticket"></i> <span>MY PASS</span>`;
+    topPassBtn.innerHTML = '<i class="fa-solid fa-ticket"></i> <span>MY PASS</span>';
     topPassBtn.style.background = 'linear-gradient(135deg, #10b981 0%, #059669 100%)';
     topPassBtn.style.borderColor = '#34d399';
   }
@@ -238,13 +302,91 @@ function initModals() {
     if (code) {
       navigator.clipboard.writeText(code).then(() => {
         const originalHtml = copyBtn.innerHTML;
-        copyBtn.innerHTML = `<i class="fa-solid fa-circle-check"></i> COPIED!`;
+        copyBtn.innerHTML = '<i class="fa-solid fa-circle-check"></i> COPIED!';
         copyBtn.style.color = '#34d399';
         setTimeout(() => {
           copyBtn.innerHTML = originalHtml;
           copyBtn.style.color = '';
         }, 2000);
       });
+    }
+  });
+
+  // Handle Sub-Event RSVP Confirmation for existing pass holders
+  const subeventConfirmBtn = document.getElementById('subevent-confirm-btn');
+  const subeventBtnText = document.getElementById('subevent-btn-text');
+  const subeventBtnSpinner = document.getElementById('subevent-btn-spinner');
+  const subeventFeedback = document.getElementById('subevent-feedback');
+
+  subeventConfirmBtn?.addEventListener('click', async () => {
+    const existingPassRaw = localStorage.getItem('codec_summit_pass');
+    if (!existingPassRaw) return;
+    let pass;
+    try {
+      pass = JSON.parse(existingPassRaw);
+    } catch (e) {
+      return;
+    }
+    const eventName = currentSubeventTarget || document.getElementById('subevent-title')?.textContent || 'Summit Event';
+
+    if (subeventConfirmBtn) subeventConfirmBtn.disabled = true;
+    if (subeventBtnText) subeventBtnText.style.display = 'none';
+    if (subeventBtnSpinner) subeventBtnSpinner.style.display = 'inline-block';
+    if (subeventFeedback) subeventFeedback.style.display = 'none';
+
+    try {
+      const apiHost = window.location.hostname || '127.0.0.1';
+      const rsvpPayload = {
+        name: pass.name,
+        email: pass.email,
+        eventTitle: eventName,
+        track: eventName
+      };
+
+      let res;
+      try {
+        res = await fetch('http://' + apiHost + ':5000/api/events/rsvp', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(rsvpPayload)
+        });
+      } catch (err) {
+        res = await fetch('/api/events/rsvp', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(rsvpPayload)
+        });
+      }
+
+      const resData = await res.json();
+      if (!res.ok) throw new Error(resData.error || 'Failed to record RSVP');
+
+      if (subeventBtnText) {
+        subeventBtnText.innerHTML = '<i class="fa-solid fa-circle-check"></i> SEAT CONFIRMED!';
+        subeventBtnText.style.display = 'inline-block';
+      }
+      if (subeventConfirmBtn) {
+        subeventConfirmBtn.style.background = 'linear-gradient(135deg, #10b981 0%, #059669 100%)';
+      }
+      if (subeventFeedback) {
+        subeventFeedback.className = 'subevent-success-alert';
+        subeventFeedback.innerHTML = '<i class="fa-solid fa-check"></i> Registration confirmed for <strong>' + eventName + '</strong>!<br>RSVP recorded in summit database under Ticket <code>' + (pass.ticket_code || 'CODEC-26') + '</code>.';
+        subeventFeedback.style.display = 'block';
+      }
+      audioManager.playWhoosh();
+    } catch (err) {
+      if (subeventBtnText) {
+        subeventBtnText.innerHTML = 'TRY AGAIN';
+        subeventBtnText.style.display = 'inline-block';
+      }
+      if (subeventConfirmBtn) subeventConfirmBtn.disabled = false;
+      if (subeventFeedback) {
+        subeventFeedback.className = 'reg-form-feedback error';
+        subeventFeedback.textContent = err.message || 'Error recording RSVP. Please try again.';
+        subeventFeedback.style.display = 'block';
+      }
+    } finally {
+      if (subeventBtnSpinner) subeventBtnSpinner.style.display = 'none';
     }
   });
 
@@ -285,7 +427,7 @@ function initModals() {
 
       // Determine backend port 5000 base URL dynamically
       const apiHost = window.location.hostname || '127.0.0.1';
-      const directApiUrl = `http://${apiHost}:5000/api/registrations`;
+      const directApiUrl = 'http://' + apiHost + ':5000/api/registrations';
 
       let response;
       try {
@@ -319,11 +461,27 @@ function initModals() {
       }
 
       if (!response.ok) {
-        throw new Error(data.error || `Server responded with status ${response.status}`);
+        throw new Error(data.error || ('Server responded with status ' + response.status));
       }
 
       if (!data.pass) {
         throw new Error('No pass data returned from server.');
+      }
+
+      // Also record sub-event RSVP if a specific event track was selected
+      if (track && !track.toLowerCase().includes('general')) {
+        try {
+          fetch('http://' + apiHost + ':5000/api/events/rsvp', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              name,
+              email,
+              eventTitle: track,
+              track
+            })
+          }).catch(() => {});
+        } catch (e) {}
       }
 
       // Save pass locally
@@ -360,12 +518,184 @@ function initModals() {
       const pass = JSON.parse(savedPass);
       const topPassBtn = document.getElementById('open-pass-btn');
       if (topPassBtn) {
-        topPassBtn.innerHTML = `<i class="fa-solid fa-ticket"></i> <span>MY PASS</span>`;
+        topPassBtn.innerHTML = '<i class="fa-solid fa-ticket"></i> <span>MY PASS</span>';
         topPassBtn.style.background = 'linear-gradient(135deg, #10b981 0%, #059669 100%)';
         topPassBtn.style.borderColor = '#34d399';
       }
     } catch (e) {}
   }
+}
+
+// Admin Live SQLite Database Viewer
+let allRegistrations = [];
+
+function initAdminModal() {
+  const adminBackdrop = document.getElementById('admin-modal-backdrop');
+  const openBtn = document.getElementById('open-admin-btn');
+  const closeBtn = document.getElementById('admin-close-btn');
+  const bottomCloseBtn = document.getElementById('admin-bottom-close-btn');
+  const refreshBtn = document.getElementById('admin-refresh-btn');
+  const exportBtn = document.getElementById('admin-export-csv-btn');
+  const searchInput = document.getElementById('admin-search-input');
+
+  const openAdmin = () => {
+    adminBackdrop?.classList.add('active');
+    loadAdminRegistrations();
+    audioManager.playWhoosh();
+  };
+
+  const closeAdmin = () => {
+    adminBackdrop?.classList.remove('active');
+  };
+
+  openBtn?.addEventListener('click', openAdmin);
+  closeBtn?.addEventListener('click', closeAdmin);
+  bottomCloseBtn?.addEventListener('click', closeAdmin);
+
+  adminBackdrop?.addEventListener('click', (e) => {
+    if (e.target.id === 'admin-modal-backdrop') {
+      closeAdmin();
+    }
+  });
+
+  refreshBtn?.addEventListener('click', () => {
+    loadAdminRegistrations();
+    audioManager.playTick();
+  });
+
+  exportBtn?.addEventListener('click', () => {
+    const apiHost = window.location.hostname || '127.0.0.1';
+    window.open('http://' + apiHost + ':5000/api/admin/export.csv', '_blank');
+  });
+
+  searchInput?.addEventListener('input', (e) => {
+    const query = (e.target.value || '').toLowerCase().trim();
+    if (!query) {
+      renderAdminTable(allRegistrations);
+      return;
+    }
+
+    const filtered = allRegistrations.filter(r => {
+      return (
+        (r.name && r.name.toLowerCase().includes(query)) ||
+        (r.email && r.email.toLowerCase().includes(query)) ||
+        (r.college && r.college.toLowerCase().includes(query)) ||
+        (r.ticket_code && r.ticket_code.toLowerCase().includes(query)) ||
+        (r.track && r.track.toLowerCase().includes(query)) ||
+        (r.phone && r.phone.toLowerCase().includes(query))
+      );
+    });
+
+    renderAdminTable(filtered);
+  });
+}
+
+async function loadAdminRegistrations() {
+  const tbody = document.getElementById('admin-table-body');
+  if (tbody) {
+    tbody.innerHTML = '<tr><td colspan="9" style="text-align: center; padding: 2.5rem; color: var(--gold-warm);"><i class="fa-solid fa-spinner fa-spin"></i> Reading records from SQLite WAL storage (server/data/codec.db)...</td></tr>';
+  }
+
+  const apiHost = window.location.hostname || '127.0.0.1';
+  const url = 'http://' + apiHost + ':5000/api/admin/registrations';
+
+  try {
+    let res;
+    try {
+      res = await fetch(url);
+    } catch (e) {
+      res = await fetch('/api/admin/registrations');
+    }
+
+    const data = await res.json();
+    if (!res.ok || !data.success) {
+      throw new Error(data.error || 'Failed to fetch registrations');
+    }
+
+    allRegistrations = data.registrations || [];
+    const stats = data.stats || {};
+    const trackBreakdown = stats.trackBreakdown || {};
+
+    // Update stats counters
+    const totalEl = document.getElementById('admin-stat-total');
+    const hackEl = document.getElementById('admin-stat-hackathon');
+    const dsaEl = document.getElementById('admin-stat-dsa');
+    const roboEl = document.getElementById('admin-stat-robowars');
+    const rsvpEl = document.getElementById('admin-stat-rsvps');
+
+    if (totalEl) totalEl.textContent = stats.totalDelegates || allRegistrations.length;
+    if (hackEl) {
+      let hackCount = 0;
+      Object.keys(trackBreakdown).forEach(k => {
+        if (/hackathon/i.test(k)) hackCount += trackBreakdown[k];
+      });
+      hackEl.textContent = hackCount;
+    }
+    if (dsaEl) {
+      let dsaCount = 0;
+      Object.keys(trackBreakdown).forEach(k => {
+        if (/dsa|speed|code/i.test(k)) dsaCount += trackBreakdown[k];
+      });
+      dsaEl.textContent = dsaCount;
+    }
+    if (roboEl) {
+      let roboCount = 0;
+      Object.keys(trackBreakdown).forEach(k => {
+        if (/robo/i.test(k)) roboCount += trackBreakdown[k];
+      });
+      roboEl.textContent = roboCount;
+    }
+    if (rsvpEl) rsvpEl.textContent = stats.totalRsvps || (data.rsvps ? data.rsvps.length : 0);
+
+    renderAdminTable(allRegistrations);
+  } catch (err) {
+    console.error('Admin Fetch Failed:', err);
+    if (tbody) {
+      tbody.innerHTML = '<tr><td colspan="9" style="text-align: center; padding: 2rem; color: #ef4444;"><i class="fa-solid fa-triangle-exclamation"></i> Error loading registrations: ' + err.message + '. Please verify backend is running on port 5000.</td></tr>';
+    }
+  }
+}
+
+function renderAdminTable(list) {
+  const tbody = document.getElementById('admin-table-body');
+  const countLabel = document.getElementById('admin-search-count');
+  if (!tbody) return;
+
+  if (countLabel) {
+    countLabel.textContent = 'Showing ' + list.length + ' of ' + allRegistrations.length + ' registrations';
+  }
+
+  if (list.length === 0) {
+    tbody.innerHTML = '<tr><td colspan="9" style="text-align: center; padding: 2.5rem; color: rgba(255,255,255,0.45);"><i class="fa-solid fa-inbox"></i> No registrations found matching filter.</td></tr>';
+    return;
+  }
+
+  const escapeHtml = (str) => String(str || '')
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;');
+
+  tbody.innerHTML = list.map((reg, idx) => {
+    const dateStr = reg.created_at ? new Date(reg.created_at).toLocaleString() : 'Recent';
+    const statusBadge = reg.status === 'confirmed' || !reg.status
+      ? '<span class="admin-badge confirmed"><i class="fa-solid fa-circle-check"></i> CONFIRMED</span>'
+      : '<span class="admin-badge pending">' + escapeHtml(reg.status) + '</span>';
+
+    return `
+      <tr>
+        <td class="td-muted">${reg.id || idx + 1}</td>
+        <td><code class="ticket-code-tag">${escapeHtml(reg.ticket_code || 'CODEC-26')}</code></td>
+        <td><strong>${escapeHtml(reg.name || 'Anonymous')}</strong></td>
+        <td><a href="mailto:${escapeHtml(reg.email)}" style="color: #38bdf8; text-decoration: none;">${escapeHtml(reg.email || '')}</a></td>
+        <td>${escapeHtml(reg.college || '—')}</td>
+        <td class="td-muted">${escapeHtml(reg.phone || '—')}</td>
+        <td><span class="track-tag">${escapeHtml(reg.track || 'General Summit')}</span></td>
+        <td>${statusBadge}</td>
+        <td class="td-muted" style="font-size: 0.75rem;">${dateStr}</td>
+      </tr>
+    `;
+  }).join('');
 }
 
 // Timetable Stream Injection
@@ -494,6 +824,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initNavButtons();
   initAudioButton();
   initModals();
+  initAdminModal();
   initScheduleTabs();
   initSpider();
   scheduleLightning();
