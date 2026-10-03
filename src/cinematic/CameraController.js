@@ -53,60 +53,41 @@ export class CameraController {
 
     const p = Math.max(0, Math.min(1, scrollProgress));
 
-    // True physical human cinematic dolly along Z axis
-    // 0.00 -> 0.30: Approach Mansion & Gate (45m down to 14.2m)
-    // 0.30 -> 0.46: GATE OPENING HOLD (Camera holds at ~14m until gate opens > 85%)
-    // 0.46 -> 0.54: PASS THROUGH GATE (14m through 12m gate line down to 7m in hallway)
-    // 0.54 -> 0.74: GRAND HALLWAY TRAVELLING SHOT (7m down to -16m)
-    // 0.74 -> 0.88: ROTUNDA REVEAL (hallway emerges into circular rotunda, -16m to -32m)
-    // 0.88 -> 1.00: ROTUNDA CENTER NAVIGATION (stops at Z = -32m)
+    // Believable human cinematic dolly along Z axis
+    // 0.00 -> 0.28: 45m down to 18m
+    // 0.28 -> 0.48: 18m down to 6m (gate opens & camera passes through)
+    // 0.48 -> 0.74: 6m down to -16m (towering main hall)
+    // 0.74 -> 1.00: -16m down to -34m (circular rotunda dome)
     let targetZ;
-    if (p < 0.30) {
-      // Approach phase
-      const t = p / 0.30;
-      // Smooth deceleration toward the gate
-      const easeT = Math.sin(t * Math.PI * 0.5);
-      targetZ = THREE.MathUtils.lerp(this.zStart, 14.2, easeT);
-    } else if (p < 0.46) {
-      // Gate Opening Phase: Camera HOLDS outside the gate in anticipation
-      const t = (p - 0.30) / 0.16;
-      targetZ = THREE.MathUtils.lerp(14.2, 13.8, t * 0.5); // Micro-anticipation creep
-    } else if (p < 0.54) {
-      // Entering Gate: Gate is now open (>85%), camera physically passes through threshold
-      const t = (p - 0.46) / 0.08;
-      const easeEnter = t * t * (3 - 2 * t); // Smooth acceleration through threshold
-      targetZ = THREE.MathUtils.lerp(13.8, 7.0, easeEnter);
+    if (p < 0.28) {
+      const t = p / 0.28;
+      targetZ = THREE.MathUtils.lerp(this.zStart, 18.0, t);
+    } else if (p < 0.48) {
+      const t = (p - 0.28) / 0.20;
+      targetZ = THREE.MathUtils.lerp(18.0, 6.0, t);
     } else if (p < 0.74) {
-      // Grand Hallway Travelling Dolly
-      const t = (p - 0.54) / 0.20;
-      targetZ = THREE.MathUtils.lerp(7.0, -16.0, t);
-    } else if (p < 0.88) {
-      // Rotunda Reveal
-      const t = (p - 0.74) / 0.14;
-      const easeRotunda = Math.sin(t * Math.PI * 0.5);
-      targetZ = THREE.MathUtils.lerp(-16.0, this.zRotunda, easeRotunda);
+      const t = (p - 0.48) / 0.26;
+      targetZ = THREE.MathUtils.lerp(6.0, -16.0, t);
     } else {
-      // Rotunda Center Stop
-      targetZ = this.zRotunda;
+      const t = (p - 0.74) / 0.26;
+      targetZ = THREE.MathUtils.lerp(-16.0, this.zRotunda, t);
     }
 
-    // Subtle human walking step inertia when travelling (never floating drone)
-    const isMoving = p > 0.02 && p < 0.88 && !(p >= 0.30 && p < 0.46);
-    const travelBob = isMoving ? Math.sin(p * 32.0) * 0.04 : 0;
+    // Gentle camera walking sway when traveling
+    const travelBob = Math.sin(p * 28.0) * 0.08 * (p > 0.05 && p < 0.95 ? 1 : 0.2);
 
-    // Camera height is locked to human eye level (1.7m)
-    this.camera.position.x = mouseParallax.currentX * 0.25;
-    this.camera.position.y = this.humanEyeHeight + travelBob + (mouseParallax.currentY * 0.15);
+    this.camera.position.x = mouseParallax.currentX * 0.4;
+    this.camera.position.y = this.humanEyeHeight + travelBob + (mouseParallax.currentY * 0.2);
     this.camera.position.z = targetZ;
 
-    // Chamber hover subtle orientation blend (rotates camera slightly toward hovered arch)
+    // Chamber hover subtle orientation blend
     const blendedHoverYaw = this.hoverTargetYaw * this.hoverBlend;
 
-    // Apply human eye gaze (±2-3 degrees max, damped, natural head turn)
+    // Apply mouse look-at gaze with damped yaw & pitch
     this.camera.rotation.order = 'YXZ';
-    this.camera.rotation.y = (mouseParallax.yaw * 0.65) + blendedHoverYaw;
-    this.camera.rotation.x = mouseParallax.pitch * 0.55;
-    this.camera.rotation.z = -mouseParallax.currentX * 0.008; // subtle cinematic roll
+    this.camera.rotation.y = mouseParallax.yaw + blendedHoverYaw;
+    this.camera.rotation.x = mouseParallax.pitch;
+    this.camera.rotation.z = -mouseParallax.currentX * 0.02; // subtle cinematic roll
   }
 
   // Set hovered chamber for subtle portal gaze orientation

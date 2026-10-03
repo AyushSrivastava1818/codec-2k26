@@ -154,49 +154,6 @@ class AudioManager {
     } catch (e) {}
   }
 
-  // Physical Heavy Gate Locking Latch Release & Metallic Clank
-  playLockRelease() {
-    if (!this.ctx || !this.isEnabled) return;
-    const now = this.ctx.currentTime;
-    try {
-      const osc = this.ctx.createOscillator();
-      const gain = this.ctx.createGain();
-      osc.type = 'triangle';
-      osc.frequency.setValueAtTime(540, now);
-      osc.frequency.exponentialRampToValueAtTime(110, now + 0.18);
-
-      gain.gain.setValueAtTime(0.09, now);
-      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.22);
-
-      const f = this.ctx.createBiquadFilter();
-      f.type = 'bandpass';
-      f.frequency.setValueAtTime(420, now);
-      f.Q.setValueAtTime(4.0, now);
-
-      osc.connect(f);
-      f.connect(gain);
-      gain.connect(this.masterGain);
-
-      osc.start(now);
-      osc.stop(now + 0.22);
-
-      const thud = this.ctx.createOscillator();
-      const thudGain = this.ctx.createGain();
-      thud.type = 'sine';
-      thud.frequency.setValueAtTime(85, now);
-      thud.frequency.exponentialRampToValueAtTime(32, now + 0.28);
-
-      thudGain.gain.setValueAtTime(0.12, now);
-      thudGain.gain.exponentialRampToValueAtTime(0.001, now + 0.3);
-
-      thud.connect(thudGain);
-      thudGain.connect(this.masterGain);
-
-      thud.start(now);
-      thud.stop(now + 0.3);
-    } catch (e) {}
-  }
-
   // Heavy Gothic Mansion Gate Creaking & Mechanical Thud
   playGateOpenSound() {
     if (!this.ctx || !this.isEnabled) return;

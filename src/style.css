@@ -19,9 +19,8 @@
   --text-primary: #f8fafc;
   --text-muted: #94a3b8;
   --border-glass: rgba(245, 158, 11, 0.28);
-  --font-ethno: 'Ethnocentric', 'Michroma', 'Syncopate', sans-serif;
-  --font-logo: 'Ethnocentric', 'Syncopate', sans-serif;
-  --font-display: 'Ethnocentric', 'Michroma', 'Syncopate', sans-serif;
+  --font-logo: 'Syncopate', sans-serif;
+  --font-display: 'Michroma', sans-serif;
   --font-heading: 'Space Grotesk', sans-serif;
   --font-sans: 'Plus Jakarta Sans', sans-serif;
   --font-mono: 'JetBrains Mono', monospace;
