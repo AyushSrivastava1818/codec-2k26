@@ -1,6 +1,31 @@
 @import './cinematic/cinematic.css';
 
 /* ==========================================================================
+   OFFICIAL ETHNOCENTRIC TYPODERMIC GEOMETRIC GAMING TYPEFACE
+   ========================================================================== */
+@font-face {
+  font-family: 'Ethnocentric';
+  font-style: normal;
+  font-weight: normal;
+  src: local('Ethnocentric Rg'), local('Ethnocentric'),
+       url('/fonts/ethnocentric.woff') format('woff'),
+       url('/fonts/ethnocentric.ttf') format('truetype'),
+       url('https://fonts.cdnfonts.com/s/6220/ethnocentric%20rg.woff') format('woff');
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Ethnocentric Rg';
+  font-style: normal;
+  font-weight: normal;
+  src: local('Ethnocentric Rg'), local('Ethnocentric'),
+       url('/fonts/ethnocentric.woff') format('woff'),
+       url('/fonts/ethnocentric.ttf') format('truetype'),
+       url('https://fonts.cdnfonts.com/s/6220/ethnocentric%20rg.woff') format('woff');
+  font-display: swap;
+}
+
+/* ==========================================================================
    CODEC 2K26 FLAGSHIP STYLESHEET
    TechKnow Council • IIIT Kota
    Ultra-Smooth 120 FPS Composited Performance (Zero Jitter, Zero Layout Shifts)
@@ -19,9 +44,11 @@
   --text-primary: #f8fafc;
   --text-muted: #94a3b8;
   --border-glass: rgba(245, 158, 11, 0.28);
-  --font-logo: 'Syncopate', sans-serif;
-  --font-display: 'Michroma', sans-serif;
-  --font-heading: 'Space Grotesk', sans-serif;
+  --font-ethno: 'Ethnocentric', 'Ethnocentric Rg', sans-serif;
+  --font-cyber: 'Ethnocentric', 'Ethnocentric Rg', sans-serif;
+  --font-logo: 'Ethnocentric', 'Ethnocentric Rg', sans-serif;
+  --font-display: 'Ethnocentric', 'Ethnocentric Rg', sans-serif;
+  --font-heading: 'Ethnocentric', 'Ethnocentric Rg', sans-serif;
   --font-sans: 'Plus Jakarta Sans', sans-serif;
   --font-mono: 'JetBrains Mono', monospace;
 }
@@ -58,6 +85,122 @@ body.mansion-body {
   z-index: 5;
   opacity: 0;
   transition: opacity 0.08s ease;
+}
+
+/* ==========================================================================
+   STRICT ETHNOCENTRIC FUTURISTIC GAMING TYPOGRAPHY ENGINE
+   ========================================================================== */
+h1, h2, h3, h4, h5, h6,
+.section-title,
+.section-tag,
+.brand-name,
+.brand-sub,
+.hud-brand-logo,
+.nav-capsule-item,
+.dock-nav-btn span,
+.hud-pass-btn,
+.hud-sound-toggle,
+.codec-sub-tag,
+.scroll-txt,
+.scroll-prompt-btn,
+.loader-hud-brand,
+.loader-status-title,
+.loader-percentage,
+.portal-ring-title,
+.portal-ring-sub,
+.arch-neon-sign,
+.arch-number,
+.arch-title,
+.arch-cta,
+.arch-featured-crest,
+.btn-rotunda-sub,
+.chamber-num-badge,
+.chamber-sub-badge,
+.chamber-main-title,
+.btn-return-rotunda,
+.vault-kicker,
+.vault-heading,
+.pillar-num,
+.pillar-item h4,
+.stat-val,
+.stat-lbl,
+.capsule-badge,
+.capsule-wing,
+.capsule-title,
+.btn-capsule-action,
+.hackathon-status-banner,
+.ribbon-item strong,
+.ribbon-item span,
+.hackathon-arena-heading,
+.sub-track-pill,
+.btn-hackathon-huge,
+.chrono-day-tag,
+.chrono-time,
+.chrono-desc h4,
+.award-rank,
+.award-name,
+.award-prize,
+.award-perk,
+.spec-stat-number,
+.spec-stat-label,
+.card-heading,
+.chamber-pill,
+.flagship-pill,
+.date-pill,
+.preview-badge-floating,
+.btn-card-primary,
+.btn-hackathon-primary,
+.schedule-tab-btn,
+.tab-day,
+.tab-date,
+.item-time,
+.item-badge,
+.item-title-col h4,
+.podium-rank-badge,
+.podium-title,
+.podium-detail,
+.podium-perk-badge,
+.room-tag,
+.room-title,
+.btn-exit-portal,
+.pod-cat,
+.pod-title,
+.btn-pod-action,
+.pass-ticket-code,
+.pass-tier-badge,
+.pass-delegate-name,
+.pass-holder-role,
+.pass-metric-val,
+.pass-metric-lbl,
+.btn-submit-reg,
+.admin-box h2,
+.admin-metric-value,
+.admin-metric-label,
+.footer-title,
+.footer-we-are,
+.footer-links-col h4,
+.footer-nav-link {
+  font-family: var(--font-ethno);
+  letter-spacing: 0.8px;
+}
+
+/* Readable Companion Font strictly preserved for long-form body copy */
+p,
+.section-desc,
+.vault-para,
+.capsule-desc,
+.hackathon-arena-para,
+.footer-about,
+.pod-desc,
+.card-tagline,
+.room-desc,
+.modal-body p,
+.form-group input,
+.form-group select,
+.form-group textarea,
+.input-label {
+  font-family: var(--font-sans);
+  letter-spacing: normal;
 }
 
 /* ==========================================================================
