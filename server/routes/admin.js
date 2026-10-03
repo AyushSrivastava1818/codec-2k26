@@ -1,4 +1,4 @@
-﻿import { Router } from 'express';
+import { Router } from 'express';
 import crypto from 'crypto';
 import { db } from '../db.js';
 
@@ -120,11 +120,11 @@ router.get('/registrations', (req, res) => {
       allEvents.forEach(evt => {
         const low = evt.toLowerCase();
         if (low.includes('hackathon')) { hasHackathon = true; }
-        if (low.includes('dsa') || low.includes('speed') || low.includes('coding')) { hasDsa = true; }
-        if (low.includes('robowars') || low.includes('gladiator') || low.includes('robo')) { hasRobowars = true; }
-        if (low.includes('ctf') || low.includes('security')) { hasCtf = true; }
-        if (low.includes('microservice') || low.includes('workshop')) { hasWorkshop = true; }
-        if (low.includes('esport') || low.includes('lan') || low.includes('game')) { hasEsports = true; }
+        if (low.includes('dsa') || low.includes('speed') || low.includes('coding') || low.includes('codebase') || low.includes('algorithmus') || low.includes('gfg')) { hasDsa = true; }
+        if (low.includes('robowars') || low.includes('gladiator') || low.includes('robo') || low.includes('arc')) { hasRobowars = true; }
+        if (low.includes('ctf') || low.includes('security') || low.includes('cypher')) { hasCtf = true; }
+        if (low.includes('microservice') || low.includes('workshop') || low.includes('kernel') || low.includes('speaker')) { hasWorkshop = true; }
+        if (low.includes('esport') || low.includes('lan') || low.includes('game') || low.includes('clutch')) { hasEsports = true; }
       });
 
       if (hasHackathon) eventCounts.hackathon++;

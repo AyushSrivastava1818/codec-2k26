@@ -27,11 +27,11 @@ export class CameraController {
 
     // Chamber doorway target positions relative to rotunda center (Z = -32.0)
     // Arc of 5 chambers around user:
-    // Actual background doors sequence: [ABOUT] [HACKATHON] [EVENTS] [SCHEDULE] [PRIZES]
+    // Actual background doors sequence: [ABOUT] [EVENTS] [HACKATHON] [SCHEDULE] [PRIZES]
     this.chamberAngles = {
       about: -0.75,     // Door 1: Far left
-      hackathon: -0.38, // Door 2: Mid left
-      events: 0.0,      // Door 3: Center grand portal
+      events: -0.38,    // Door 2: Mid left
+      hackathon: 0.0,   // Door 3: Center grand portal (Flagship)
       schedule: 0.38,   // Door 4: Mid right
       prizes: 0.75      // Door 5: Far right
     };

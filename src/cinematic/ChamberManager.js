@@ -70,47 +70,59 @@ export const CHAMBERS = {
   },
   events: {
     key: 'events',
-    number: 'CHAMBER I',
-    title: 'THE CODING ARENA & WORKSHOPS',
-    subtitle: 'DAY 01 • OCTOBER 30',
+    number: 'CHAMBER II',
+    title: 'THE SUMMIT EVENTS & ARENAS',
+    subtitle: 'OCTOBER 30 — NOVEMBER 01',
     accentColor: '#38bdf8',
     bg: '/assets/arch_events.jpg',
     doorThumb: '/assets/arch_events.jpg',
-    tagline: 'Distributed backend workshops, knockout algorithmic speed trials, and campus LAN tournaments.',
+    tagline: 'Technical workshops, autonomous robotics combat, speed algorithmic trials, and competitive LAN gaming.',
     contentHtml: `
       <div class="chamber-events-grid">
         <div class="event-capsule-card">
           <div class="capsule-header">
-            <span class="capsule-wing"><i class="fa-solid fa-server"></i> WEB DEV WING</span>
-            <span class="capsule-badge">WORKSHOP</span>
+            <span class="capsule-wing"><i class="fa-solid fa-code"></i> CODEBASE WING</span>
+            <span class="capsule-badge">WORKSHOP & CONTEST</span>
           </div>
-          <h4 class="capsule-title">Microservices Architecture Masterclass</h4>
-          <p class="capsule-desc">Interactive session on high-throughput backend design, gRPC, and cloud microservices.</p>
-          <button class="btn-capsule-action" onclick="openRegistrationModal('Microservices Architecture Masterclass')">
-            CLAIM SEAT <i class="fa-solid fa-arrow-right"></i>
+          <h4 class="capsule-title">Codebase Workshop & Challenge</h4>
+          <p class="capsule-desc">Technical engineering workshop and competitive coding challenge organized by Codebase Club.</p>
+          <button class="btn-capsule-action" onclick="openRegistrationModal('Codebase Workshop')">
+            REGISTER NOW <i class="fa-solid fa-arrow-right"></i>
           </button>
         </div>
 
         <div class="event-capsule-card highlighted">
           <div class="capsule-header">
-            <span class="capsule-wing"><i class="fa-solid fa-code"></i> CP WING</span>
-            <span class="capsule-badge highlight">FLAGSHIP TOURNAMENT</span>
+            <span class="capsule-wing"><i class="fa-solid fa-robot"></i> ROBOTICS WING</span>
+            <span class="capsule-badge highlight">ARENA COMBAT</span>
           </div>
-          <h4 class="capsule-title">Speed DSA Knockout Arena</h4>
-          <p class="capsule-desc">Rapid 1-on-1 knockout algorithmic programming rounds with live projected leaderboard.</p>
-          <button class="btn-capsule-action highlight-btn" onclick="openRegistrationModal('Speed DSA Knockout Arena')">
-            REGISTER FOR ARENA <i class="fa-solid fa-arrow-right"></i>
+          <h4 class="capsule-title">Arc Robotics Event</h4>
+          <p class="capsule-desc">Autonomous systems, embedded hardware demonstrations, and reinforced robotics combat arenas.</p>
+          <button class="btn-capsule-action highlight-btn" onclick="openRegistrationModal('Arc Robotics Event')">
+            JOIN ARENA <i class="fa-solid fa-arrow-right"></i>
           </button>
         </div>
 
         <div class="event-capsule-card">
           <div class="capsule-header">
-            <span class="capsule-wing"><i class="fa-solid fa-network-wired"></i> ESPORTS WING</span>
-            <span class="capsule-badge">LAN CONTEST</span>
+            <span class="capsule-wing"><i class="fa-solid fa-bolt"></i> ALGORITHMIC WING</span>
+            <span class="capsule-badge">SPEED CP ARENA</span>
           </div>
-          <h4 class="capsule-title">Campus LAN Esports Showdown</h4>
-          <p class="capsule-desc">Zero-latency competitive LAN brackets hosted directly on campus local servers.</p>
-          <button class="btn-capsule-action" onclick="openRegistrationModal('Campus LAN Esports Showdown')">
+          <h4 class="capsule-title">Algorithmus & GFG Event</h4>
+          <p class="capsule-desc">Speed algorithmic problem-solving sprint and competitive programming showdowns.</p>
+          <button class="btn-capsule-action" onclick="openRegistrationModal('Algorithmus')">
+            ENTER CONTEST <i class="fa-solid fa-arrow-right"></i>
+          </button>
+        </div>
+
+        <div class="event-capsule-card">
+          <div class="capsule-header">
+            <span class="capsule-wing"><i class="fa-solid fa-gamepad"></i> ESPORTS WING</span>
+            <span class="capsule-badge">LAN BRACKET</span>
+          </div>
+          <h4 class="capsule-title">Clutch Event (Esports)</h4>
+          <p class="capsule-desc">Zero-latency competitive esports and campus LAN tournament brackets on high-refresh setups.</p>
+          <button class="btn-capsule-action" onclick="openRegistrationModal('Clutch Event (Esports)')">
             JOIN BRACKET <i class="fa-solid fa-arrow-right"></i>
           </button>
         </div>
@@ -119,7 +131,7 @@ export const CHAMBERS = {
   },
   hackathon: {
     key: 'hackathon',
-    number: 'CHAMBER II',
+    number: 'CHAMBER III',
     title: 'THE 12-HOUR FLAGSHIP HACKATHON',
     subtitle: 'FLAGSHIP • DAY 02 • OCTOBER 31',
     accentColor: '#ff4422',
@@ -167,7 +179,7 @@ export const CHAMBERS = {
   },
   schedule: {
     key: 'schedule',
-    number: 'CHAMBER III',
+    number: 'CHAMBER IV',
     title: 'THE CHRONO ARCHIVE',
     subtitle: 'EVENT TIMELINE • OCT 30 — NOV 01',
     accentColor: '#eab308',
@@ -195,7 +207,7 @@ export const CHAMBERS = {
           <div class="chrono-events-list">
             <div class="chrono-item">
               <span class="chrono-time">9:00 AM – 9:00 PM</span>
-              <div class="chrono-desc"><h4>TechKnow Hackathon</h4><p>Flagship 24-hour national hackathon sprint</p></div>
+              <div class="chrono-desc"><h4>12-Hour Flagship Hackathon</h4><p>Flagship 12-hour sprint in partnership with MLH</p></div>
             </div>
             <div class="chrono-item">
               <span class="chrono-time">10:00 AM – 12:00 PM</span>
@@ -254,7 +266,7 @@ export const CHAMBERS = {
   },
   prizes: {
     key: 'prizes',
-    number: 'CHAMBER IV',
+    number: 'CHAMBER V',
     title: 'THE CEREMONIAL HALL',
     subtitle: 'HONORS & PERPETUAL AWARDS',
     accentColor: '#facc15',

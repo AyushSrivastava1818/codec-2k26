@@ -722,11 +722,11 @@ function filterAndRenderAdmin() {
     list = list.filter(reg => {
       const eventsStr = (reg.enrolledEvents || [reg.track || '']).join(' ').toLowerCase();
       if (currentAdminFilter === 'hackathon') return eventsStr.includes('hackathon');
-      if (currentAdminFilter === 'dsa') return eventsStr.includes('dsa') || eventsStr.includes('speed') || eventsStr.includes('coding');
-      if (currentAdminFilter === 'robowars') return eventsStr.includes('robowars') || eventsStr.includes('gladiator') || eventsStr.includes('robo');
-      if (currentAdminFilter === 'ctf') return eventsStr.includes('ctf') || eventsStr.includes('security');
-      if (currentAdminFilter === 'microservices') return eventsStr.includes('microservice');
-      if (currentAdminFilter === 'general') return !eventsStr.includes('hackathon') && !eventsStr.includes('dsa') && !eventsStr.includes('robowars') && !eventsStr.includes('ctf') && !eventsStr.includes('microservice');
+      if (currentAdminFilter === 'dsa') return eventsStr.includes('dsa') || eventsStr.includes('speed') || eventsStr.includes('coding') || eventsStr.includes('codebase') || eventsStr.includes('algorithmus') || eventsStr.includes('gfg');
+      if (currentAdminFilter === 'robowars') return eventsStr.includes('robowars') || eventsStr.includes('gladiator') || eventsStr.includes('robo') || eventsStr.includes('arc');
+      if (currentAdminFilter === 'ctf') return eventsStr.includes('ctf') || eventsStr.includes('security') || eventsStr.includes('cypher');
+      if (currentAdminFilter === 'microservices') return eventsStr.includes('microservice') || eventsStr.includes('workshop') || eventsStr.includes('kernel') || eventsStr.includes('speaker') || eventsStr.includes('valedictory');
+      if (currentAdminFilter === 'general') return !eventsStr.includes('hackathon') && !eventsStr.includes('dsa') && !eventsStr.includes('robowars') && !eventsStr.includes('ctf') && !eventsStr.includes('microservice') && !eventsStr.includes('robo') && !eventsStr.includes('codebase') && !eventsStr.includes('clutch') && !eventsStr.includes('algorithmus') && !eventsStr.includes('cypher');
       return true;
     });
   }
@@ -868,17 +868,29 @@ function renderAdminTable(list) {
       let label = evt;
 
       if (low.includes('hackathon')) {
-        cls = 'hackathon'; icon = 'fa-code'; label = 'Hackathon 24h';
+        cls = 'hackathon'; icon = 'fa-code'; label = '12H Hackathon';
+      } else if (low.includes('algorithmus')) {
+        cls = 'dsa'; icon = 'fa-bolt'; label = 'Algorithmus';
+      } else if (low.includes('gfg')) {
+        cls = 'dsa'; icon = 'fa-code-branch'; label = 'GFG Contest';
+      } else if (low.includes('codebase workshop') || (low.includes('codebase') && low.includes('workshop'))) {
+        cls = 'micro'; icon = 'fa-laptop-code'; label = 'Codebase Workshop';
+      } else if (low.includes('codebase')) {
+        cls = 'dsa'; icon = 'fa-terminal'; label = 'Codebase Event';
       } else if (low.includes('dsa') || low.includes('speed') || low.includes('coding')) {
         cls = 'dsa'; icon = 'fa-bolt'; label = 'Speed DSA';
-      } else if (low.includes('robowars') || low.includes('gladiator') || low.includes('robo')) {
-        cls = 'robowars'; icon = 'fa-robot'; label = 'RoboWars';
-      } else if (low.includes('ctf') || low.includes('security')) {
-        cls = 'ctf'; icon = 'fa-shield-virus'; label = 'Security CTF';
-      } else if (low.includes('microservice')) {
-        cls = 'micro'; icon = 'fa-server'; label = 'Microservices';
-      } else if (low.includes('esport') || low.includes('lan')) {
-        cls = 'esports'; icon = 'fa-gamepad'; label = 'LAN Esports';
+      } else if (low.includes('arc') || low.includes('robowars') || low.includes('gladiator') || low.includes('robo')) {
+        cls = 'robowars'; icon = 'fa-robot'; label = 'Arc Robotics';
+      } else if (low.includes('cypher') || low.includes('ctf') || low.includes('security')) {
+        cls = 'ctf'; icon = 'fa-shield-virus'; label = 'Cypher Security';
+      } else if (low.includes('clutch') || low.includes('esport') || low.includes('lan')) {
+        cls = 'esports'; icon = 'fa-gamepad'; label = 'Clutch Esports';
+      } else if (low.includes('kernel') || low.includes('speaker')) {
+        cls = 'micro'; icon = 'fa-microphone'; label = 'Kernel Session';
+      } else if (low.includes('techknow') || low.includes('valedictory')) {
+        cls = 'general'; icon = 'fa-trophy'; label = 'TechKnow Event';
+      } else if (low.includes('microservice') || low.includes('workshop')) {
+        cls = 'micro'; icon = 'fa-server'; label = 'Workshop';
       }
 
       return `<span class="event-badge-tag ${cls}"><i class="fa-solid ${icon}"></i> ${escapeHtml(label)}</span>`;
