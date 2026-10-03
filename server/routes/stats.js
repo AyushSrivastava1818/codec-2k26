@@ -26,7 +26,7 @@ router.get('/', (req, res) => {
       totalUsers: totalUsers,
       totalRsvps: totalRsvps,
       guildsFormed: 48,
-      prizePool: '₹2,50,000+'
+      prizePool: 'OFFICIAL HONORS & MERCH'
     });
   } catch (err) {
     console.error('Stats error:', err);

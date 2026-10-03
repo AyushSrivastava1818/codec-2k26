@@ -339,21 +339,17 @@
   margin-bottom: 0.35rem;
 }
 
-.chamber-heading {
+.chamber-heading,
+.chamber-heading.gold {
   font-family: var(--font-display);
-  font-size: clamp(0.8rem, 1.25vw, 0.98rem);
+  font-size: clamp(0.85rem, 1.3vw, 1.05rem);
   font-weight: 800;
-  letter-spacing: clamp(0.7px, 0.16vw, 1.2px);
+  letter-spacing: clamp(0.8px, 0.18vw, 1.4px);
   color: #ffffff;
   margin-bottom: 0.2rem;
   line-height: 1.25;
-  text-shadow: 0 0 10px rgba(255, 120, 0, 0.35);
+  text-shadow: 0 0 12px rgba(255, 140, 0, 0.45);
   word-break: break-word;
-}
-
-.chamber-heading.gold {
-  color: #ffd700;
-  text-shadow: 0 0 14px rgba(255, 106, 0, 0.6);
 }
 
 .chamber-subtext {

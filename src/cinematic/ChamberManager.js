@@ -61,8 +61,8 @@ export const CHAMBERS = {
           </div>
           <div class="stat-divider"></div>
           <div class="stat-row">
-            <span class="stat-val">₹1,00,000+</span>
-            <span class="stat-lbl">REWARDS & CITATIONS</span>
+            <span class="stat-val">HONORS</span>
+            <span class="stat-lbl">TROPHIES & CITATIONS</span>
           </div>
         </div>
       </div>
@@ -272,14 +272,14 @@ export const CHAMBERS = {
     accentColor: '#facc15',
     bg: '/assets/arch_prizes.jpg',
     doorThumb: '/assets/arch_prizes.jpg',
-    tagline: 'Perpetual trophies, gold medals, citations, and cash honors for summit champions.',
+    tagline: 'Perpetual trophies, gold medals, citations, and exclusive honors for summit champions.',
     contentHtml: `
       <div class="chamber-awards-triptych">
         <div class="award-pedestal runner-up-1">
           <div class="award-rank">RUNNER-UP</div>
           <div class="award-badge-icon"><i class="fa-solid fa-medal"></i></div>
           <h4 class="award-name">1st Runner-Up</h4>
-          <p class="award-prize">Silver Medals, Trophy & Cash Honors</p>
+          <p class="award-prize">Silver Medals, Trophy &amp; Official Citations</p>
           <div class="award-perk">Official TechKnow Citation</div>
         </div>
 
@@ -287,7 +287,7 @@ export const CHAMBERS = {
           <div class="award-rank gold"><i class="fa-solid fa-crown"></i> GRAND CHAMPION</div>
           <div class="award-badge-icon gold-glow"><i class="fa-solid fa-trophy"></i></div>
           <h4 class="award-name gold">Grand Champion</h4>
-          <p class="award-prize">Perpetual CODEC Trophy, Gold Medals & Cash Pool</p>
+          <p class="award-prize">Perpetual CODEC Trophy, Gold Medals &amp; Championship Honors</p>
           <div class="award-perk gold">Highest Institutional Honors</div>
         </div>
 
@@ -295,7 +295,7 @@ export const CHAMBERS = {
           <div class="award-rank">2ND RUNNER-UP</div>
           <div class="award-badge-icon"><i class="fa-solid fa-award"></i></div>
           <h4 class="award-name">2nd Runner-Up</h4>
-          <p class="award-prize">Bronze Medals, Trophy & Cash Honors</p>
+          <p class="award-prize">Bronze Medals, Trophy &amp; Official Citations</p>
           <div class="award-perk">Official TechKnow Citation</div>
         </div>
       </div>

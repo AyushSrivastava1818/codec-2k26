@@ -497,43 +497,53 @@ p,
   z-index: 85;
   pointer-events: auto;
   cursor: pointer;
-  animation: spiderDescend 12s infinite ease-in-out;
+  /* Rig stays anchored at top: 0 so the thread is always attached to the ceiling */
   transform-origin: top center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .spider-thread {
-  width: 1px;
-  height: 90px;
+  width: 1.5px;
+  /* Thread height animates — spider descends by thread growing, always anchored at top */
+  height: 50px;
   margin: 0 auto;
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.6) 0%, rgba(200, 200, 200, 0.25) 100%);
-  box-shadow: 0 0 2px rgba(255, 255, 255, 0.4);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.7) 0%, rgba(200, 200, 200, 0.3) 100%);
+  box-shadow: 0 0 2px rgba(255, 255, 255, 0.45);
+  animation: threadGrow 12s infinite ease-in-out;
+  transform-origin: top center;
+  flex-shrink: 0;
 }
 
 .spider-critter {
   width: 44px;
   height: 44px;
-  margin: -6px auto 0;
+  margin: -2px auto 0;
   filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.9));
   animation: spiderSway 3.5s infinite ease-in-out;
   transform-origin: top center;
   transition: transform 0.25s ease;
+  flex-shrink: 0;
 }
 
 .spooky-spider-rig:hover .spider-critter {
   transform: scale(1.2) rotate(15deg);
 }
 
-@keyframes spiderDescend {
-  0% { transform: translateY(-40px); }
-  25% { transform: translateY(60px); }
-  50% { transform: translateY(120px); }
-  75% { transform: translateY(30px); }
-  100% { transform: translateY(-40px); }
+/* Thread grows/shrinks — this makes the spider appear to climb up and down
+   while the top of the thread stays pinned to the viewport ceiling */
+@keyframes threadGrow {
+  0%   { height: 50px; }
+  25%  { height: 110px; }
+  50%  { height: 160px; }
+  75%  { height: 80px; }
+  100% { height: 50px; }
 }
 
 @keyframes spiderSway {
-  0%, 100% { transform: rotate(-6deg); }
-  50% { transform: rotate(6deg); }
+  0%, 100% { transform: rotate(-5deg); }
+  50% { transform: rotate(5deg); }
 }
 
 /* ==========================================================================
@@ -607,7 +617,7 @@ p,
 .mansion-scroll-stage {
   position: relative;
   width: 100%;
-  height: 650vh;
+  height: 380vh;
   z-index: 10;
 }
 
