@@ -17,13 +17,13 @@ export class ScrollController {
     // Timeline stage definitions
     this.STAGES = {
       EXTERIOR_FAR: 0.00,
-      APPROACH_GATE: 0.15,
-      GATE_OPENING: 0.28,
-      GATE_OPEN: 0.38,
-      ENTER_GATE: 0.48,
-      MAIN_HALL: 0.60,
+      APPROACH_GATE: 0.18,
+      GATE_OPENING: 0.30,
+      GATE_OPEN: 0.45,
+      ENTER_GATE: 0.46,
+      MAIN_HALL: 0.54,
       ROTUNDA_REVEAL: 0.74,
-      ROTUNDA_CHAMBERS: 0.86,
+      ROTUNDA_CHAMBERS: 0.88,
       COMPLETE: 1.00
     };
 
@@ -96,7 +96,7 @@ export class ScrollController {
     if (p >= this.STAGES.GATE_OPENING && !this.gateTriggerFired) {
       this.gateTriggerFired = true;
       if (this.onGateOpenTrigger) this.onGateOpenTrigger();
-    } else if (p < this.STAGES.GATE_OPENING - 0.05) {
+    } else if (p < this.STAGES.GATE_OPENING - 0.04) {
       this.gateTriggerFired = false;
     }
 

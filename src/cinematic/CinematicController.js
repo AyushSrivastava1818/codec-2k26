@@ -35,8 +35,17 @@ export class CinematicController {
     // State & Timers
     this.lastTime = performance.now();
     this.isInitialized = false;
+    this.lockSoundPlayed = false;
+
+    // Debug Mode Telemetry ('D' Key Toggle - Requirement #58)
+    this.debugActive = false;
+    this.debugHud = null;
+    this.fpsCounter = 60;
+    this.framesThisSecond = 0;
+    this.fpsLastCheck = performance.now();
 
     this.render = this.render.bind(this);
+    this.onKeyDown = this.onKeyDown.bind(this);
   }
 
   async init() {
@@ -141,7 +150,7 @@ export class CinematicController {
   }
 
   bindPortalEvents() {
-    document.querySelectorAll('.gothic-arch-portal-card, .rotunda-portal-door').forEach(door => {
+    document.querySelectorAll('.rotunda-door-pill, .gothic-arch-portal-card, .rotunda-portal-door').forEach(door => {
       const key = door.getAttribute('data-chamber');
 
       door.addEventListener('mouseenter', () => {
@@ -158,10 +167,90 @@ export class CinematicController {
       });
     });
 
+    // Debug Mode Keydown Listener ('D' or 'd')
+    window.addEventListener('keydown', this.onKeyDown);
+
     // Clear any residual hash on load to prevent unwanted auto-opening of chambers
     if (window.location.hash && ['#about', '#events', '#hackathon', '#schedule', '#prizes'].includes(window.location.hash.toLowerCase())) {
       window.history.replaceState(null, '', window.location.pathname);
     }
+  }
+
+  onKeyDown(e) {
+    // Toggle development debug HUD with 'D' / 'd' (Requirement #58)
+    if (e.key === 'd' || e.key === 'D') {
+      // Ignore if user is typing in an input or textarea
+      if (['INPUT', 'TEXTAREA'].includes(document.activeElement?.tagName)) return;
+      this.toggleDebugHUD();
+    }
+  }
+
+  toggleDebugHUD() {
+    this.debugActive = !this.debugActive;
+    if (this.debugActive) {
+      if (!this.debugHud) {
+        this.debugHud = document.createElement('div');
+        this.debugHud.id = 'cinematic-debug-hud';
+        this.debugHud.className = 'cinematic-debug-hud';
+        this.debugHud.innerHTML = `
+          <div class="dbg-header">CODEC 2K26 TELEMETRY [D TO CLOSE]</div>
+          <div class="dbg-row"><span>FPS:</span> <b id="dbg-fps">60</b></div>
+          <div class="dbg-row"><span>STAGE:</span> <b id="dbg-stage">EXTERIOR_FAR</b></div>
+          <div class="dbg-row"><span>CAM POS:</span> <b id="dbg-pos">X:0.0 Y:1.7 Z:45.0</b></div>
+          <div class="dbg-row"><span>CAM ROT:</span> <b id="dbg-rot">Y:0.0° P:0.0°</b></div>
+          <div class="dbg-row"><span>SCROLL:</span> <b id="dbg-scroll">0.0%</b></div>
+          <div class="dbg-row"><span>GATE:</span> <b id="dbg-gate">0.0%</b></div>
+          <div class="dbg-row"><span>HOVER:</span> <b id="dbg-hover">NONE</b></div>
+          <div class="dbg-row"><span>CHAMBER:</span> <b id="dbg-active">NONE</b></div>
+        `;
+        document.body.appendChild(this.debugHud);
+      }
+      this.debugHud.style.display = 'block';
+    } else if (this.debugHud) {
+      this.debugHud.style.display = 'none';
+    }
+  }
+
+  updateDebugTelemetry(p, delta) {
+    if (!this.debugActive || !this.debugHud) return;
+
+    // Calculate smoothed FPS
+    this.framesThisSecond++;
+    const now = performance.now();
+    if (now - this.fpsLastCheck >= 500) {
+      this.fpsCounter = Math.round((this.framesThisSecond * 1000) / (now - this.fpsLastCheck));
+      this.framesThisSecond = 0;
+      this.fpsLastCheck = now;
+    }
+
+    const cam = this.sceneManager.camera;
+    const camPos = cam ? cam.position : { x: 0, y: 1.7, z: 0 };
+    const camRot = cam ? cam.rotation : { x: 0, y: 0, z: 0 };
+
+    let gateP = 0;
+    if (p >= 0.30 && p < 0.46) {
+      gateP = (p - 0.30) / 0.16;
+    } else if (p >= 0.46) {
+      gateP = 1.0;
+    }
+
+    const fpsEl = document.getElementById('dbg-fps');
+    const stageEl = document.getElementById('dbg-stage');
+    const posEl = document.getElementById('dbg-pos');
+    const rotEl = document.getElementById('dbg-rot');
+    const scrollEl = document.getElementById('dbg-scroll');
+    const gateEl = document.getElementById('dbg-gate');
+    const hoverEl = document.getElementById('dbg-hover');
+    const activeEl = document.getElementById('dbg-active');
+
+    if (fpsEl) fpsEl.textContent = `${this.fpsCounter}`;
+    if (stageEl) stageEl.textContent = this.scroll.currentStageName;
+    if (posEl) posEl.textContent = `X:${camPos.x.toFixed(2)} Y:${camPos.y.toFixed(2)} Z:${camPos.z.toFixed(2)}`;
+    if (rotEl) rotEl.textContent = `Y:${(camRot.y * 180 / Math.PI).toFixed(1)}° P:${(camRot.x * 180 / Math.PI).toFixed(1)}°`;
+    if (scrollEl) scrollEl.textContent = `${(p * 100).toFixed(1)}%`;
+    if (gateEl) gateEl.textContent = `${(gateP * 100).toFixed(1)}%`;
+    if (hoverEl) hoverEl.textContent = this.sceneManager.hoveredChamberKey ? this.sceneManager.hoveredChamberKey.toUpperCase() : 'NONE';
+    if (activeEl) activeEl.textContent = this.chamberManager.activeChamberKey ? this.chamberManager.activeChamberKey.toUpperCase() : 'NONE';
   }
 
   // Gate open metallic sound and screen vibration
@@ -177,15 +266,35 @@ export class CinematicController {
   }
 
   onStageChange(stageName) {
-    // Stage callbacks if needed for sound/FX
+    // Stage callbacks
   }
 
-  // Continuous visual transitions across stages with GPU layer visibility culling
+  // Continuous visual transitions across stages with physical Three.js gate animation
   onScrollProgress(p) {
     audioManager.onScrollProgress(p);
-    this.sceneManager.updateLighting(p);
 
-    // 1. Hero Title & Scroll Prompt (Fade out quickly as camera approaches gate: 0.00 -> 0.20)
+    // 1. Calculate and update 3D physical gate opening (Requirement #09, #10, #13)
+    let gateP = 0;
+    if (p >= 0.30 && p < 0.46) {
+      gateP = (p - 0.30) / 0.16;
+    } else if (p >= 0.46) {
+      gateP = 1.0;
+    }
+
+    if (this.sceneManager) {
+      this.sceneManager.setGateOpening(gateP);
+      this.sceneManager.updateLighting(p);
+    }
+
+    // Physical latch lock release sound at 10-20% gate opening
+    if (p >= 0.32 && !this.lockSoundPlayed) {
+      audioManager.playLockRelease();
+      this.lockSoundPlayed = true;
+    } else if (p < 0.28) {
+      this.lockSoundPlayed = false;
+    }
+
+    // 2. Hero Title & Scroll Prompt (Fade out smoothly as camera approaches: 0.00 -> 0.20)
     if (this.heroTitles) {
       const alpha = Math.max(0, 1 - p * 4.5);
       if (alpha > 0.005) {
@@ -210,105 +319,36 @@ export class CinematicController {
       }
     }
 
-    // 2. Exterior Mansion Shot (0.00 -> 0.38)
+    // 3. Seamless backdrop atmospheric blending (Never an abrupt slideshow cut)
     if (this.layerExterior) {
-      if (p <= 0.20) {
+      if (p <= 0.28) {
         this.layerExterior.style.display = 'block';
         this.layerExterior.style.opacity = '1';
-        this.layerExterior.style.transform = `scale(${(1.0 + p * 0.8).toFixed(3)}) translate3d(0, 0, 0)`;
-      } else if (p < 0.38) {
+        this.layerExterior.style.transform = `scale(${(1.0 + p * 0.4).toFixed(3)}) translate3d(0, 0, 0)`;
+      } else if (p < 0.48) {
         this.layerExterior.style.display = 'block';
-        const fade = 1 - (p - 0.20) / 0.18;
+        const fade = 1 - (p - 0.28) / 0.20;
         this.layerExterior.style.opacity = fade.toFixed(3);
-        this.layerExterior.style.transform = `scale(${(1.0 + p * 0.8).toFixed(3)}) translate3d(0, 0, 0)`;
       } else {
         this.layerExterior.style.opacity = '0';
         this.layerExterior.style.display = 'none';
       }
     }
 
-    // 3. Gate Approach & Open (0.15 -> 0.56)
-    if (this.layerGateDoors) {
-      if (p < 0.14) {
-        this.layerGateDoors.style.display = 'none';
-        this.layerGateDoors.style.opacity = '0';
-        this.layerGateDoors.style.pointerEvents = 'none';
-      } else if (p <= 0.46) {
-        this.layerGateDoors.style.display = 'block';
-        const fadeIn = Math.min(1, (p - 0.14) / 0.10);
-        this.layerGateDoors.style.opacity = fadeIn.toFixed(3);
-        this.layerGateDoors.style.pointerEvents = 'auto';
-
-        // Camera dollies forward into the open gates
-        const zoom = 1.0 + (p - 0.14) * 1.1;
-        this.layerGateDoors.style.transform = `scale(${zoom.toFixed(3)}) translate3d(0, 0, 0)`;
-
-        if (this.gateLightGlow) {
-          const glow = Math.sin(((p - 0.14) / 0.32) * Math.PI);
-          this.gateLightGlow.style.opacity = (glow * 0.85).toFixed(3);
-        }
-      } else if (p < 0.58) {
-        // Camera has passed the gate into the hall
-        this.layerGateDoors.style.display = 'block';
-        const fadeOut = Math.max(0, 1 - (p - 0.46) / 0.10);
-        this.layerGateDoors.style.opacity = fadeOut.toFixed(3);
-        if (fadeOut <= 0.01) {
-          this.layerGateDoors.style.pointerEvents = 'none';
-        }
-      } else {
-        this.layerGateDoors.style.display = 'none';
-        this.layerGateDoors.style.opacity = '0';
-        this.layerGateDoors.style.pointerEvents = 'none';
-      }
-    }
-
-    // 4. Gothic Main Hall (0.38 -> 0.82)
-    if (this.layerMainHall) {
-      if (p < 0.36) {
-        this.layerMainHall.style.display = 'none';
-        this.layerMainHall.style.opacity = '0';
-      } else if (p <= 0.68) {
-        this.layerMainHall.style.display = 'block';
-        const fadeIn = Math.min(1, (p - 0.36) / 0.18);
-        this.layerMainHall.style.opacity = fadeIn.toFixed(3);
-      } else if (p < 0.82) {
-        this.layerMainHall.style.display = 'block';
-        const fadeOut = 1 - (p - 0.68) / 0.14;
-        this.layerMainHall.style.opacity = fadeOut.toFixed(3);
-      } else {
-        this.layerMainHall.style.opacity = '0';
-        this.layerMainHall.style.display = 'none';
-      }
-    }
-
-    // 5. Circular Rotunda & 5 Chamber Doors Ring (0.64 -> 1.00)
-    if (this.layerRotunda) {
-      if (p < 0.62) {
-        this.layerRotunda.style.display = 'none';
-        this.layerRotunda.style.opacity = '0';
-        this.layerRotunda.style.pointerEvents = 'none';
-      } else {
-        this.layerRotunda.style.display = 'block';
-        const rotundaFade = Math.min(1, (p - 0.62) / 0.18);
-        this.layerRotunda.style.opacity = rotundaFade.toFixed(3);
-        this.layerRotunda.style.pointerEvents = 'auto';
-      }
-    }
-
+    // 4. Rotunda Museum HUD (Appears only when settling into the circular rotunda: p >= 0.76)
     if (this.rotundaPortalRing) {
-      if (p < 0.74) {
+      if (p < 0.76) {
         this.rotundaPortalRing.style.display = 'none';
         this.rotundaPortalRing.style.opacity = '0';
         this.rotundaPortalRing.style.pointerEvents = 'none';
-        this.rotundaPortalRing.style.transform = 'translate(-50%, -46%) scale(0.92)';
+        this.rotundaPortalRing.style.transform = 'translate(-50%, 20px)';
       } else {
         this.rotundaPortalRing.style.display = 'block';
-        const portalFade = Math.min(1, (p - 0.74) / 0.16);
-        this.rotundaPortalRing.style.opacity = portalFade.toFixed(3);
-        this.rotundaPortalRing.style.pointerEvents = 'auto';
-        const portalY = -50 + (1 - portalFade) * 4;
-        const portalScale = 0.92 + portalFade * 0.08;
-        this.rotundaPortalRing.style.transform = `translate(-50%, ${portalY.toFixed(1)}%) scale(${portalScale.toFixed(3)})`;
+        const hudFade = Math.min(1, (p - 0.76) / 0.14);
+        this.rotundaPortalRing.style.opacity = hudFade.toFixed(3);
+        this.rotundaPortalRing.style.pointerEvents = hudFade > 0.4 ? 'auto' : 'none';
+        const hudY = (1 - hudFade) * 20;
+        this.rotundaPortalRing.style.transform = `translate(-50%, ${hudY.toFixed(1)}px)`;
       }
     }
   }
@@ -329,6 +369,9 @@ export class CinematicController {
 
     // 4. Render Three.js Scene & GPU Particles
     this.sceneManager.render(delta, this.mouse);
+
+    // 5. Update Debug Telemetry HUD if active ('D' Key)
+    this.updateDebugTelemetry(progress, delta);
 
     requestAnimationFrame(this.render);
   }

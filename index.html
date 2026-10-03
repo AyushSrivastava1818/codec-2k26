@@ -9,8 +9,8 @@
   <!-- Google Fonts: JetBrains Mono, Michroma, Plus Jakarta Sans, Space Grotesk, Syncopate -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Michroma&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&family=Syncopate:wght@700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <link rel="stylesheet" href="https://fonts.cdnfonts.com/css/ethnocentric" />
 
   <link rel="stylesheet" href="/src/style.css" />
 </head>
@@ -209,80 +209,43 @@
         </button>
       </div>
 
-      <!-- ================= STAGE 05: THE 5 PHYSICAL GOTHIC STONE ARCH PORTALS ================= -->
-      <div class="rotunda-portal-ring" id="rotunda-portal-ring">
-        <div class="portal-ring-header">
-          <span class="portal-ring-sub">CENTRAL ROTUNDA &bull; PHYSICAL ARCHWAY ACCESS</span>
-          <h2 class="portal-ring-title">Select an Archway to Step Inside</h2>
-          <p class="portal-ring-desc">Gaze into the stone portals or select a chamber to physically enter the room.</p>
+      <!-- ================= STAGE 05: ARCHITECTURAL ROTUNDA MUSEUM HUD ================= -->
+      <div class="rotunda-portal-ring rotunda-architectural-hud" id="rotunda-portal-ring">
+        <!-- Live Gaze HUD Telemetry Box -->
+        <div class="rotunda-gaze-status" id="rotunda-gaze-status">
+          <div class="gaze-target-sub"><span class="pulse-optic"></span> ROTUNDA PERISTYLE &bull; SPATIAL NAVIGATION</div>
+          <h3 class="gaze-target-title" id="gaze-active-title">CENTRAL ROTUNDA</h3>
+          <p class="gaze-target-prompt" id="gaze-active-prompt">SURVEY THE ARCHITECTURAL DOORWAYS &bull; CLICK ANY ARCHWAY TO ENTER</p>
         </div>
 
-        <div class="portal-doors-row">
-          <!-- ARCH 00: ABOUT -->
-          <div class="gothic-arch-portal-card door-about" data-chamber="about">
-            <div class="arch-frame-shape" style="background-image: url('/assets/arch_about.jpg');">
-              <div class="arch-neon-sign">ABOUT</div>
-              <div class="arch-depth-glow"></div>
-            </div>
-            <div class="arch-meta-label">
-              <span class="arch-number">CHAMBER 00</span>
-              <h4 class="arch-title">Archival Vault</h4>
-              <span class="arch-cta">ENTER <i class="fa-solid fa-arrow-right"></i></span>
-            </div>
-          </div>
-
-          <!-- ARCH 01: EVENTS -->
-          <div class="gothic-arch-portal-card door-events" data-chamber="events">
-            <div class="arch-frame-shape" style="background-image: url('/assets/arch_events.jpg');">
-              <div class="arch-neon-sign cyan">EVENTS</div>
-              <div class="arch-depth-glow"></div>
-            </div>
-            <div class="arch-meta-label">
-              <span class="arch-number">CHAMBER I</span>
-              <h4 class="arch-title">Coding Arena</h4>
-              <span class="arch-cta">ENTER <i class="fa-solid fa-arrow-right"></i></span>
-            </div>
-          </div>
-
-          <!-- ARCH 02: HACKATHON (FLAGSHIP) -->
-          <div class="gothic-arch-portal-card door-hackathon featured" data-chamber="hackathon">
-            <div class="arch-featured-crest"><i class="fa-solid fa-crown"></i> FLAGSHIP</div>
-            <div class="arch-frame-shape featured" style="background-image: url('/assets/arch_hackathon.jpg');">
-              <div class="arch-neon-sign flame">HACKATHON</div>
-              <div class="arch-depth-glow flame"></div>
-            </div>
-            <div class="arch-meta-label">
-              <span class="arch-number gold">CHAMBER II</span>
-              <h4 class="arch-title gold">24H Hackathon & RoboWars</h4>
-              <span class="arch-cta gold">ENTER LAB <i class="fa-solid fa-arrow-right"></i></span>
-            </div>
-          </div>
-
-          <!-- ARCH 03: SCHEDULE -->
-          <div class="gothic-arch-portal-card door-schedule" data-chamber="schedule">
-            <div class="arch-frame-shape" style="background-image: url('/assets/arch_schedule.jpg');">
-              <div class="arch-neon-sign gold">SCHEDULE</div>
-              <div class="arch-depth-glow"></div>
-            </div>
-            <div class="arch-meta-label">
-              <span class="arch-number">CHAMBER III</span>
-              <h4 class="arch-title">Chrono Archive</h4>
-              <span class="arch-cta">TIMELINE <i class="fa-solid fa-arrow-right"></i></span>
-            </div>
-          </div>
-
-          <!-- ARCH 04: PRIZES -->
-          <div class="gothic-arch-portal-card door-prizes" data-chamber="prizes">
-            <div class="arch-frame-shape" style="background-image: url('/assets/arch_prizes.jpg');">
-              <div class="arch-neon-sign gold">PRIZES</div>
-              <div class="arch-depth-glow"></div>
-            </div>
-            <div class="arch-meta-label">
-              <span class="arch-number">CHAMBER IV</span>
-              <h4 class="arch-title">Ceremonial Hall</h4>
-              <span class="arch-cta">ENTER <i class="fa-solid fa-arrow-right"></i></span>
-            </div>
-          </div>
+        <!-- Architectural Minimal Doorway Strip -->
+        <div class="rotunda-doors-strip">
+          <button class="rotunda-door-pill door-about" data-chamber="about">
+            <span class="pill-idx">CH.00</span>
+            <span class="pill-name">ARCHIVAL VAULT</span>
+            <i class="fa-solid fa-arrow-right pill-arrow"></i>
+          </button>
+          <button class="rotunda-door-pill door-events" data-chamber="events">
+            <span class="pill-idx">CH.01</span>
+            <span class="pill-name">CODING ARENA</span>
+            <i class="fa-solid fa-arrow-right pill-arrow"></i>
+          </button>
+          <button class="rotunda-door-pill door-hackathon featured" data-chamber="hackathon">
+            <span class="pill-crown"><i class="fa-solid fa-crown"></i> FLAGSHIP</span>
+            <span class="pill-idx">CH.02</span>
+            <span class="pill-name">24H HACKATHON</span>
+            <i class="fa-solid fa-arrow-right pill-arrow"></i>
+          </button>
+          <button class="rotunda-door-pill door-schedule" data-chamber="schedule">
+            <span class="pill-idx">CH.03</span>
+            <span class="pill-name">CHRONO ARCHIVE</span>
+            <i class="fa-solid fa-arrow-right pill-arrow"></i>
+          </button>
+          <button class="rotunda-door-pill door-prizes" data-chamber="prizes">
+            <span class="pill-idx">CH.04</span>
+            <span class="pill-name">CEREMONIAL HALL</span>
+            <i class="fa-solid fa-arrow-right pill-arrow"></i>
+          </button>
         </div>
 
         <!-- Rotunda Quick Footer Navigation -->
@@ -375,15 +338,15 @@
     <div class="schedule-tabs-row">
       <button class="schedule-tab-btn active" data-day="day1">
         <span class="tab-day">DAY 01</span>
-        <span class="tab-date">OCT 30 • CODING & WORKSHOPS</span>
+        <span class="tab-date">WORKSHOPS & ROBOTICS</span>
       </button>
       <button class="schedule-tab-btn" data-day="day2">
         <span class="tab-day">DAY 02</span>
-        <span class="tab-date">OCT 31 • 24H HACKATHON & ROBOWARS</span>
+        <span class="tab-date">TECHKNOW HACKATHON & EVENTS</span>
       </button>
       <button class="schedule-tab-btn" data-day="day3">
         <span class="tab-day">DAY 03</span>
-        <span class="tab-date">NOV 01 • JURY DEFENSE & KEYNOTES</span>
+        <span class="tab-date">EVALUATION & VALEDICTORY</span>
       </button>
     </div>
 

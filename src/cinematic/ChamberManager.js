@@ -169,63 +169,83 @@ export const CHAMBERS = {
     key: 'schedule',
     number: 'CHAMBER III',
     title: 'THE CHRONO ARCHIVE',
-    subtitle: 'EVENT TIMELINE • OCT 30 — NOV 01',
+    subtitle: 'OFFICIAL SUMMIT TIMETABLE',
     accentColor: '#eab308',
     bg: '/assets/arch_schedule.jpg',
     doorThumb: '/assets/arch_schedule.jpg',
-    tagline: 'The complete synchronized timeline for all three days of the summit.',
+    tagline: 'The synchronized official schedule across all three summit days.',
     contentHtml: `
       <div class="chamber-chrono-stream">
         <div class="chrono-day-block">
-          <div class="chrono-day-tag">DAY 01 • OCTOBER 30</div>
+          <div class="chrono-day-tag">DAY 01</div>
           <div class="chrono-events-list">
             <div class="chrono-item">
-              <span class="chrono-time">10:00 AM</span>
-              <div class="chrono-desc"><h4>Systems Workshop</h4><p>Microservices & distributed architecture session</p></div>
+              <span class="chrono-time">5:30 PM – 7:30 PM</span>
+              <div class="chrono-desc"><h4>Codebase Workshop</h4><p>Technical workshop by Codebase</p></div>
             </div>
             <div class="chrono-item">
-              <span class="chrono-time">02:00 PM</span>
-              <div class="chrono-desc"><h4>Speed DSA Arena</h4><p>Knockout competitive coding rounds</p></div>
-            </div>
-            <div class="chrono-item">
-              <span class="chrono-time">05:30 PM</span>
-              <div class="chrono-desc"><h4>Opening Ceremony</h4><p>Inaugural keynote & summit kickoff</p></div>
+              <span class="chrono-time">7:30 PM – 9:30 PM</span>
+              <div class="chrono-desc"><h4>Arc Robotics Event</h4><p>Robotics systems and engineering session</p></div>
             </div>
           </div>
         </div>
 
         <div class="chrono-day-block active-day">
-          <div class="chrono-day-tag">DAY 02 • OCTOBER 31 (FLAGSHIP)</div>
+          <div class="chrono-day-tag">DAY 02 (FLAGSHIP)</div>
           <div class="chrono-events-list">
             <div class="chrono-item">
-              <span class="chrono-time">08:00 AM</span>
-              <div class="chrono-desc"><h4>Hackathon Kickoff</h4><p>Problem statements released; building starts</p></div>
+              <span class="chrono-time">9:00 AM – 9:00 PM</span>
+              <div class="chrono-desc"><h4>TechKnow Hackathon</h4><p>24-hour national hackathon sprint</p></div>
             </div>
             <div class="chrono-item">
-              <span class="chrono-time">02:00 PM</span>
-              <div class="chrono-desc"><h4>RoboWars Tournament</h4><p>Titanium arena gladiator combat rounds</p></div>
+              <span class="chrono-time">10:00 AM – 12:00 PM</span>
+              <div class="chrono-desc"><h4>Codebase Event</h4><p>Software development challenge</p></div>
             </div>
             <div class="chrono-item">
-              <span class="chrono-time">11:00 PM</span>
-              <div class="chrono-desc"><h4>Midnight CTF</h4><p>Nocturnal cybersecurity capture-the-flag</p></div>
+              <span class="chrono-time">1:00 PM – 5:00 PM</span>
+              <div class="chrono-desc"><h4>Clutch Event</h4><p>Competitive esports tournament</p></div>
+            </div>
+            <div class="chrono-item">
+              <span class="chrono-time">2:00 PM – 5:00 PM</span>
+              <div class="chrono-desc"><h4>Arc Robotics Event</h4><p>Robotics combat and showcase</p></div>
+            </div>
+            <div class="chrono-item">
+              <span class="chrono-time">1:30 PM – 5:00 PM</span>
+              <div class="chrono-desc"><h4>GFG Event</h4><p>Coding contest by GFG Chapter</p></div>
+            </div>
+            <div class="chrono-item">
+              <span class="chrono-time">5:30 PM – 9:30 PM</span>
+              <div class="chrono-desc"><h4>Algorithmus</h4><p>Speed algorithmic coding contest</p></div>
+            </div>
+            <div class="chrono-item">
+              <span class="chrono-time">6:00 PM – 8:00 PM</span>
+              <div class="chrono-desc"><h4>Cypher event</h4><p>Cybersecurity & cryptography</p></div>
             </div>
           </div>
         </div>
 
         <div class="chrono-day-block">
-          <div class="chrono-day-tag">DAY 03 • NOVEMBER 01</div>
+          <div class="chrono-day-tag">DAY 03</div>
           <div class="chrono-events-list">
             <div class="chrono-item">
-              <span class="chrono-time">08:00 AM</span>
-              <div class="chrono-desc"><h4>Jury Defense</h4><p>Shortlisted prototype presentations</p></div>
+              <span class="chrono-time">9:00 AM – 12:00 PM</span>
+              <div class="chrono-desc"><h4>Hackathon Final Evaluation Round</h4><p>Project evaluation and jury defense</p></div>
             </div>
             <div class="chrono-item">
-              <span class="chrono-time">02:30 PM</span>
-              <div class="chrono-desc"><h4>Distinguished Keynote</h4><p>Tech industry leader plenary</p></div>
+              <span class="chrono-time">12:00 PM – 2:00 PM</span>
+              <div class="chrono-desc"><h4>Lunch</h4><p>Summit lunch and networking break</p></div>
             </div>
             <div class="chrono-item">
-              <span class="chrono-time">05:00 PM</span>
-              <div class="chrono-desc"><h4>Grand Awards Gala</h4><p>Felicitation & trophy presentations</p></div>
+              <span class="chrono-time">1:30 PM – 3:30 PM</span>
+              <div class="chrono-desc"><h4>Speaker Session By KERNEL</h4><p>Keynote and distinguished talk</p></div>
+            </div>
+            <div class="chrono-item">
+              <span class="chrono-time">3:30 PM – 5:30 PM</span>
+              <div class="chrono-desc"><h4>Clutch Event</h4><p>Esports championship finals</p></div>
+            </div>
+            <div class="chrono-item">
+              <span class="chrono-time">5:30 PM – 7:30 PM</span>
+              <div class="chrono-desc"><h4>Techknow Event</h4><p>Valedictory ceremony & awards</p></div>
             </div>
           </div>
         </div>
@@ -323,14 +343,38 @@ export class ChamberManager {
   }
 
   highlightPortalElement(chamberKey, isHovered) {
-    document.querySelectorAll('.gothic-arch-portal-card').forEach(door => {
-      const key = door.getAttribute('data-chamber');
+    // Update pills in architectural strip
+    document.querySelectorAll('.rotunda-door-pill').forEach(pill => {
+      const key = pill.getAttribute('data-chamber');
       if (isHovered && key === chamberKey) {
-        door.classList.add('arch-portal-active');
+        pill.classList.add('pill-active');
       } else {
-        door.classList.remove('arch-portal-active');
+        pill.classList.remove('pill-active');
       }
     });
+
+    // Update Live HUD Gaze status text
+    const titleEl = document.getElementById('gaze-active-title');
+    const promptEl = document.getElementById('gaze-active-prompt');
+
+    if (isHovered && chamberKey && CHAMBERS[chamberKey]) {
+      const chamber = CHAMBERS[chamberKey];
+      if (titleEl) {
+        titleEl.textContent = `${chamber.number} • ${chamber.title}`;
+        titleEl.style.color = chamber.accentColor;
+      }
+      if (promptEl) {
+        promptEl.textContent = `THRESHOLD CLEAR • CLICK ARCHWAY TO ENTER ${chamber.number}`;
+      }
+    } else {
+      if (titleEl) {
+        titleEl.textContent = 'CENTRAL ROTUNDA';
+        titleEl.style.color = '#ffffff';
+      }
+      if (promptEl) {
+        promptEl.textContent = 'SURVEY THE ARCHITECTURAL DOORWAYS • CLICK ANY ARCHWAY TO ENTER';
+      }
+    }
   }
 
   // Cinematic Chamber Push-Through
