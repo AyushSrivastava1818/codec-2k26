@@ -11,19 +11,24 @@ import { audioManager } from './cinematic/AudioManager.js';
 // --- 1. OFFICIAL SUMMIT TIMETABLE DATA ---
 const SCHEDULE_DATA = {
   day1: [
-    { time: '10:00 AM', cat: 'Workshop', title: 'Microservices Architecture Workshop', desc: 'Distributed backend engineering, cloud microservices, and gRPC.' },
-    { time: '02:00 PM', cat: 'Competitive', title: 'Speed DSA Coding Arena', desc: 'Knockout competitive coding round with live leaderboard.' },
-    { time: '05:30 PM', cat: 'Inaugural', title: 'Grand Opening Ceremony', desc: 'Technical summit kickoff, keynote, and problem statement teasers.' }
+    { time: '5:30 PM – 7:30 PM', cat: 'Codebase', title: 'Codebase Workshop', desc: 'Technical workshop by Codebase Club.' },
+    { time: '7:30 PM – 9:30 PM', cat: 'Robotics', title: 'Arc Robotics Event', desc: 'Robotics systems and hardware showcase.' }
   ],
   day2: [
-    { time: '08:00 AM', cat: 'Hackathon', title: '24-Hour National Hackathon Kickoff', desc: 'Problem statements unlocked; continuous sprint commences.' },
-    { time: '02:00 PM', cat: 'Robotics', title: 'RoboWars Combat Round 1', desc: 'Gladiator matches in the reinforced titanium steel combat arena.' },
-    { time: '11:00 PM', cat: 'Security', title: 'Midnight Security CTF Challenge', desc: 'Nocturnal capture the flag spanning binary exploitation and crypto.' }
+    { time: '9:00 AM – 9:00 PM', cat: 'Hackathon', title: 'TechKnow Hackathon', desc: 'Flagship 12-hour hackathon sprint in partnership with MLH.' },
+    { time: '10:00 AM – 12:00 PM', cat: 'Codebase', title: 'Codebase Event', desc: 'Competitive software engineering challenge.' },
+    { time: '1:00 PM – 5:00 PM', cat: 'Clutch', title: 'Clutch Event', desc: 'Competitive gaming and esports contest.' },
+    { time: '2:00 PM – 5:00 PM', cat: 'Robotics', title: 'Arc Robotics Event', desc: 'Autonomous robotics challenge and combat.' },
+    { time: '1:30 PM – 5:00 PM', cat: 'GFG', title: 'GFG Event', desc: 'Coding competition by GFG Student Chapter.' },
+    { time: '5:30 PM – 9:30 PM', cat: 'Algorithms', title: 'Algorithmus', desc: 'Speed algorithmic problem-solving challenge.' },
+    { time: '6:00 PM – 8:00 PM', cat: 'Cypher', title: 'Cypher event', desc: 'Cybersecurity challenge and crypto puzzles.' }
   ],
   day3: [
-    { time: '08:00 AM', cat: 'Defense', title: 'Hackathon Project Pitch & Jury Defense', desc: 'Shortlisted teams defend working prototypes before industry engineers.' },
-    { time: '02:30 PM', cat: 'Keynote', title: 'Distinguished Guest Plenary', desc: 'Address by technology leaders on next-generation architectures.' },
-    { time: '05:00 PM', cat: 'Awards', title: 'Valedictory Ceremony & Grand Awards', desc: 'Announcement of CODEC 2K26 champions and trophy presentations.' }
+    { time: '9:00 AM – 12:00 PM', cat: 'Evaluation', title: 'Hackathon Final Evaluation Round', desc: 'Project defense and prototype jury review.' },
+    { time: '12:00 PM – 2:00 PM', cat: 'Break', title: 'Lunch', desc: 'Delegate lunch and networking break.' },
+    { time: '1:30 PM – 3:30 PM', cat: 'Keynote', title: 'Speaker Session By KERNEL', desc: 'Distinguished tech talk and industry plenary.' },
+    { time: '3:30 PM – 5:30 PM', cat: 'Clutch', title: 'Clutch Event', desc: 'Esports championship finals and showdown.' },
+    { time: '5:30 PM – 7:30 PM', cat: 'TechKnow', title: 'Techknow Event', desc: 'Summit awards and grand valedictory ceremony.' }
   ]
 };
 

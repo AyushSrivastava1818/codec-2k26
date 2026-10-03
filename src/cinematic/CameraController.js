@@ -27,13 +27,13 @@ export class CameraController {
 
     // Chamber doorway target positions relative to rotunda center (Z = -32.0)
     // Arc of 5 chambers around user:
-    // [ABOUT] [EVENTS] [HACKATHON] [SCHEDULE] [PRIZES]
+    // Actual background doors sequence: [ABOUT] [HACKATHON] [EVENTS] [SCHEDULE] [PRIZES]
     this.chamberAngles = {
-      about: -0.75,     // ~ -43 deg left
-      events: -0.38,    // ~ -22 deg left
-      hackathon: 0.0,   // Center forward flagship
-      schedule: 0.38,   // ~ +22 deg right
-      prizes: 0.75      // ~ +43 deg right
+      about: -0.75,     // Door 1: Far left
+      hackathon: -0.38, // Door 2: Mid left
+      events: 0.0,      // Door 3: Center grand portal
+      schedule: 0.38,   // Door 4: Mid right
+      prizes: 0.75      // Door 5: Far right
     };
 
     // Transition state (when entering/exiting a chamber)
@@ -54,23 +54,26 @@ export class CameraController {
     const p = Math.max(0, Math.min(1, scrollProgress));
 
     // Believable human cinematic dolly along Z axis
-    // 0.00 -> 0.28: 45m down to 18m
-    // 0.28 -> 0.48: 18m down to 6m (gate opens & camera passes through)
-    // 0.48 -> 0.74: 6m down to -16m (towering main hall)
-    // 0.74 -> 1.00: -16m down to -34m (circular rotunda dome)
+    // 0.00 -> 0.20: 45m down to 18m
+    // 0.20 -> 0.38: 18m down to 6m (gate opens & camera passes through)
+    // 0.38 -> 0.58: 6m down to -16m (towering main hall)
+    // 0.58 -> 0.70: -16m down to -34m (settles into circular rotunda dome)
+    // 0.70 -> 1.00: holds steady at rotunda position for comfortable exploration!
     let targetZ;
-    if (p < 0.28) {
-      const t = p / 0.28;
+    if (p < 0.20) {
+      const t = p / 0.20;
       targetZ = THREE.MathUtils.lerp(this.zStart, 18.0, t);
-    } else if (p < 0.48) {
-      const t = (p - 0.28) / 0.20;
+    } else if (p < 0.38) {
+      const t = (p - 0.20) / 0.18;
       targetZ = THREE.MathUtils.lerp(18.0, 6.0, t);
-    } else if (p < 0.74) {
-      const t = (p - 0.48) / 0.26;
+    } else if (p < 0.58) {
+      const t = (p - 0.38) / 0.20;
       targetZ = THREE.MathUtils.lerp(6.0, -16.0, t);
-    } else {
-      const t = (p - 0.74) / 0.26;
+    } else if (p < 0.70) {
+      const t = (p - 0.58) / 0.12;
       targetZ = THREE.MathUtils.lerp(-16.0, this.zRotunda, t);
+    } else {
+      targetZ = this.zRotunda;
     }
 
     // Gentle camera walking sway when traveling
@@ -101,60 +104,59 @@ export class CameraController {
     gsap.to(this, { hoverBlend: 1.0, duration: 0.7, ease: 'power2.out' });
   }
 
-  // Cinematic Chamber Push-Through
+  // Cinematic Chamber Push-Through (Snappy, Zero-Latency)
   enterChamber(chamberKey, onComplete) {
     this.isEnteringChamber = true;
     const targetAngle = this.chamberAngles[chamberKey] || 0;
 
-    const timeline = gsap.timeline({
-      onComplete: () => {
-        if (onComplete) onComplete();
-      }
-    });
+    // Trigger chamber overlay reveal swiftly with immediate feedback
+    if (onComplete) {
+      setTimeout(onComplete, 120);
+    }
 
-    // 1. Orient camera directly toward chamber door
+    const timeline = gsap.timeline();
+
     timeline.to(this.camera.rotation, {
       y: targetAngle,
       x: 0.02,
-      duration: 0.6,
-      ease: 'power2.inOut'
+      duration: 0.35,
+      ease: 'power2.out'
     });
 
-    // 2. Camera physically dollies forward right through the doorway
     timeline.to(this.camera.position, {
-      x: Math.sin(targetAngle) * 8.0,
-      z: this.camera.position.z - 8.0,
-      duration: 0.85,
-      ease: 'power3.in'
-    }, '-=0.2');
+      x: Math.sin(targetAngle) * 6.0,
+      z: this.camera.position.z - 6.0,
+      duration: 0.38,
+      ease: 'power2.in'
+    }, 0);
 
     return timeline;
   }
 
   // Cinematic Chamber Exit Back to Rotunda Center
   exitChamber(onComplete) {
+    if (onComplete) onComplete();
+
     const timeline = gsap.timeline({
       onComplete: () => {
         this.isEnteringChamber = false;
-        if (onComplete) onComplete();
       }
     });
 
-    // Camera dollies backwards through doorway to rotunda center
     timeline.to(this.camera.position, {
       x: 0,
       y: this.humanEyeHeight,
       z: this.zRotunda,
-      duration: 0.8,
-      ease: 'power3.out'
+      duration: 0.35,
+      ease: 'power2.out'
     });
 
     timeline.to(this.camera.rotation, {
       y: 0,
       x: 0,
-      duration: 0.7,
+      duration: 0.35,
       ease: 'power2.out'
-    }, '-=0.5');
+    }, 0);
 
     return timeline;
   }

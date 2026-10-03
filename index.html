@@ -70,31 +70,7 @@
     </div>
   </header>
 
-  <!-- ================= LEFT VERTICAL HUD DOCK ================= -->
-  <aside class="hud-dock-left">
-    <div class="dock-line top"></div>
-    <button class="dock-nav-btn active" id="dock-btn-home" onclick="scrollToSection('home')" title="Home">
-      <i class="fa-solid fa-house"></i>
-      <span>Home</span>
-    </button>
-    <button class="dock-nav-btn" id="dock-btn-events" onclick="scrollToSection('events')" title="Events">
-      <i class="fa-solid fa-door-open"></i>
-      <span>Events</span>
-    </button>
-    <button class="dock-nav-btn" id="dock-btn-hackathon" onclick="scrollToSection('hackathon')" title="Hackathon">
-      <i class="fa-solid fa-code-fork"></i>
-      <span>Hackathon</span>
-    </button>
-    <button class="dock-nav-btn" id="dock-btn-schedule" onclick="scrollToSection('schedule')" title="Schedule">
-      <i class="fa-solid fa-calendar-days"></i>
-      <span>Schedule</span>
-    </button>
-    <button class="dock-nav-btn" id="dock-btn-prizes" onclick="scrollToSection('prizes')" title="Prizes">
-      <i class="fa-solid fa-award"></i>
-      <span>Prizes</span>
-    </button>
-    <div class="dock-line bottom"></div>
-  </aside>
+
 
   <!-- ================= RIGHT VERTICAL SOCIAL DOCK ================= -->
   <aside class="hud-dock-right">
@@ -210,78 +186,98 @@
         </button>
       </div>
 
-      <!-- ================= STAGE 05: THE 5 PHYSICAL GOTHIC STONE ARCH PORTALS ================= -->
+      <!-- ================= STAGE 05: THE 5 PHYSICAL ARCHWAY CHAMBER SELECTORS ================= -->
       <div class="rotunda-portal-ring" id="rotunda-portal-ring">
         <div class="portal-ring-header">
-          <span class="portal-ring-sub">CENTRAL ROTUNDA &bull; PHYSICAL ARCHWAY ACCESS</span>
-          <h2 class="portal-ring-title">Select an Archway to Step Inside</h2>
-          <p class="portal-ring-desc">Gaze into the stone portals or select a chamber to physically enter the room.</p>
+          <span class="portal-ring-sub">CENTRAL ROTUNDA &bull; IIIT KOTA</span>
+          <h2 class="portal-ring-title">CHOOSE A CHAMBER</h2>
+          <p class="portal-ring-desc">Select a chamber to explore events, hackathon, schedule, and prizes.</p>
         </div>
 
-        <div class="portal-doors-row">
-          <!-- ARCH 00: ABOUT -->
-          <div class="gothic-arch-portal-card door-about" data-chamber="about">
-            <div class="arch-frame-shape" style="background-image: url('/assets/arch_about.jpg');">
-              <div class="arch-neon-sign">ABOUT</div>
-              <div class="arch-depth-glow"></div>
-            </div>
-            <div class="arch-meta-label">
-              <span class="arch-number">CHAMBER 00</span>
-              <h4 class="arch-title">Archival Vault</h4>
-              <span class="arch-cta">ENTER <i class="fa-solid fa-arrow-right"></i></span>
-            </div>
-          </div>
-
-          <!-- ARCH 01: EVENTS -->
-          <div class="gothic-arch-portal-card door-events" data-chamber="events">
-            <div class="arch-frame-shape" style="background-image: url('/assets/arch_events.jpg');">
-              <div class="arch-neon-sign cyan">EVENTS</div>
-              <div class="arch-depth-glow"></div>
-            </div>
-            <div class="arch-meta-label">
-              <span class="arch-number">CHAMBER I</span>
-              <h4 class="arch-title">Coding Arena</h4>
-              <span class="arch-cta">ENTER <i class="fa-solid fa-arrow-right"></i></span>
+        <div class="portal-doors-row" id="rotunda-chambers-deck">
+          <!-- CHAMBER 01: ABOUT (DOOR 1 LEFT) -->
+          <div class="gothic-arch-portal-card chamber-card door-about" data-chamber="about">
+            <div class="card-glass-surface">
+              <div class="chamber-card-top">
+                <span class="chamber-badge"><span class="badge-dot"></span> 01</span>
+                <i class="fa-solid fa-landmark chamber-icon"></i>
+              </div>
+              <div class="chamber-info">
+                <h3 class="chamber-heading">ABOUT</h3>
+                <p class="chamber-subtext">Fest Vision & Council Archive</p>
+              </div>
+              <div class="chamber-action">
+                <span class="chamber-cta-btn">ENTER <i class="fa-solid fa-arrow-right"></i></span>
+              </div>
             </div>
           </div>
 
-          <!-- ARCH 02: HACKATHON (FLAGSHIP) -->
-          <div class="gothic-arch-portal-card door-hackathon featured" data-chamber="hackathon">
-            <div class="arch-featured-crest"><i class="fa-solid fa-crown"></i> FLAGSHIP</div>
-            <div class="arch-frame-shape featured" style="background-image: url('/assets/arch_hackathon.jpg');">
-              <div class="arch-neon-sign flame">HACKATHON</div>
-              <div class="arch-depth-glow flame"></div>
-            </div>
-            <div class="arch-meta-label">
-              <span class="arch-number gold">CHAMBER II</span>
-              <h4 class="arch-title gold">24H Hackathon & RoboWars</h4>
-              <span class="arch-cta gold">ENTER LAB <i class="fa-solid fa-arrow-right"></i></span>
-            </div>
-          </div>
-
-          <!-- ARCH 03: SCHEDULE -->
-          <div class="gothic-arch-portal-card door-schedule" data-chamber="schedule">
-            <div class="arch-frame-shape" style="background-image: url('/assets/arch_schedule.jpg');">
-              <div class="arch-neon-sign gold">SCHEDULE</div>
-              <div class="arch-depth-glow"></div>
-            </div>
-            <div class="arch-meta-label">
-              <span class="arch-number">CHAMBER III</span>
-              <h4 class="arch-title">Chrono Archive</h4>
-              <span class="arch-cta">TIMELINE <i class="fa-solid fa-arrow-right"></i></span>
+          <!-- CHAMBER 02: HACKATHON (DOOR 2 MID-LEFT - FLAGSHIP) -->
+          <div class="gothic-arch-portal-card chamber-card door-hackathon featured" data-chamber="hackathon">
+            <div class="featured-glow-pill"><i class="fa-solid fa-crown"></i> FLAGSHIP</div>
+            <div class="card-glass-surface featured">
+              <div class="chamber-card-top">
+                <span class="chamber-badge gold"><span class="badge-dot gold"></span> 02</span>
+                <i class="fa-solid fa-laptop-code chamber-icon gold"></i>
+              </div>
+              <div class="chamber-info">
+                <h3 class="chamber-heading gold">HACKATHON</h3>
+                <p class="chamber-subtext">12-Hour Flagship Sprint</p>
+              </div>
+              <div class="chamber-action">
+                <span class="chamber-cta-btn gold">JOIN SPRINT <i class="fa-solid fa-arrow-right"></i></span>
+              </div>
             </div>
           </div>
 
-          <!-- ARCH 04: PRIZES -->
-          <div class="gothic-arch-portal-card door-prizes" data-chamber="prizes">
-            <div class="arch-frame-shape" style="background-image: url('/assets/arch_prizes.jpg');">
-              <div class="arch-neon-sign gold">PRIZES</div>
-              <div class="arch-depth-glow"></div>
+          <!-- CHAMBER 03: EVENTS (DOOR 3 CENTER) -->
+          <div class="gothic-arch-portal-card chamber-card door-events" data-chamber="events">
+            <div class="card-glass-surface">
+              <div class="chamber-card-top">
+                <span class="chamber-badge cyan"><span class="badge-dot cyan"></span> 03</span>
+                <i class="fa-solid fa-terminal chamber-icon cyan"></i>
+              </div>
+              <div class="chamber-info">
+                <h3 class="chamber-heading">EVENTS</h3>
+                <p class="chamber-subtext">Workshops & Coding Contests</p>
+              </div>
+              <div class="chamber-action">
+                <span class="chamber-cta-btn cyan">ENTER <i class="fa-solid fa-arrow-right"></i></span>
+              </div>
             </div>
-            <div class="arch-meta-label">
-              <span class="arch-number">CHAMBER IV</span>
-              <h4 class="arch-title">Ceremonial Hall</h4>
-              <span class="arch-cta">ENTER <i class="fa-solid fa-arrow-right"></i></span>
+          </div>
+
+          <!-- CHAMBER 04: SCHEDULE (DOOR 4 MID-RIGHT) -->
+          <div class="gothic-arch-portal-card chamber-card door-schedule" data-chamber="schedule">
+            <div class="card-glass-surface">
+              <div class="chamber-card-top">
+                <span class="chamber-badge"><span class="badge-dot"></span> 04</span>
+                <i class="fa-solid fa-calendar-days chamber-icon"></i>
+              </div>
+              <div class="chamber-info">
+                <h3 class="chamber-heading">SCHEDULE</h3>
+                <p class="chamber-subtext">3-Day Event Timetable</p>
+              </div>
+              <div class="chamber-action">
+                <span class="chamber-cta-btn">TIMELINE <i class="fa-solid fa-arrow-right"></i></span>
+              </div>
+            </div>
+          </div>
+
+          <!-- CHAMBER 05: PRIZES (DOOR 5 RIGHT) -->
+          <div class="gothic-arch-portal-card chamber-card door-prizes" data-chamber="prizes">
+            <div class="card-glass-surface">
+              <div class="chamber-card-top">
+                <span class="chamber-badge gold"><span class="badge-dot gold"></span> 05</span>
+                <i class="fa-solid fa-trophy chamber-icon gold"></i>
+              </div>
+              <div class="chamber-info">
+                <h3 class="chamber-heading">PRIZES</h3>
+                <p class="chamber-subtext">Trophies, Medals & Cash</p>
+              </div>
+              <div class="chamber-action">
+                <span class="chamber-cta-btn">AWARDS <i class="fa-solid fa-arrow-right"></i></span>
+              </div>
             </div>
           </div>
         </div>
@@ -317,18 +313,35 @@
     </div>
   </div>
 
-  <!-- ================= OFFICIAL 24-HOUR NATIONAL HACKATHON SECTION ================= -->
+  <!-- ================= OFFICIAL 12-HOUR FLAGSHIP HACKATHON SECTION (TECHKNOW X MLH) ================= -->
   <section class="section-container" id="guilds-section">
     <div class="section-header">
-      <span class="section-tag"><i class="fa-solid fa-code-fork"></i> NATIONAL HACKATHON</span>
-      <h2 class="section-title">24-Hour National Hackathon</h2>
-      <p class="section-desc">The flagship 24-hour hackathon of IIIT Kota. Collaborate, code, and deploy solutions in real-time.</p>
+      <span class="section-tag flagship-tag"><i class="fa-solid fa-crown"></i> FLAGSHIP EVENT</span>
+      <h2 class="section-title">12-Hour Flagship Hackathon</h2>
+      <p class="section-desc">The flagship 12-hour build sprint organized by TechKnow Council, IIIT Kota in official league partnership with Major League Hacking (MLH).</p>
     </div>
 
-    <!-- Hackathon Key Specs Bar -->
+    <!-- TECHKNOW X MLH OFFICIAL LEAGUE BANNER -->
+    <div class="techknow-mlh-banner">
+      <div class="mlh-banner-left">
+        <span class="mlh-official-pill"><i class="fa-solid fa-certificate"></i> OFFICIAL LEAGUE EVENT</span>
+        <div class="mlh-duo-title">
+          <span class="partner-name techknow">TECHKNOW</span>
+          <span class="partner-cross"><i class="fa-solid fa-xmark"></i></span>
+          <span class="partner-name mlh"><i class="fa-solid fa-cube"></i> MLH</span>
+        </div>
+      </div>
+      <div class="mlh-banner-divider"></div>
+      <div class="mlh-banner-right">
+        <span class="mlh-season-title">MAJOR LEAGUE HACKING &bull; 2026 MEMBER EVENT</span>
+        <p class="mlh-season-desc">Official developer league standards, global mentorship, verified credentials & hack sprint recognition.</p>
+      </div>
+    </div>
+
+    <!-- Hackathon Key Specs Bar (Prize Pool Removed) -->
     <div class="hackathon-specs-bar">
       <div class="spec-stat-item">
-        <span class="spec-stat-number">24H</span>
+        <span class="spec-stat-number">12H</span>
         <span class="spec-stat-label">Continuous Sprint</span>
       </div>
       <div class="spec-divider"></div>
@@ -338,13 +351,13 @@
       </div>
       <div class="spec-divider"></div>
       <div class="spec-stat-item">
-        <span class="spec-stat-number">₹1,00,000+</span>
-        <span class="spec-stat-label">Prize Pool & Swag</span>
+        <span class="spec-stat-number">Offline</span>
+        <span class="spec-stat-label">IIIT Kota Campus</span>
       </div>
       <div class="spec-divider"></div>
       <div class="spec-stat-item">
-        <span class="spec-stat-number">National</span>
-        <span class="spec-stat-label">Open to All Colleges</span>
+        <span class="spec-stat-number">MLH</span>
+        <span class="spec-stat-label">Official League</span>
       </div>
     </div>
 
@@ -354,11 +367,11 @@
         <span class="brief-badge"><i class="fa-solid fa-bolt"></i> PROBLEM STATEMENTS REVEALED AT KICKOFF</span>
         <span class="brief-venue"><i class="fa-solid fa-location-dot"></i> IIIT KOTA CAMPUS</span>
       </div>
-      <h3 class="brief-title">Ready for the 24-Hour Sprint?</h3>
-      <p class="brief-desc">Problem statements across AI, Systems, Web3, and Open Innovation will be announced live during kickoff on October 31st. Register your team to secure your spot.</p>
+      <h3 class="brief-title">Ready for the 12-Hour Sprint?</h3>
+      <p class="brief-desc">Problem statements across AI, Systems, Web3, and Open Innovation will be announced live during kickoff on October 31st at 9:00 AM. Register your team to secure your spot.</p>
       
       <div class="brief-actions">
-        <button class="btn-primary-action" onclick="openRegistrationModal('24-Hour National Hackathon')">
+        <button class="btn-primary-action" onclick="openRegistrationModal('12-Hour Flagship Hackathon')">
           <i class="fa-solid fa-rocket"></i> REGISTER YOUR TEAM
         </button>
       </div>
@@ -376,15 +389,15 @@
     <div class="schedule-tabs-row">
       <button class="schedule-tab-btn active" data-day="day1">
         <span class="tab-day">DAY 01</span>
-        <span class="tab-date">OCT 30 • CODING & WORKSHOPS</span>
+        <span class="tab-date">OCT 30 &bull; WORKSHOPS</span>
       </button>
       <button class="schedule-tab-btn" data-day="day2">
         <span class="tab-day">DAY 02</span>
-        <span class="tab-date">OCT 31 • 24H HACKATHON & ROBOWARS</span>
+        <span class="tab-date">OCT 31 &bull; HACKATHON & EVENTS</span>
       </button>
       <button class="schedule-tab-btn" data-day="day3">
         <span class="tab-day">DAY 03</span>
-        <span class="tab-date">NOV 01 • JURY DEFENSE & KEYNOTES</span>
+        <span class="tab-date">NOV 01 &bull; FINALS & VALEDICTORY</span>
       </button>
     </div>
 

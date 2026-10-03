@@ -120,43 +120,43 @@ export const CHAMBERS = {
   hackathon: {
     key: 'hackathon',
     number: 'CHAMBER II',
-    title: 'THE 24-HOUR HACKATHON & ROBOWARS',
+    title: 'THE 12-HOUR FLAGSHIP HACKATHON',
     subtitle: 'FLAGSHIP • DAY 02 • OCTOBER 31',
     accentColor: '#ff4422',
     bg: '/assets/arch_hackathon.jpg',
     doorThumb: '/assets/arch_hackathon.jpg',
-    tagline: 'Continuous nocturnal engineering, titanium combat robotics, and midnight cybersecurity CTF.',
+    tagline: 'Continuous engineering sprint in official league partnership with Major League Hacking (MLH).',
     contentHtml: `
       <div class="chamber-hackathon-wrap">
         <div class="hackathon-status-banner">
           <div class="status-dot-pulse"></div>
-          <span>NATIONAL HACKATHON ARENA &bull; OPEN TO ALL INSTITUTES &bull; IIIT KOTA CAMPUS</span>
+          <span>TECHKNOW X MLH FLAGSHIP HACKATHON &bull; IIIT KOTA CAMPUS</span>
         </div>
 
         <div class="hackathon-highlight-box">
           <div class="specs-ribbon">
-            <div class="ribbon-item"><strong>24 HOURS</strong><span>NON-STOP SPRINT</span></div>
+            <div class="ribbon-item"><strong>12 HOURS</strong><span>NON-STOP SPRINT</span></div>
             <div class="ribbon-divider"></div>
             <div class="ribbon-item"><strong>2 - 4</strong><span>TEAM MEMBERS</span></div>
             <div class="ribbon-divider"></div>
-            <div class="ribbon-item"><strong>₹1,00,000+</strong><span>CASH & BOUNTIES</span></div>
-            <div class="ribbon-divider"></div>
             <div class="ribbon-item"><strong>OFFLINE</strong><span>PERMANENT CAMPUS</span></div>
+            <div class="ribbon-divider"></div>
+            <div class="ribbon-item"><strong>MLH</strong><span>OFFICIAL LEAGUE</span></div>
           </div>
 
           <div class="hackathon-body-content">
             <h3 class="hackathon-arena-heading">Hardware, Autonomous Systems & Scalable Software</h3>
-            <p class="hackathon-arena-para">Problem statements across AI/ML, Systems Engineering, Web3 Infrastructure, and Autonomous Robotics will be unlocked live during the grand opening ceremony on October 31st. Prepare your squads.</p>
+            <p class="hackathon-arena-para">Problem statements across AI/ML, Systems Engineering, Web3 Infrastructure, and Open Innovation will be unlocked live during the grand opening ceremony on October 31st at 9:00 AM. Prepare your squads.</p>
 
             <div class="hackathon-sub-tracks">
-              <div class="sub-track-pill"><i class="fa-solid fa-microchip"></i> Autonomous Robotics & Hardware</div>
               <div class="sub-track-pill"><i class="fa-solid fa-brain"></i> Artificial Intelligence & Systems</div>
-              <div class="sub-track-pill"><i class="fa-solid fa-shield-halved"></i> Midnight Cybersecurity CTF</div>
-              <div class="sub-track-pill"><i class="fa-solid fa-robot"></i> RoboWars Combat Arena</div>
+              <div class="sub-track-pill"><i class="fa-solid fa-network-wired"></i> Web3 & Distributed Ledgers</div>
+              <div class="sub-track-pill"><i class="fa-solid fa-cloud"></i> High-Throughput Cloud & DevOps</div>
+              <div class="sub-track-pill"><i class="fa-solid fa-lightbulb"></i> Open Innovation & Social Impact</div>
             </div>
 
             <div class="hackathon-register-action">
-              <button class="btn-hackathon-huge" onclick="openRegistrationModal('24-Hour National Hackathon')">
+              <button class="btn-hackathon-huge" onclick="openRegistrationModal('12-Hour Flagship Hackathon')">
                 <i class="fa-solid fa-bolt"></i> REGISTER YOUR TEAM SQUAD
               </button>
             </div>
@@ -173,59 +173,79 @@ export const CHAMBERS = {
     accentColor: '#eab308',
     bg: '/assets/arch_schedule.jpg',
     doorThumb: '/assets/arch_schedule.jpg',
-    tagline: 'The complete synchronized timeline for all three days of the summit.',
+    tagline: 'The official synchronized schedule across all three summit days.',
     contentHtml: `
       <div class="chamber-chrono-stream">
         <div class="chrono-day-block">
-          <div class="chrono-day-tag">DAY 01 • OCTOBER 30</div>
+          <div class="chrono-day-tag">DAY 01</div>
           <div class="chrono-events-list">
             <div class="chrono-item">
-              <span class="chrono-time">10:00 AM</span>
-              <div class="chrono-desc"><h4>Systems Workshop</h4><p>Microservices & distributed architecture session</p></div>
+              <span class="chrono-time">5:30 PM – 7:30 PM</span>
+              <div class="chrono-desc"><h4>Codebase Workshop</h4><p>Technical workshop by Codebase Club</p></div>
             </div>
             <div class="chrono-item">
-              <span class="chrono-time">02:00 PM</span>
-              <div class="chrono-desc"><h4>Speed DSA Arena</h4><p>Knockout competitive coding rounds</p></div>
-            </div>
-            <div class="chrono-item">
-              <span class="chrono-time">05:30 PM</span>
-              <div class="chrono-desc"><h4>Opening Ceremony</h4><p>Inaugural keynote & summit kickoff</p></div>
+              <span class="chrono-time">7:30 PM – 9:30 PM</span>
+              <div class="chrono-desc"><h4>Arc Robotics Event</h4><p>Robotics systems and hardware showcase</p></div>
             </div>
           </div>
         </div>
 
         <div class="chrono-day-block active-day">
-          <div class="chrono-day-tag">DAY 02 • OCTOBER 31 (FLAGSHIP)</div>
+          <div class="chrono-day-tag">DAY 02 (FLAGSHIP)</div>
           <div class="chrono-events-list">
             <div class="chrono-item">
-              <span class="chrono-time">08:00 AM</span>
-              <div class="chrono-desc"><h4>Hackathon Kickoff</h4><p>Problem statements released; building starts</p></div>
+              <span class="chrono-time">9:00 AM – 9:00 PM</span>
+              <div class="chrono-desc"><h4>TechKnow Hackathon</h4><p>Flagship 24-hour national hackathon sprint</p></div>
             </div>
             <div class="chrono-item">
-              <span class="chrono-time">02:00 PM</span>
-              <div class="chrono-desc"><h4>RoboWars Tournament</h4><p>Titanium arena gladiator combat rounds</p></div>
+              <span class="chrono-time">10:00 AM – 12:00 PM</span>
+              <div class="chrono-desc"><h4>Codebase Event</h4><p>Competitive software engineering challenge</p></div>
             </div>
             <div class="chrono-item">
-              <span class="chrono-time">11:00 PM</span>
-              <div class="chrono-desc"><h4>Midnight CTF</h4><p>Nocturnal cybersecurity capture-the-flag</p></div>
+              <span class="chrono-time">1:00 PM – 5:00 PM</span>
+              <div class="chrono-desc"><h4>Clutch Event</h4><p>Competitive gaming and esports contest</p></div>
+            </div>
+            <div class="chrono-item">
+              <span class="chrono-time">2:00 PM – 5:00 PM</span>
+              <div class="chrono-desc"><h4>Arc Robotics Event</h4><p>Autonomous robotics challenge and combat</p></div>
+            </div>
+            <div class="chrono-item">
+              <span class="chrono-time">1:30 PM – 5:00 PM</span>
+              <div class="chrono-desc"><h4>GFG Event</h4><p>Coding competition by GFG Student Chapter</p></div>
+            </div>
+            <div class="chrono-item">
+              <span class="chrono-time">5:30 PM – 9:30 PM</span>
+              <div class="chrono-desc"><h4>Algorithmus</h4><p>Speed algorithmic problem-solving challenge</p></div>
+            </div>
+            <div class="chrono-item">
+              <span class="chrono-time">6:00 PM – 8:00 PM</span>
+              <div class="chrono-desc"><h4>Cypher event</h4><p>Cybersecurity challenge and crypto puzzles</p></div>
             </div>
           </div>
         </div>
 
         <div class="chrono-day-block">
-          <div class="chrono-day-tag">DAY 03 • NOVEMBER 01</div>
+          <div class="chrono-day-tag">DAY 03</div>
           <div class="chrono-events-list">
             <div class="chrono-item">
-              <span class="chrono-time">08:00 AM</span>
-              <div class="chrono-desc"><h4>Jury Defense</h4><p>Shortlisted prototype presentations</p></div>
+              <span class="chrono-time">9:00 AM – 12:00 PM</span>
+              <div class="chrono-desc"><h4>Hackathon Final Evaluation Round</h4><p>Project defense and prototype review</p></div>
             </div>
             <div class="chrono-item">
-              <span class="chrono-time">02:30 PM</span>
-              <div class="chrono-desc"><h4>Distinguished Keynote</h4><p>Tech industry leader plenary</p></div>
+              <span class="chrono-time">12:00 PM – 2:00 PM</span>
+              <div class="chrono-desc"><h4>Lunch</h4><p>Delegate lunch and networking break</p></div>
             </div>
             <div class="chrono-item">
-              <span class="chrono-time">05:00 PM</span>
-              <div class="chrono-desc"><h4>Grand Awards Gala</h4><p>Felicitation & trophy presentations</p></div>
+              <span class="chrono-time">1:30 PM – 3:30 PM</span>
+              <div class="chrono-desc"><h4>Speaker Session By KERNEL</h4><p>Distinguished tech talk and industry plenary</p></div>
+            </div>
+            <div class="chrono-item">
+              <span class="chrono-time">3:30 PM – 5:30 PM</span>
+              <div class="chrono-desc"><h4>Clutch Event</h4><p>Esports championship finals and showdown</p></div>
+            </div>
+            <div class="chrono-item">
+              <span class="chrono-time">5:30 PM – 7:30 PM</span>
+              <div class="chrono-desc"><h4>Techknow Event</h4><p>Summit awards and grand valedictory ceremony</p></div>
             </div>
           </div>
         </div>
@@ -374,16 +394,16 @@ export class ChamberManager {
       </div>
     `;
 
-    // Animate container into full view
+    // Animate container into full view instantly
     this.container.classList.remove('hidden');
     gsap.fromTo(this.container, 
-      { opacity: 0, scale: 1.06 },
-      { opacity: 1, scale: 1.0, duration: 0.6, ease: 'power2.out' }
+      { opacity: 0, scale: 1.03 },
+      { opacity: 1, scale: 1.0, duration: 0.28, ease: 'power2.out' }
     );
 
     gsap.fromTo(this.contentElement.children,
-      { opacity: 0, y: 30 },
-      { opacity: 1, y: 0, duration: 0.45, stagger: 0.1, ease: 'power2.out', delay: 0.15 }
+      { opacity: 0, y: 18 },
+      { opacity: 1, y: 0, duration: 0.25, stagger: 0.06, ease: 'power2.out', delay: 0.05 }
     );
   }
 
@@ -396,12 +416,12 @@ export class ChamberManager {
       window.history.pushState({}, '', window.location.pathname);
     }
 
-    // 1. Fade out chamber content
+    // 1. Fade out chamber content immediately
     if (this.container) {
       gsap.to(this.container, {
         opacity: 0,
-        scale: 0.95,
-        duration: 0.4,
+        scale: 0.98,
+        duration: 0.22,
         ease: 'power2.in',
         onComplete: () => {
           this.container.classList.add('hidden');

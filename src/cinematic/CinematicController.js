@@ -262,18 +262,18 @@ export class CinematicController {
       }
     }
 
-    // 4. Gothic Main Hall (0.38 -> 0.82)
+    // 4. Gothic Main Hall (0.30 -> 0.60)
     if (this.layerMainHall) {
-      if (p < 0.36) {
+      if (p < 0.28) {
         this.layerMainHall.style.display = 'none';
         this.layerMainHall.style.opacity = '0';
-      } else if (p <= 0.68) {
+      } else if (p <= 0.48) {
         this.layerMainHall.style.display = 'block';
-        const fadeIn = Math.min(1, (p - 0.36) / 0.18);
+        const fadeIn = Math.min(1, (p - 0.28) / 0.14);
         this.layerMainHall.style.opacity = fadeIn.toFixed(3);
-      } else if (p < 0.82) {
+      } else if (p < 0.62) {
         this.layerMainHall.style.display = 'block';
-        const fadeOut = 1 - (p - 0.68) / 0.14;
+        const fadeOut = Math.max(0, 1 - (p - 0.48) / 0.12);
         this.layerMainHall.style.opacity = fadeOut.toFixed(3);
       } else {
         this.layerMainHall.style.opacity = '0';
@@ -281,34 +281,35 @@ export class CinematicController {
       }
     }
 
-    // 5. Circular Rotunda & 5 Chamber Doors Ring (0.64 -> 1.00)
+    // 5. Circular Rotunda & 5 Chamber Console (0.50 -> 1.00)
+    // HOLDS STEADILY VISIBLE FROM 0.58 TO 1.00
     if (this.layerRotunda) {
-      if (p < 0.62) {
+      if (p < 0.48) {
         this.layerRotunda.style.display = 'none';
         this.layerRotunda.style.opacity = '0';
         this.layerRotunda.style.pointerEvents = 'none';
       } else {
         this.layerRotunda.style.display = 'block';
-        const rotundaFade = Math.min(1, (p - 0.62) / 0.18);
+        const rotundaFade = Math.min(1, (p - 0.48) / 0.10);
         this.layerRotunda.style.opacity = rotundaFade.toFixed(3);
         this.layerRotunda.style.pointerEvents = 'auto';
       }
     }
 
     if (this.rotundaPortalRing) {
-      if (p < 0.74) {
+      if (p < 0.56) {
         this.rotundaPortalRing.style.display = 'none';
         this.rotundaPortalRing.style.opacity = '0';
         this.rotundaPortalRing.style.pointerEvents = 'none';
-        this.rotundaPortalRing.style.transform = 'translate(-50%, -46%) scale(0.92)';
+        this.rotundaPortalRing.style.transform = 'translate(-50%, 0) scale(0.96)';
       } else {
         this.rotundaPortalRing.style.display = 'block';
-        const portalFade = Math.min(1, (p - 0.74) / 0.16);
+        const portalFade = Math.min(1, (p - 0.56) / 0.10);
         this.rotundaPortalRing.style.opacity = portalFade.toFixed(3);
         this.rotundaPortalRing.style.pointerEvents = 'auto';
-        const portalY = -50 + (1 - portalFade) * 4;
-        const portalScale = 0.92 + portalFade * 0.08;
-        this.rotundaPortalRing.style.transform = `translate(-50%, ${portalY.toFixed(1)}%) scale(${portalScale.toFixed(3)})`;
+        const portalY = (1 - portalFade) * 15;
+        const portalScale = 0.96 + portalFade * 0.04;
+        this.rotundaPortalRing.style.transform = `translate(-50%, ${portalY.toFixed(1)}px) scale(${portalScale.toFixed(3)})`;
       }
     }
   }
