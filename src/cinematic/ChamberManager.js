@@ -72,7 +72,7 @@ export const CHAMBERS = {
     key: 'events',
     number: 'CHAMBER II',
     title: 'THE SUMMIT EVENTS & ARENAS',
-    subtitle: 'OCTOBER 30 — NOVEMBER 01',
+    subtitle: 'OCTOBER 16 — OCTOBER 18',
     accentColor: '#38bdf8',
     bg: '/assets/arch_events.jpg',
     doorThumb: '/assets/arch_events.jpg',
@@ -108,10 +108,22 @@ export const CHAMBERS = {
             <span class="capsule-wing"><i class="fa-solid fa-bolt"></i> ALGORITHMIC WING</span>
             <span class="capsule-badge">SPEED CP ARENA</span>
           </div>
-          <h4 class="capsule-title">Algorithmus & GFG Event</h4>
+          <h4 class="capsule-title">Algorithmus</h4>
           <p class="capsule-desc">Speed algorithmic problem-solving sprint and competitive programming showdowns.</p>
           <button class="btn-capsule-action" onclick="openRegistrationModal('Algorithmus')">
             ENTER CONTEST <i class="fa-solid fa-arrow-right"></i>
+          </button>
+        </div>
+
+        <div class="event-capsule-card">
+          <div class="capsule-header">
+            <span class="capsule-wing"><i class="fa-solid fa-code-branch"></i> GFG CHAPTER</span>
+            <span class="capsule-badge">CODING SHOWDOWN</span>
+          </div>
+          <h4 class="capsule-title">GFG Event</h4>
+          <p class="capsule-desc">Competitive algorithmic and problem-solving challenge organized by GeeksforGeeks Student Chapter.</p>
+          <button class="btn-capsule-action" onclick="openRegistrationModal('GFG Event')">
+            JOIN CONTEST <i class="fa-solid fa-arrow-right"></i>
           </button>
         </div>
 
@@ -126,39 +138,51 @@ export const CHAMBERS = {
             JOIN BRACKET <i class="fa-solid fa-arrow-right"></i>
           </button>
         </div>
+
+        <div class="event-capsule-card highlighted">
+          <div class="capsule-header">
+            <span class="capsule-wing"><i class="fa-solid fa-shield-virus"></i> CYPHER WING</span>
+            <span class="capsule-badge highlight">CYBERSECURITY & CTF</span>
+          </div>
+          <h4 class="capsule-title">Cypher Event</h4>
+          <p class="capsule-desc">Cybersecurity defense operations, cryptography puzzles, exploit discovery, and Capture The Flag (CTF) challenges.</p>
+          <button class="btn-capsule-action highlight-btn" onclick="openRegistrationModal('Cypher Event')">
+            ENTER CYPHER <i class="fa-solid fa-arrow-right"></i>
+          </button>
+        </div>
       </div>
     `
   },
   hackathon: {
     key: 'hackathon',
     number: 'CHAMBER III',
-    title: 'THE 12-HOUR FLAGSHIP HACKATHON',
-    subtitle: 'FLAGSHIP • DAY 02 • OCTOBER 31',
+    title: 'TECHKNOW PRESENTS HACKODEC: 12-HOUR FLAGSHIP HACKATHON',
+    subtitle: 'FLAGSHIP • DAY 02 • OCTOBER 17',
     accentColor: '#ff4422',
     bg: '/assets/arch_hackathon.jpg',
     doorThumb: '/assets/arch_hackathon.jpg',
-    tagline: 'Continuous engineering sprint in official league partnership with Major League Hacking (MLH).',
+    tagline: 'The premier 12-hour engineering sprint presented by TechKnow Council, IIIT Kota.',
     contentHtml: `
       <div class="chamber-hackathon-wrap">
         <div class="hackathon-status-banner">
           <div class="status-dot-pulse"></div>
-          <span>TECHKNOW X MLH FLAGSHIP HACKATHON &bull; IIIT KOTA CAMPUS</span>
+          <span>TECHKNOW COUNCIL PRESENTS HACKODEC &bull; IIIT KOTA CAMPUS</span>
         </div>
 
         <div class="hackathon-highlight-box">
           <div class="specs-ribbon">
             <div class="ribbon-item"><strong>12 HOURS</strong><span>NON-STOP SPRINT</span></div>
             <div class="ribbon-divider"></div>
-            <div class="ribbon-item"><strong>2 - 4</strong><span>TEAM MEMBERS</span></div>
+            <div class="ribbon-item"><strong>4 MEMBERS</strong><span>SQUAD ROSTER</span></div>
             <div class="ribbon-divider"></div>
             <div class="ribbon-item"><strong>OFFLINE</strong><span>PERMANENT CAMPUS</span></div>
             <div class="ribbon-divider"></div>
-            <div class="ribbon-item"><strong>MLH</strong><span>OFFICIAL LEAGUE</span></div>
+            <div class="ribbon-item"><strong>TECHKNOW</strong><span>COUNCIL HOST</span></div>
           </div>
 
           <div class="hackathon-body-content">
             <h3 class="hackathon-arena-heading">Hardware, Autonomous Systems & Scalable Software</h3>
-            <p class="hackathon-arena-para">Problem statements across AI/ML, Systems Engineering, Web3 Infrastructure, and Open Innovation will be unlocked live during the grand opening ceremony on October 31st at 9:00 AM. Prepare your squads.</p>
+            <p class="hackathon-arena-para">Problem statements across AI/ML, Systems Engineering, Web3 Infrastructure, and Open Innovation will be unlocked live during the grand opening ceremony on October 17th at 9:00 AM. Prepare your squads for HACKODEC.</p>
 
             <div class="hackathon-sub-tracks">
               <div class="sub-track-pill"><i class="fa-solid fa-brain"></i> Artificial Intelligence & Systems</div>
@@ -168,8 +192,8 @@ export const CHAMBERS = {
             </div>
 
             <div class="hackathon-register-action">
-              <button class="btn-hackathon-huge" onclick="openRegistrationModal('12-Hour Flagship Hackathon')">
-                <i class="fa-solid fa-bolt"></i> REGISTER YOUR TEAM SQUAD
+              <button class="btn-hackathon-huge" onclick="window.scrollToHackathonSquad ? window.scrollToHackathonSquad() : openRegistrationModal('HACKODEC')">
+                <i class="fa-solid fa-users"></i> REGISTER 4-MEMBER SQUAD FOR HACKODEC
               </button>
             </div>
           </div>
@@ -181,7 +205,7 @@ export const CHAMBERS = {
     key: 'schedule',
     number: 'CHAMBER IV',
     title: 'THE CHRONO ARCHIVE',
-    subtitle: 'EVENT TIMELINE • OCT 30 — NOV 01',
+    subtitle: 'EVENT TIMELINE • OCT 16 — OCT 18',
     accentColor: '#eab308',
     bg: '/assets/arch_schedule.jpg',
     doorThumb: '/assets/arch_schedule.jpg',
@@ -189,7 +213,7 @@ export const CHAMBERS = {
     contentHtml: `
       <div class="chamber-chrono-stream">
         <div class="chrono-day-block">
-          <div class="chrono-day-tag">DAY 01</div>
+          <div class="chrono-day-tag">DAY 01 &bull; OCT 16</div>
           <div class="chrono-events-list">
             <div class="chrono-item">
               <span class="chrono-time">5:30 PM – 7:30 PM</span>
@@ -203,11 +227,11 @@ export const CHAMBERS = {
         </div>
 
         <div class="chrono-day-block active-day">
-          <div class="chrono-day-tag">DAY 02 (FLAGSHIP)</div>
+          <div class="chrono-day-tag">DAY 02 (FLAGSHIP) &bull; OCT 17</div>
           <div class="chrono-events-list">
             <div class="chrono-item">
               <span class="chrono-time">9:00 AM – 9:00 PM</span>
-              <div class="chrono-desc"><h4>12-Hour Flagship Hackathon</h4><p>Flagship 12-hour sprint in partnership with MLH</p></div>
+              <div class="chrono-desc"><h4>HACKODEC Flagship Hackathon</h4><p>12-hour engineering sprint presented by TechKnow Council</p></div>
             </div>
             <div class="chrono-item">
               <span class="chrono-time">10:00 AM – 12:00 PM</span>
@@ -237,7 +261,7 @@ export const CHAMBERS = {
         </div>
 
         <div class="chrono-day-block">
-          <div class="chrono-day-tag">DAY 03</div>
+          <div class="chrono-day-tag">DAY 03 &bull; OCT 18</div>
           <div class="chrono-events-list">
             <div class="chrono-item">
               <span class="chrono-time">9:00 AM – 12:00 PM</span>
@@ -361,6 +385,15 @@ export class ChamberManager {
         door.classList.add('arch-portal-active');
       } else {
         door.classList.remove('arch-portal-active');
+      }
+    });
+
+    document.querySelectorAll('.rotunda-door-hotspot').forEach(spot => {
+      const key = spot.getAttribute('data-chamber');
+      if (isHovered && key === chamberKey) {
+        spot.classList.add('active-hover');
+      } else {
+        spot.classList.remove('active-hover');
       }
     });
   }

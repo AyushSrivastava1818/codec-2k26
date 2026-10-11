@@ -83,7 +83,6 @@ export class SceneManager {
     // 7. Event listeners
     window.addEventListener('resize', this.onWindowResize);
     window.addEventListener('mousemove', this.onPointerMove, { passive: true });
-    window.addEventListener('click', this.onPointerClick);
   }
 
   initLighting() {
@@ -148,62 +147,13 @@ export class SceneManager {
     this.mouseMoved = true;
   }
 
-  onPointerClick(e) {
-    // 1. Never trigger 3D chamber navigation if clicking on interactive UI elements or modals
-    if (!e || !e.target) return;
-    if (e.target.closest('button, input, select, textarea, a, .mansion-modal-backdrop, .modal, .hud-right-actions, .mobile-bottom-dock, .hud-nav-bar, .chamber-experience-viewport, .rotunda-nav-footer, .schedule-item-card, .subevent-delegate-card, .pass-card-digital, .admin-box, .reg-box')) {
-      return;
-    }
-
-    // 2. Never trigger if any modal is currently visible on screen
-    if (document.querySelector('.mansion-modal-backdrop.active')) {
-      return;
-    }
-
-    // 3. Only trigger if the click target is the WebGL renderer canvas or direct viewport background
-    if (e.target !== this.renderer?.domElement && e.target.id !== 'stage-viewport') {
-      return;
-    }
-
-    // 4. Trigger only if user clicked on a hovered 3D doorway mesh in the rotunda
-    if (this.hoveredChamberKey && this.onChamberClick) {
-      const key = this.hoveredChamberKey;
-      this.hoveredChamberKey = null; // Clear immediately to prevent repeat triggers
-      this.onChamberClick(key);
-    }
+  onPointerClick() {
+    // Disabled: Clicks are explicitly handled by the SVG doorway hitboxes and portal cards.
+    // This prevents accidental chamber openings when clicking anywhere on the screen.
   }
 
   checkRaycast() {
-    // Only raycast when camera is deep in the rotunda (Z < -16m)
-    if (!this.camera || this.camera.position.z > -16) {
-      if (this.hoveredChamberKey) {
-        this.hoveredChamberKey = null;
-        if (this.onChamberHover) this.onChamberHover(null);
-      }
-      return;
-    }
-
-    // Skip raycast computation if pointer hasn't moved
-    if (!this.mouseMoved && this.hoveredChamberKey !== null) {
-      return;
-    }
-    this.mouseMoved = false;
-
-    this.raycaster.setFromCamera(this.mouseVec, this.camera);
-    const intersects = this.raycaster.intersectObjects(this.chamberMeshes);
-
-    if (intersects.length > 0) {
-      const hitKey = intersects[0].object.userData.chamberKey;
-      if (hitKey !== this.hoveredChamberKey) {
-        this.hoveredChamberKey = hitKey;
-        if (this.onChamberHover) this.onChamberHover(hitKey);
-      }
-    } else {
-      if (this.hoveredChamberKey) {
-        this.hoveredChamberKey = null;
-        if (this.onChamberHover) this.onChamberHover(null);
-      }
-    }
+    // Disabled 3D mesh raycasting to prevent cursor state getting stuck on the center Hackathon chamber
   }
 
   onWindowResize() {
@@ -248,7 +198,6 @@ export class SceneManager {
   destroy() {
     window.removeEventListener('resize', this.onWindowResize);
     window.removeEventListener('mousemove', this.onPointerMove);
-    window.removeEventListener('click', this.onPointerClick);
     if (this.renderer && this.renderer.domElement && this.renderer.domElement.parentNode) {
       this.renderer.domElement.parentNode.removeChild(this.renderer.domElement);
     }

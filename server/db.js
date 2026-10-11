@@ -47,6 +47,8 @@ db.exec(`
     track TEXT NOT NULL,
     pass_type TEXT NOT NULL DEFAULT 'DELEGATE_PASS',
     status TEXT NOT NULL DEFAULT 'CONFIRMED',
+    team_name TEXT,
+    team_members TEXT,
     qr_data TEXT NOT NULL,
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE SET NULL
@@ -66,5 +68,9 @@ db.exec(`
   CREATE INDEX IF NOT EXISTS idx_registrations_ticket ON registrations(ticket_code);
   CREATE INDEX IF NOT EXISTS idx_event_rsvps_email ON event_rsvps(email);
 `);
+
+// Migration for existing databases
+try { db.exec(`ALTER TABLE registrations ADD COLUMN team_name TEXT;`); } catch (e) {}
+try { db.exec(`ALTER TABLE registrations ADD COLUMN team_members TEXT;`); } catch (e) {}
 
 console.log('CODEC 2K26 SQLite WAL Database Initialized at:', dbPath);

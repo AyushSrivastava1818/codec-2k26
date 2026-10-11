@@ -15,7 +15,7 @@ const SCHEDULE_DATA = {
     { time: '7:30 PM – 9:30 PM', cat: 'Robotics', title: 'Arc Robotics Event', desc: 'Robotics systems and hardware showcase.' }
   ],
   day2: [
-    { time: '9:00 AM – 9:00 PM', cat: 'Hackathon', title: 'TechKnow Hackathon', desc: 'Flagship 12-hour hackathon sprint in partnership with MLH.' },
+    { time: '9:00 AM – 9:00 PM', cat: 'Hackathon', title: 'HACKODEC Flagship Hackathon', desc: 'Flagship 12-hour national sprint presented by TechKnow Council, IIIT Kota (Oct 17).' },
     { time: '10:00 AM – 12:00 PM', cat: 'Codebase', title: 'Codebase Event', desc: 'Competitive software engineering challenge.' },
     { time: '1:00 PM – 5:00 PM', cat: 'Clutch', title: 'Clutch Event', desc: 'Competitive gaming and esports contest.' },
     { time: '2:00 PM – 5:00 PM', cat: 'Robotics', title: 'Arc Robotics Event', desc: 'Autonomous robotics challenge and combat.' },
@@ -148,7 +148,7 @@ function updateScrollSpy() {
 let currentSubeventTarget = '';
 let currentAdminFilter = 'all';
 
-window.openRegistrationModal = function(presetChamber = '') {
+window.openRegistrationModal = function(presetChamber = '', forceRegister = true) {
   // Exit any open 3D chamber experience so the modal appears cleanly
   if (window.cinematicController?.chamberManager?.activeChamberKey) {
     window.cinematicController.chamberManager.exitChamber(false);
@@ -171,8 +171,9 @@ window.openRegistrationModal = function(presetChamber = '') {
     }
   }
 
-  // CASE 1: User has an active pass and clicked a specific sub-event -> Show Direct RSVP View!
-  if (existingPass && presetChamber) {
+  // If user specifically clicks a competition from inside a chamber while having a pass,
+  // offer quick RSVP confirmation
+  if (existingPass && presetChamber && !forceRegister) {
     currentSubeventTarget = presetChamber;
     if (formView) formView.style.display = 'none';
     if (successView) successView.style.display = 'none';
@@ -199,7 +200,6 @@ window.openRegistrationModal = function(presetChamber = '') {
       // Reset extra checkboxes
       document.querySelectorAll('#subevent-extra-checkboxes input[type="checkbox"]').forEach(cb => {
         cb.checked = false;
-        // Hide checkbox if it is the target event
         const isTarget = cb.value.toLowerCase().includes(presetChamber.toLowerCase()) || 
                          presetChamber.toLowerCase().includes(cb.value.toLowerCase());
         cb.parentElement.style.display = isTarget ? 'none' : 'flex';
@@ -222,25 +222,35 @@ window.openRegistrationModal = function(presetChamber = '') {
     return;
   }
 
-  // CASE 2: User has an active pass and clicked "MY PASS" (no preset event) -> Show Digital Pass!
-  if (existingPass && !presetChamber) {
-    if (subeventView) subeventView.style.display = 'none';
-    showDigitalPass(existingPass);
-    modal.classList.add('active');
-    audioManager.playWhoosh();
-    return;
-  }
-
-  // CASE 3: User does NOT have an active pass -> Show Registration Form!
+  // DEFAULT & PRIMARY: Always show the full Registration Form!
   if (subeventView) subeventView.style.display = 'none';
   if (successView) successView.style.display = 'none';
   if (formView) formView.style.display = 'block';
 
+  // Automatically activate squad tab if hackathon/squad was selected
+  if (presetChamber && (presetChamber.toLowerCase().includes('hack') || presetChamber.toLowerCase().includes('squad'))) {
+    window.setModalRegistrationMode?.('squad');
+  } else {
+    window.setModalRegistrationMode?.('solo');
+  }
+
+  // Update toggle button text based on whether a pass is saved
+  const toggleBtn = document.getElementById('btn-toggle-existing-pass');
+  if (toggleBtn) {
+    const hasPass = !!localStorage.getItem('codec_summit_pass');
+    toggleBtn.innerHTML = hasPass
+      ? '<i class="fa-solid fa-ticket"></i> View My Registered Pass'
+      : '<i class="fa-solid fa-barcode"></i> Reopen Original Pass';
+  }
+
   // Automatically check the clicked competition checkbox
   if (presetChamber) {
+    const targetLow = presetChamber.toLowerCase();
     document.querySelectorAll('#reg-events-checklist input[type="checkbox"]').forEach(cb => {
-      const match = cb.value.toLowerCase().includes(presetChamber.toLowerCase()) || 
-                    presetChamber.toLowerCase().includes(cb.value.toLowerCase());
+      const cbLow = cb.value.toLowerCase();
+      const match = cbLow.includes(targetLow) || 
+                    targetLow.includes(cbLow) ||
+                    ((targetLow.includes('hackodec') || targetLow.includes('hackathon')) && (cbLow.includes('hackathon') || cbLow.includes('hackodec')));
       if (match) {
         cb.checked = true;
       }
@@ -250,6 +260,101 @@ window.openRegistrationModal = function(presetChamber = '') {
   modal.classList.add('active');
   audioManager.playWhoosh();
 };
+
+window.openMyPass = function() {
+  const modal = document.getElementById('reg-modal-backdrop');
+  if (!modal) return;
+  const existingPassRaw = localStorage.getItem('codec_summit_pass');
+  if (existingPassRaw) {
+    try {
+      const pass = JSON.parse(existingPassRaw);
+      showDigitalPass(pass);
+      modal.classList.add('active');
+      audioManager.playWhoosh();
+      return;
+    } catch (e) {}
+  }
+  // If no pass exists yet on this device, open the registration form directly so they can register
+  window.openRegistrationModal('', true);
+};
+
+const escapeHtml = (str) => String(str || '')
+  .replace(/&/g, '&amp;')
+  .replace(/</g, '&lt;')
+  .replace(/>/g, '&gt;')
+  .replace(/"/g, '&quot;')
+  .replace(/'/g, '&#39;');
+
+async function lookupAndOpenPass(query, feedbackEl) {
+  if (!query) {
+    if (feedbackEl) {
+      feedbackEl.className = 'retrieve-feedback error';
+      feedbackEl.textContent = 'Please enter a ticket code or email.';
+      feedbackEl.style.display = 'block';
+    }
+    return false;
+  }
+
+  if (feedbackEl) {
+    feedbackEl.className = 'retrieve-feedback';
+    feedbackEl.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> Searching registry...';
+    feedbackEl.style.display = 'block';
+  }
+
+  const cleanQuery = query.trim();
+
+  // Check localStorage first
+  const localSaved = localStorage.getItem('codec_summit_pass');
+  if (localSaved) {
+    try {
+      const p = JSON.parse(localSaved);
+      const code = (p.ticket_code || p.ticketCode || '').toUpperCase();
+      const em = (p.email || '').toLowerCase();
+      if (code === cleanQuery.toUpperCase() || code.includes(cleanQuery.toUpperCase()) || em === cleanQuery.toLowerCase()) {
+        showDigitalPass(p);
+        if (feedbackEl) {
+          feedbackEl.className = 'retrieve-feedback success';
+          feedbackEl.innerHTML = '<i class="fa-solid fa-circle-check"></i> Original pass verified and restored!';
+        }
+        audioManager.playMysticActivation();
+        return true;
+      }
+    } catch (e) {}
+  }
+
+  // Query server API
+  try {
+    const apiHost = window.location.hostname || '127.0.0.1';
+    let res;
+    try {
+      res = await fetch(`/api/registrations/lookup?query=${encodeURIComponent(cleanQuery)}`);
+    } catch (err) {
+      res = await fetch(`http://${apiHost}:5000/api/registrations/lookup?query=${encodeURIComponent(cleanQuery)}`);
+    }
+
+    const data = await res.json();
+    if (!res.ok || !data.pass) {
+      throw new Error(data.error || 'No registered ticket found matching that code or email.');
+    }
+
+    // Save as active pass
+    localStorage.setItem('codec_summit_pass', JSON.stringify(data.pass));
+    showDigitalPass(data.pass);
+    if (feedbackEl) {
+      feedbackEl.className = 'retrieve-feedback success';
+      feedbackEl.innerHTML = `<i class="fa-solid fa-circle-check"></i> Original pass for <strong>${escapeHtml(data.pass.name)}</strong> retrieved!`;
+    }
+    audioManager.playMysticActivation();
+    return true;
+  } catch (err) {
+    if (feedbackEl) {
+      feedbackEl.className = 'retrieve-feedback error';
+      feedbackEl.textContent = err.message || 'Pass not found. Check the code or register below.';
+      feedbackEl.style.display = 'block';
+    }
+    return false;
+  }
+}
 
 function showDigitalPass(pass) {
   const formView = document.getElementById('reg-form-view');
@@ -277,12 +382,34 @@ function showDigitalPass(pass) {
   }
   if (typeEl) typeEl.textContent = (pass.pass_type || 'SUMMIT PASS').replace(/_/g, ' ');
 
-  // Update top register button to show badge
-  const topPassBtn = document.getElementById('open-pass-btn');
-  if (topPassBtn) {
-    topPassBtn.innerHTML = '<i class="fa-solid fa-ticket"></i> <span>MY PASS</span>';
-    topPassBtn.style.background = 'linear-gradient(135deg, #10b981 0%, #059669 100%)';
-    topPassBtn.style.borderColor = '#34d399';
+  // Render squad members if team pass
+  const squadBox = document.getElementById('pass-squad-container');
+  const squadGrid = document.getElementById('pass-squad-grid');
+  const teamBadge = document.getElementById('pass-display-team-name');
+
+  let members = pass.team_members || pass.teamMembers;
+  if (typeof members === 'string') {
+    try { members = JSON.parse(members); } catch (e) { members = null; }
+  }
+
+  if (Array.isArray(members) && members.length > 0 && squadBox && squadGrid) {
+    squadBox.style.display = 'block';
+    if (teamBadge) teamBadge.textContent = pass.team_name || pass.teamName || 'Squad';
+    squadGrid.innerHTML = members.map((m, idx) => `
+      <div class="pass-squad-member-pill">
+        <span class="member-role">${idx === 0 ? '👑 LEADER' : `MEMBER 0${idx + 1}`}</span>
+        <span class="member-name">${escapeHtml(m.name || 'Member')}</span>
+        <span class="member-id">ID: ${escapeHtml(m.studentId || m.id || 'N/A')}</span>
+      </div>
+    `).join('');
+  } else if (squadBox) {
+    squadBox.style.display = 'none';
+  }
+
+  // Display the MY PASS button in the top navigation bar while keeping REGISTER button visible
+  const myPassBtn = document.getElementById('open-my-pass-btn');
+  if (myPassBtn) {
+    myPassBtn.style.display = 'inline-flex';
   }
 }
 
@@ -300,6 +427,172 @@ function initModals() {
   closeBtn?.addEventListener('click', () => modal?.classList.remove('active'));
   doneBtn?.addEventListener('click', () => modal?.classList.remove('active'));
 
+  // Pass Retrieval from Form View
+  const retrieveBtn = document.getElementById('btn-retrieve-pass');
+  const retrieveInput = document.getElementById('retrieve-ticket-input');
+  const retrieveFeedback = document.getElementById('retrieve-feedback');
+
+  const handleRetrieve = async () => {
+    const val = retrieveInput?.value.trim();
+    await lookupAndOpenPass(val, retrieveFeedback);
+  };
+
+  retrieveBtn?.addEventListener('click', handleRetrieve);
+  retrieveInput?.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      handleRetrieve();
+    }
+  });
+
+  // Quick Ticket Switcher from Pass View
+  const switchToggleBtn = document.getElementById('btn-pass-lookup-toggle');
+  const quickRetrieveBox = document.getElementById('pass-quick-retrieve-box');
+  const quickRetrieveExec = document.getElementById('btn-quick-retrieve-exec');
+  const quickRetrieveInput = document.getElementById('pass-quick-ticket-input');
+  const quickRetrieveMsg = document.getElementById('pass-quick-retrieve-msg');
+
+  switchToggleBtn?.addEventListener('click', () => {
+    if (!quickRetrieveBox) return;
+    const isShown = quickRetrieveBox.style.display === 'block';
+    quickRetrieveBox.style.display = isShown ? 'none' : 'block';
+    if (!isShown) quickRetrieveInput?.focus();
+  });
+
+  quickRetrieveExec?.addEventListener('click', async () => {
+    const val = quickRetrieveInput?.value.trim();
+    await lookupAndOpenPass(val, quickRetrieveMsg);
+  });
+  quickRetrieveInput?.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      quickRetrieveExec?.click();
+    }
+  });
+
+  // Registration Mode Tabs (Solo vs 4-Member Squad) inside Modal
+  const modalTabSolo = document.getElementById('modal-tab-solo');
+  const modalTabSquad = document.getElementById('modal-tab-squad');
+  const soloForm = document.getElementById('summit-reg-form');
+  const squadModalForm = document.getElementById('modal-squad-form');
+
+  window.setModalRegistrationMode = (mode) => {
+    if (mode === 'squad') {
+      modalTabSquad?.classList.add('active');
+      modalTabSolo?.classList.remove('active');
+      if (soloForm) soloForm.style.display = 'none';
+      if (squadModalForm) squadModalForm.style.display = 'block';
+    } else {
+      modalTabSolo?.classList.add('active');
+      modalTabSquad?.classList.remove('active');
+      if (soloForm) soloForm.style.display = 'block';
+      if (squadModalForm) squadModalForm.style.display = 'none';
+    }
+  };
+
+  modalTabSolo?.addEventListener('click', () => window.setModalRegistrationMode('solo'));
+  modalTabSquad?.addEventListener('click', () => window.setModalRegistrationMode('squad'));
+
+  // Handle Modal Squad Form Submission (4 Members with Name & Student ID)
+  const mSquadSubmitBtn = document.getElementById('m-squad-submit-btn');
+  const mSquadBtnText = document.getElementById('m-squad-btn-text');
+  const mSquadBtnSpinner = document.getElementById('m-squad-btn-spinner');
+  const mSquadFeedback = document.getElementById('m-squad-feedback');
+
+  squadModalForm?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    const teamName = document.getElementById('m-squad-team-name')?.value.trim();
+    const college = document.getElementById('m-squad-college')?.value.trim() || 'IIIT Kota';
+    const leaderEmail = document.getElementById('m-squad-leader-email')?.value.trim();
+    const leaderPhone = document.getElementById('m-squad-leader-phone')?.value.trim();
+    const trackFocus = document.getElementById('m-squad-track-select')?.value || 'AI & Autonomous Systems';
+
+    const m1Name = document.getElementById('m-squad-m1-name')?.value.trim();
+    const m1Id = document.getElementById('m-squad-m1-id')?.value.trim();
+    const m2Name = document.getElementById('m-squad-m2-name')?.value.trim();
+    const m2Id = document.getElementById('m-squad-m2-id')?.value.trim();
+    const m3Name = document.getElementById('m-squad-m3-name')?.value.trim();
+    const m3Id = document.getElementById('m-squad-m3-id')?.value.trim();
+    const m4Name = document.getElementById('m-squad-m4-name')?.value.trim();
+    const m4Id = document.getElementById('m-squad-m4-id')?.value.trim();
+
+    if (!teamName || !leaderEmail || !m1Name || !m1Id || !m2Name || !m2Id || !m3Name || !m3Id || !m4Name || !m4Id) {
+      if (mSquadFeedback) {
+        mSquadFeedback.className = 'reg-form-feedback error';
+        mSquadFeedback.textContent = 'Please provide Full Name and Student ID for all 4 squad members.';
+        mSquadFeedback.style.display = 'block';
+      }
+      return;
+    }
+
+    const members = [
+      { name: m1Name, studentId: m1Id, role: 'Team Leader' },
+      { name: m2Name, studentId: m2Id, role: 'Member 2' },
+      { name: m3Name, studentId: m3Id, role: 'Member 3' },
+      { name: m4Name, studentId: m4Id, role: 'Member 4' }
+    ];
+
+    if (mSquadSubmitBtn) mSquadSubmitBtn.disabled = true;
+    if (mSquadBtnText) mSquadBtnText.style.display = 'none';
+    if (mSquadBtnSpinner) mSquadBtnSpinner.style.display = 'inline-block';
+    if (mSquadFeedback) mSquadFeedback.style.display = 'none';
+
+    try {
+      const payload = {
+        teamName,
+        leaderName: m1Name,
+        leaderEmail,
+        college,
+        phone: leaderPhone,
+        track: `HACKODEC Flagship Hackathon (${trackFocus})`,
+        members
+      };
+
+      const apiHost = window.location.hostname || '127.0.0.1';
+      let res;
+      try {
+        res = await fetch('/api/registrations/hackathon-team', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+      } catch (err) {
+        res = await fetch(`http://${apiHost}:5000/api/registrations/hackathon-team`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+      }
+
+      const resData = await res.json();
+      if (!res.ok) throw new Error(resData.error || 'Failed to register squad.');
+
+      // Save pass locally
+      const passData = {
+        ...resData.pass,
+        team_members: members,
+        enrolledEvents: ['HACKODEC (12-Hour Flagship Hackathon)']
+      };
+      localStorage.setItem('codec_summit_pass', JSON.stringify(passData));
+
+      // Show verified digital pass
+      showDigitalPass(passData);
+      audioManager.playMysticActivation();
+      squadModalForm.reset();
+    } catch (err) {
+      if (mSquadFeedback) {
+        mSquadFeedback.className = 'reg-form-feedback error';
+        mSquadFeedback.textContent = err.message || 'Registration error. Please try again.';
+        mSquadFeedback.style.display = 'block';
+      }
+    } finally {
+      if (mSquadSubmitBtn) mSquadSubmitBtn.disabled = false;
+      if (mSquadBtnText) mSquadBtnText.style.display = 'inline-block';
+      if (mSquadBtnSpinner) mSquadBtnSpinner.style.display = 'none';
+    }
+  });
+
   // Switch back to form view from digital pass
   const newPassBtn = document.getElementById('btn-new-pass');
   newPassBtn?.addEventListener('click', () => {
@@ -311,8 +604,13 @@ function initModals() {
     if (subeventView) subeventView.style.display = 'none';
     const regForm = document.getElementById('summit-reg-form');
     if (regForm) regForm.reset();
+    if (squadModalForm) squadModalForm.reset();
     const fb = document.getElementById('reg-feedback');
     if (fb) fb.style.display = 'none';
+    if (mSquadFeedback) mSquadFeedback.style.display = 'none';
+    const rfb = document.getElementById('retrieve-feedback');
+    if (rfb) rfb.style.display = 'none';
+    window.setModalRegistrationMode?.('solo');
     audioManager.playTick();
   });
 
@@ -341,7 +639,117 @@ function initModals() {
   });
 
   document.getElementById('open-pass-btn')?.addEventListener('click', () => {
-    window.openRegistrationModal();
+    window.openRegistrationModal('', true);
+  });
+
+  document.getElementById('open-my-pass-btn')?.addEventListener('click', () => {
+    window.openMyPass();
+  });
+
+  document.getElementById('btn-new-pass')?.addEventListener('click', () => {
+    // Reset form so attendee can register cleanly
+    const form = document.getElementById('summit-reg-form');
+    if (form) {
+      form.reset();
+      const col = document.getElementById('reg-college');
+      if (col) col.value = 'IIIT Kota';
+      const checkGeneral = document.querySelector('#reg-events-checklist input[value="General Summit Delegate"]');
+      if (checkGeneral) checkGeneral.checked = true;
+    }
+    const feedback = document.getElementById('reg-feedback');
+    if (feedback) feedback.style.display = 'none';
+    window.openRegistrationModal('', true);
+  });
+
+  // Toggle collapsible original pass retrieval panel or return directly to registered pass
+  document.getElementById('btn-toggle-existing-pass')?.addEventListener('click', () => {
+    const existingPassRaw = localStorage.getItem('codec_summit_pass');
+    if (existingPassRaw) {
+      try {
+        const pass = JSON.parse(existingPassRaw);
+        showDigitalPass(pass);
+        return;
+      } catch (e) {}
+    }
+    const panel = document.getElementById('pass-retrieve-panel');
+    if (panel) {
+      const isHidden = panel.style.display === 'none' || !panel.style.display;
+      panel.style.display = isHidden ? 'block' : 'none';
+      if (isHidden) {
+        document.getElementById('retrieve-ticket-input')?.focus();
+      }
+    }
+  });
+
+  // Go to Actual Ticket by entering Ticket Code inside My Pass
+  const openActualPassBtn = document.getElementById('btn-open-actual-pass');
+  const actualTicketInput = document.getElementById('pass-actual-ticket-input');
+  const actualLookupFeedback = document.getElementById('pass-actual-lookup-feedback');
+
+  const handleOpenActualTicket = async () => {
+    const val = actualTicketInput?.value.trim();
+    if (!val) {
+      if (actualLookupFeedback) {
+        actualLookupFeedback.textContent = 'Please enter your Ticket Code or email.';
+        actualLookupFeedback.className = 'pass-lookup-feedback error';
+        actualLookupFeedback.style.display = 'block';
+      }
+      return;
+    }
+    await lookupAndOpenPass(val, actualLookupFeedback);
+  };
+
+  openActualPassBtn?.addEventListener('click', handleOpenActualTicket);
+  actualTicketInput?.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') handleOpenActualTicket();
+  });
+
+  // Secret Password Access to Registry inside My Pass
+  const secretRegistryTrigger = document.getElementById('btn-pass-secret-trigger');
+  const secretRegistrySection = document.getElementById('pass-secret-registry-section');
+  const secretPwdInput = document.getElementById('pass-secret-pwd-input');
+  const unlockRegistryBtn = document.getElementById('btn-unlock-registry');
+  const secretFeedback = document.getElementById('pass-secret-feedback');
+
+  secretRegistryTrigger?.addEventListener('click', () => {
+    if (secretRegistrySection) {
+      const isHidden = secretRegistrySection.style.display === 'none' || !secretRegistrySection.style.display;
+      secretRegistrySection.style.display = isHidden ? 'block' : 'none';
+      if (isHidden) {
+        secretPwdInput?.focus();
+      }
+    }
+  });
+
+  const handleUnlockRegistry = () => {
+    const pwd = (secretPwdInput?.value || '').trim().toLowerCase();
+    const validPasswords = ['codec2026', 'codec2k26', 'techknow', 'admin', 'alohomora', 'iiitkota'];
+    if (validPasswords.includes(pwd)) {
+      if (secretFeedback) {
+        secretFeedback.textContent = 'Passcode accepted! Opening registry...';
+        secretFeedback.className = 'pass-secret-feedback success';
+        secretFeedback.style.color = '#34d399';
+        secretFeedback.style.display = 'block';
+      }
+      setTimeout(() => {
+        if (secretRegistrySection) secretRegistrySection.style.display = 'none';
+        if (secretPwdInput) secretPwdInput.value = '';
+        if (secretFeedback) secretFeedback.style.display = 'none';
+        window.openAdminModal?.();
+      }, 350);
+    } else {
+      if (secretFeedback) {
+        secretFeedback.textContent = 'Incorrect secret password. Access denied.';
+        secretFeedback.className = 'pass-secret-feedback error';
+        secretFeedback.style.color = '#f87171';
+        secretFeedback.style.display = 'block';
+      }
+    }
+  };
+
+  unlockRegistryBtn?.addEventListener('click', handleUnlockRegistry);
+  secretPwdInput?.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') handleUnlockRegistry();
   });
 
   // Copy Ticket Code
@@ -626,16 +1034,14 @@ function initModals() {
     handlePassSubmission(e);
   });
 
-  // Check if existing pass is already stored
+  // Check if existing pass is already stored to reveal MY PASS button
   const savedPass = localStorage.getItem('codec_summit_pass');
   if (savedPass) {
     try {
       const pass = JSON.parse(savedPass);
-      const topPassBtn = document.getElementById('open-pass-btn');
-      if (topPassBtn) {
-        topPassBtn.innerHTML = '<i class="fa-solid fa-ticket"></i> <span>MY PASS</span>';
-        topPassBtn.style.background = 'linear-gradient(135deg, #10b981 0%, #059669 100%)';
-        topPassBtn.style.borderColor = '#34d399';
+      const myPassBtn = document.getElementById('open-my-pass-btn');
+      if (myPassBtn) {
+        myPassBtn.style.display = 'inline-flex';
       }
     } catch (e) {}
   }
@@ -662,14 +1068,6 @@ function initAdminModal() {
   const openAdmin = () => {
     window.openAdminModal();
   };
-
-  // Secret keyboard shortcut: Ctrl+Shift+A opens registry
-  window.addEventListener('keydown', (e) => {
-    if (e.ctrlKey && e.shiftKey && (e.key === 'A' || e.key === 'a')) {
-      e.preventDefault();
-      window.openAdminModal();
-    }
-  });
 
   const closeAdmin = () => {
     adminBackdrop?.classList.remove('active');
@@ -966,31 +1364,43 @@ function initAudioButton() {
   const label = document.getElementById('audio-label');
 
   if (btn) {
-    btn.addEventListener('click', () => {
-      const active = audioManager.toggle();
+    btn.addEventListener('click', async () => {
+      const active = await audioManager.toggle();
       if (active) {
         if (icon) icon.className = 'fa-solid fa-volume-high';
-        if (label) label.textContent = 'Audio: On';
+        if (label) label.textContent = 'Hedwig\'s Theme: On';
+        btn.classList.add('audio-active');
+        btn.setAttribute('title', 'Harry Potter Theme is Playing (Click to Mute)');
       } else {
         if (icon) icon.className = 'fa-solid fa-volume-xmark';
-        if (label) label.textContent = 'Audio: Off';
+        if (label) label.textContent = 'Hedwig\'s Theme: Off';
+        btn.classList.remove('audio-active');
+        btn.setAttribute('title', 'Play Harry Potter Hedwig\'s Theme in Background');
       }
     });
   }
 }
 
-// Ambient Lightning Flash
+// Ambient Lightning Flash + Thunder Roll
 function scheduleLightning() {
   const overlay = document.getElementById('lightning-overlay');
   if (!overlay) return;
 
-  const nextFlashDelay = 14000 + Math.random() * 16000;
+  const nextFlashDelay = 12000 + Math.random() * 14000;
   setTimeout(() => {
     overlay.style.opacity = '1';
+    
+    // Play realistic thunder rumble delayed slightly after lightning
+    if (audioManager && audioManager.isEnabled) {
+      setTimeout(() => {
+        audioManager.playThunder();
+      }, 260);
+    }
+
     setTimeout(() => {
       overlay.style.opacity = '0';
       setTimeout(() => {
-        overlay.style.opacity = '0.65';
+        overlay.style.opacity = '0.7';
         setTimeout(() => {
           overlay.style.opacity = '0';
           scheduleLightning();
@@ -1000,11 +1410,15 @@ function scheduleLightning() {
   }, nextFlashDelay);
 }
 
-// Interactive Corner Spider
+// Interactive Corner Spider with jump-scare audio
 function initSpider() {
   const spider = document.getElementById('corner-spider');
   if (spider) {
     spider.addEventListener('click', () => {
+      // Play creepy crawly sound
+      if (audioManager) {
+        audioManager.playSpiderScare();
+      }
       spider.style.animation = 'none';
       spider.style.transform = 'translateY(-140px)';
       spider.style.transition = 'transform 0.4s ease';
@@ -1014,6 +1428,125 @@ function initSpider() {
       }, 2500);
     });
   }
+}
+
+// HACKODEC 4-Member Squad Registration Logic
+function initSquadRegistration() {
+  const form = document.getElementById('hackathon-squad-form');
+  const submitBtn = document.getElementById('squad-submit-btn');
+  const btnText = document.getElementById('squad-btn-text');
+  const btnSpinner = document.getElementById('squad-btn-spinner');
+  const feedback = document.getElementById('squad-feedback');
+
+  form?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    const teamName = document.getElementById('squad-team-name')?.value.trim();
+    const college = document.getElementById('squad-college')?.value.trim() || 'IIIT Kota';
+    const leaderEmail = document.getElementById('squad-leader-email')?.value.trim();
+    const leaderPhone = document.getElementById('squad-leader-phone')?.value.trim();
+    const trackFocus = document.getElementById('squad-track-select')?.value || 'AI & Autonomous Systems';
+
+    const m1Name = document.getElementById('squad-m1-name')?.value.trim();
+    const m1Id = document.getElementById('squad-m1-id')?.value.trim();
+    const m2Name = document.getElementById('squad-m2-name')?.value.trim();
+    const m2Id = document.getElementById('squad-m2-id')?.value.trim();
+    const m3Name = document.getElementById('squad-m3-name')?.value.trim();
+    const m3Id = document.getElementById('squad-m3-id')?.value.trim();
+    const m4Name = document.getElementById('squad-m4-name')?.value.trim();
+    const m4Id = document.getElementById('squad-m4-id')?.value.trim();
+
+    if (!teamName || !leaderEmail || !m1Name || !m1Id || !m2Name || !m2Id || !m3Name || !m3Id || !m4Name || !m4Id) {
+      if (feedback) {
+        feedback.className = 'squad-reg-feedback error';
+        feedback.textContent = 'Please provide Full Name and Student ID for all 4 team members.';
+        feedback.style.display = 'block';
+      }
+      return;
+    }
+
+    const members = [
+      { name: m1Name, studentId: m1Id, role: 'Team Leader' },
+      { name: m2Name, studentId: m2Id, role: 'Member 2' },
+      { name: m3Name, studentId: m3Id, role: 'Member 3' },
+      { name: m4Name, studentId: m4Id, role: 'Member 4' }
+    ];
+
+    if (submitBtn) submitBtn.disabled = true;
+    if (btnText) btnText.style.display = 'none';
+    if (btnSpinner) btnSpinner.style.display = 'inline-block';
+    if (feedback) feedback.style.display = 'none';
+
+    try {
+      const payload = {
+        teamName,
+        leaderName: m1Name,
+        leaderEmail,
+        college,
+        phone: leaderPhone,
+        track: `HACKODEC Flagship Hackathon (${trackFocus})`,
+        members
+      };
+
+      const apiHost = window.location.hostname || '127.0.0.1';
+      let res;
+      try {
+        res = await fetch('/api/registrations/hackathon-team', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+      } catch (err) {
+        res = await fetch(`http://${apiHost}:5000/api/registrations/hackathon-team`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+      }
+
+      const resData = await res.json();
+      if (!res.ok) throw new Error(resData.error || 'Failed to register squad.');
+
+      // Save pass locally
+      const passData = {
+        ...resData.pass,
+        team_members: members,
+        enrolledEvents: ['HACKODEC (12-Hour Flagship Hackathon)']
+      };
+      localStorage.setItem('codec_summit_pass', JSON.stringify(passData));
+
+      if (feedback) {
+        feedback.className = 'squad-reg-feedback success';
+        feedback.innerHTML = `<i class="fa-solid fa-circle-check"></i> Squad <strong>${escapeHtml(teamName)}</strong> registered successfully! Pass Issued: <code>${escapeHtml(resData.pass.ticket_code)}</code>`;
+        feedback.style.display = 'block';
+      }
+
+      // Open pass modal with team pass
+      showDigitalPass(passData);
+      const modal = document.getElementById('reg-modal-backdrop');
+      if (modal) modal.classList.add('active');
+      audioManager.playMysticActivation();
+
+      form.reset();
+    } catch (err) {
+      if (feedback) {
+        feedback.className = 'squad-reg-feedback error';
+        feedback.textContent = err.message || 'Registration error. Please verify backend server.';
+        feedback.style.display = 'block';
+      }
+    } finally {
+      if (submitBtn) submitBtn.disabled = false;
+      if (btnText) btnText.style.display = 'inline-block';
+      if (btnSpinner) btnSpinner.style.display = 'none';
+    }
+  });
+
+  window.scrollToHackathonSquad = function() {
+    if (cinematicController?.chamberManager?.activeChamberKey) {
+      cinematicController.chamberManager.exitChamber(false);
+    }
+    window.openRegistrationModal('HACKODEC');
+  };
 }
 
 // Navigation button bindings
@@ -1048,6 +1581,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initNavButtons();
   initAudioButton();
   initModals();
+  initSquadRegistration();
   initAdminModal();
   initScheduleTabs();
   initSpider();

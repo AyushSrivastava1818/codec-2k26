@@ -5,7 +5,7 @@ import { db } from '../db.js';
 const router = Router();
 
 const getAllRegistrationsStmt = db.prepare(`
-  SELECT id, ticket_code, name, email, college, phone, track, pass_type, status, created_at
+  SELECT id, ticket_code, name, email, college, phone, track, pass_type, status, team_name, team_members, created_at
   FROM registrations
   ORDER BY id DESC
 `);

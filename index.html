@@ -19,16 +19,11 @@
 
   <!-- ================= CINEMATIC MINIMAL PRELOADER ================= -->
   <div class="cinematic-preloader" id="cinematic-preloader">
-    <div class="loader-content">
-      <div class="loader-hud-brand">CODEC 2K26 &bull; TECHKNOW COUNCIL &bull; IIIT KOTA</div>
-      <div class="loader-status-title">INITIALIZING CINEMATIC ENVIRONMENT</div>
-      <div class="loader-line-track">
-        <div class="loader-line-fill" id="loader-line-fill"></div>
-      </div>
-      <div class="loader-metrics-row">
-        <span class="loader-sub">SPATIAL 3D MANSION PROTOCOL</span>
-        <span class="loader-percentage" id="loader-percentage-num">0%</span>
-      </div>
+    <div class="cyber-ritual-loader">
+      <div class="ritual-ring ritual-ring-outer"></div>
+      <div class="ritual-ring ritual-ring-mid"></div>
+      <div class="ritual-ring ritual-ring-inner"></div>
+      <div class="ritual-core-pulse"></div>
     </div>
   </div>
 
@@ -59,13 +54,13 @@
     <!-- Top Right Controls -->
     <div class="hud-right-actions">
 
-      <button class="hud-sound-toggle" id="audio-toggle-btn" title="Toggle Haunted Mansion Audio">
+      <button class="hud-sound-toggle" id="audio-toggle-btn" title="Play Harry Potter Hedwig's Theme in Background">
         <i class="fa-solid fa-volume-xmark" id="audio-icon"></i>
-        <span id="audio-label">Sound: Off</span>
+        <span id="audio-label">Hedwig's Theme: Off</span>
       </button>
-      <button class="hud-pass-btn" id="open-pass-btn">
-        <i class="fa-solid fa-bolt"></i>
-        <span>REGISTER</span>
+      <button class="hud-pass-btn hud-my-pass-btn" id="open-my-pass-btn" title="My Pass & Registration Portal">
+        <i class="fa-solid fa-ticket"></i>
+        <span>MY PASS</span>
       </button>
     </div>
   </header>
@@ -75,17 +70,11 @@
   <!-- ================= RIGHT VERTICAL SOCIAL DOCK ================= -->
   <aside class="hud-dock-right">
     <div class="dock-line top"></div>
-    <a href="https://www.instagram.com/kernel.iiitkota/" target="_blank" rel="noopener noreferrer" class="social-circle-link" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
-    <a href="https://www.linkedin.com/school/iiitkota/" target="_blank" rel="noopener noreferrer" class="social-circle-link" aria-label="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a>
-    <a href="https://discord.gg/iiitkota" target="_blank" rel="noopener noreferrer" class="social-circle-link" aria-label="Discord"><i class="fa-brands fa-discord"></i></a>
-    <a href="https://www.youtube.com/@iiitkota" target="_blank" rel="noopener noreferrer" class="social-circle-link" aria-label="YouTube"><i class="fa-brands fa-youtube"></i></a>
-    <a href="https://github.com/AyushSrivastava1818/codec-2k26" target="_blank" rel="noopener noreferrer" class="social-circle-link" aria-label="GitHub"><i class="fa-brands fa-github"></i></a>
+    <a href="https://www.instagram.com/techknow_council/" target="_blank" rel="noopener noreferrer" class="social-circle-link" aria-label="Instagram" title="Instagram: @techknow_council"><i class="fa-brands fa-instagram"></i></a>
+    <a href="https://www.linkedin.com/in/techknowsociety/" target="_blank" rel="noopener noreferrer" class="social-circle-link" aria-label="LinkedIn" title="LinkedIn: TechKnow Society"><i class="fa-brands fa-linkedin-in"></i></a>
+    <a href="https://discord.gg/iiitkota" target="_blank" rel="noopener noreferrer" class="social-circle-link" aria-label="Discord" title="Discord: IIIT Kota"><i class="fa-brands fa-discord"></i></a>
+    <a href="mailto:techknow@iiitkota.ac.in" class="social-circle-link" aria-label="Email" title="Email: techknow@iiitkota.ac.in"><i class="fa-solid fa-envelope"></i></a>
     <div class="dock-line bottom"></div>
-
-    <div class="hud-drone-companion" id="hud-drone">
-      <div class="drone-core"><i class="fa-solid fa-eye"></i></div>
-      <div class="drone-thruster"></div>
-    </div>
   </aside>
 
   <!-- ================= CORNER SPIDER & WEB ================= -->
@@ -135,6 +124,47 @@
       <div class="cinematic-layer layer-rotunda" id="layer-rotunda" style="background-image: url('/assets/rotunda_master.jpg');">
         <div class="rotunda-ambient-shade"></div>
         <div class="rotunda-core-beacon"></div>
+
+        <!-- INTERACTIVE ARCHWAY DOORS & LABELS OVERLAY -->
+        <svg class="rotunda-arch-interactive-hud" viewBox="0 0 1376 768" preserveAspectRatio="xMidYMid slice" aria-label="Interactive Chamber Doors">
+          <defs>
+            <radialGradient id="portalGlowGrad" cx="50%" cy="50%" r="50%">
+              <stop offset="0%" stop-color="#ff9900" stop-opacity="0.3" />
+              <stop offset="60%" stop-color="#ff6600" stop-opacity="0.12" />
+              <stop offset="100%" stop-color="#ff4400" stop-opacity="0" />
+            </radialGradient>
+          </defs>
+
+          <!-- 01: ABOUT -->
+          <g class="rotunda-door-hotspot" data-chamber="about" role="button" tabindex="0" aria-label="Enter Chamber 01: About">
+            <polygon class="arch-door-hitbox" points="305,330 430,350 430,565 315,565" />
+            <title>Enter Chamber 01: ABOUT (Fest Vision & Council Archive)</title>
+          </g>
+
+          <!-- 02: EVENTS -->
+          <g class="rotunda-door-hotspot" data-chamber="events" role="button" tabindex="0" aria-label="Enter Chamber 02: Events">
+            <polygon class="arch-door-hitbox" points="465,270 595,280 585,490 480,490" />
+            <title>Enter Chamber 02: EVENTS (Workshops & Coding Contests)</title>
+          </g>
+
+          <!-- 03: HACKATHON -->
+          <g class="rotunda-door-hotspot featured" data-chamber="hackathon" role="button" tabindex="0" aria-label="Enter Chamber 03: Flagship Hackathon">
+            <polygon class="arch-door-hitbox" points="605,195 775,195 750,450 630,450" />
+            <title>Enter Chamber 03: HACKATHON (12-Hour Flagship Sprint)</title>
+          </g>
+
+          <!-- 04: SCHEDULE -->
+          <g class="rotunda-door-hotspot" data-chamber="schedule" role="button" tabindex="0" aria-label="Enter Chamber 04: Schedule">
+            <polygon class="arch-door-hitbox" points="780,280 930,270 895,490 790,490" />
+            <title>Enter Chamber 04: SCHEDULE (3-Day Event Timetable)</title>
+          </g>
+
+          <!-- 05: PRIZES -->
+          <g class="rotunda-door-hotspot" data-chamber="prizes" role="button" tabindex="0" aria-label="Enter Chamber 05: Prizes">
+            <polygon class="arch-door-hitbox" points="945,350 1070,330 1060,565 945,565" />
+            <title>Enter Chamber 05: PRIZES (Trophies, Medals & Honors)</title>
+          </g>
+        </svg>
       </div>
 
       <!-- SPOOKY BATS FLYING ACROSS SKY -->
@@ -313,32 +343,47 @@
     </div>
   </div>
 
-  <!-- ================= OFFICIAL 12-HOUR FLAGSHIP HACKATHON SECTION (TECHKNOW X MLH) ================= -->
+  <!-- ================= OFFICIAL 12-HOUR FLAGSHIP HACKATHON SECTION (TECHKNOW PRESENTS HACKODEC) ================= -->
   <section class="section-container" id="guilds-section">
     <div class="section-header">
       <span class="section-tag flagship-tag"><i class="fa-solid fa-crown"></i> FLAGSHIP EVENT</span>
-      <h2 class="section-title">12-Hour Flagship Hackathon</h2>
-      <p class="section-desc">The flagship 12-hour build sprint organized by TechKnow Council, IIIT Kota in official league partnership with Major League Hacking (MLH).</p>
+      <h2 class="section-title">HACKODEC &bull; Flagship Hackathon</h2>
+      <p class="section-desc">The premier 12-hour national engineering sprint presented by TechKnow Council, IIIT Kota.</p>
     </div>
 
-    <!-- TECHKNOW X MLH OFFICIAL LEAGUE BANNER -->
-    <div class="techknow-mlh-banner">
-      <div class="mlh-banner-left">
-        <span class="mlh-official-pill"><i class="fa-solid fa-certificate"></i> OFFICIAL LEAGUE EVENT</span>
-        <div class="mlh-duo-title">
-          <span class="partner-name techknow">TECHKNOW</span>
-          <span class="partner-cross"><i class="fa-solid fa-xmark"></i></span>
-          <span class="partner-name mlh"><i class="fa-solid fa-cube"></i> MLH</span>
+    <!-- TECHKNOW PRESENTS HACKODEC FLAGSHIP BANNER -->
+    <div class="techknow-hackodec-banner hackodec-flagship-banner">
+      <div class="hackodec-banner-glow"></div>
+      
+      <div class="hackodec-banner-left">
+        <div class="hackodec-badge-row">
+          <span class="hackodec-official-pill"><i class="fa-solid fa-crown"></i> TECHKNOW PRESENTS</span>
+          <span class="hackodec-status-pulse"><span class="pulse-beacon"></span> 12H NON-STOP SPRINT</span>
+        </div>
+        
+        <h1 class="hackodec-hero-title">HACKODEC</h1>
+        
+        <div class="hackodec-duo-title">
+          <span class="partner-name techknow">TECHKNOW COUNCIL</span>
+          <span class="partner-cross">&bull;</span>
+          <span class="partner-name institute">IIIT KOTA</span>
         </div>
       </div>
-      <div class="mlh-banner-divider"></div>
-      <div class="mlh-banner-right">
-        <span class="mlh-season-title">MAJOR LEAGUE HACKING &bull; 2026 MEMBER EVENT</span>
-        <p class="mlh-season-desc">Official developer league standards, global mentorship, verified credentials & hack sprint recognition.</p>
+
+      <div class="hackodec-banner-divider"></div>
+
+      <div class="hackodec-banner-right">
+        <span class="hackodec-season-title"><i class="fa-solid fa-code"></i> OFFICIAL 12-HOUR NATIONAL SPRINT</span>
+        <p class="hackodec-season-desc">TechKnow Council presents HACKODEC — the pinnacle national build sprint of CODEC 2K26. Featuring industrial problem statements across AI/ML, Autonomous Systems, Scalable Software, and Open Innovation.</p>
+        <div class="hackodec-highlights-row" style="display: flex; flex-wrap: wrap; gap: 0.6rem; margin-top: 1rem;">
+          <span class="highlight-badge-pill" style="display: inline-flex; align-items: center; gap: 0.4rem; padding: 0.35rem 0.8rem; background: rgba(255, 68, 34, 0.12); border: 1px solid rgba(255, 68, 34, 0.35); border-radius: 999px; font-size: 0.78rem; font-family: 'JetBrains Mono', monospace; color: #ff6b4a;"><i class="fa-solid fa-laptop-code"></i> 12H Non-Stop</span>
+          <span class="highlight-badge-pill" style="display: inline-flex; align-items: center; gap: 0.4rem; padding: 0.35rem 0.8rem; background: rgba(0, 240, 255, 0.1); border: 1px solid rgba(0, 240, 255, 0.3); border-radius: 999px; font-size: 0.78rem; font-family: 'JetBrains Mono', monospace; color: #38bdf8;"><i class="fa-solid fa-users"></i> 4 Members / Squad</span>
+          <span class="highlight-badge-pill" style="display: inline-flex; align-items: center; gap: 0.4rem; padding: 0.35rem 0.8rem; background: rgba(245, 158, 11, 0.1); border: 1px solid rgba(245, 158, 11, 0.3); border-radius: 999px; font-size: 0.78rem; font-family: 'JetBrains Mono', monospace; color: #fbbf24;"><i class="fa-solid fa-location-dot"></i> Permanent Campus</span>
+        </div>
       </div>
     </div>
 
-    <!-- Hackathon Key Specs Bar (Prize Pool Removed) -->
+    <!-- Hackathon Key Specs Bar -->
     <div class="hackathon-specs-bar">
       <div class="spec-stat-item">
         <span class="spec-stat-number">12H</span>
@@ -346,8 +391,8 @@
       </div>
       <div class="spec-divider"></div>
       <div class="spec-stat-item">
-        <span class="spec-stat-number">2 - 4</span>
-        <span class="spec-stat-label">Members / Team</span>
+        <span class="spec-stat-number">4 Members</span>
+        <span class="spec-stat-label">Squad Required</span>
       </div>
       <div class="spec-divider"></div>
       <div class="spec-stat-item">
@@ -356,8 +401,8 @@
       </div>
       <div class="spec-divider"></div>
       <div class="spec-stat-item">
-        <span class="spec-stat-number">MLH</span>
-        <span class="spec-stat-label">Official League</span>
+        <span class="spec-stat-number">IIIT KOTA</span>
+        <span class="spec-stat-label">TechKnow Council</span>
       </div>
     </div>
 
@@ -367,12 +412,12 @@
         <span class="brief-badge"><i class="fa-solid fa-bolt"></i> PROBLEM STATEMENTS REVEALED AT KICKOFF</span>
         <span class="brief-venue"><i class="fa-solid fa-location-dot"></i> IIIT KOTA CAMPUS</span>
       </div>
-      <h3 class="brief-title">Ready for the 12-Hour Sprint?</h3>
-      <p class="brief-desc">Problem statements across AI, Systems, Web3, and Open Innovation will be announced live during kickoff on October 31st at 9:00 AM. Register your team to secure your spot.</p>
+      <h3 class="brief-title">Ready for HACKODEC?</h3>
+      <p class="brief-desc">Problem statements across AI/ML, Distributed Systems, Web3, and Open Innovation will be announced live during kickoff on October 17th at 9:00 AM. Register your squad to secure your seats in HACKODEC.</p>
       
       <div class="brief-actions">
-        <button class="btn-primary-action" onclick="openRegistrationModal('12-Hour Flagship Hackathon')">
-          <i class="fa-solid fa-rocket"></i> REGISTER YOUR TEAM
+        <button class="btn-primary-action" onclick="openRegistrationModal('HACKODEC')">
+          <i class="fa-solid fa-users"></i> REGISTER 4-MEMBER SQUAD FOR HACKODEC
         </button>
       </div>
     </div>
@@ -389,15 +434,15 @@
     <div class="schedule-tabs-row">
       <button class="schedule-tab-btn active" data-day="day1">
         <span class="tab-day">DAY 01</span>
-        <span class="tab-date">OCT 30 &bull; WORKSHOPS</span>
+        <span class="tab-date">OCT 16 &bull; WORKSHOPS</span>
       </button>
       <button class="schedule-tab-btn" data-day="day2">
         <span class="tab-day">DAY 02</span>
-        <span class="tab-date">OCT 31 &bull; HACKATHON & EVENTS</span>
+        <span class="tab-date">OCT 17 &bull; HACKODEC & EVENTS</span>
       </button>
       <button class="schedule-tab-btn" data-day="day3">
         <span class="tab-day">DAY 03</span>
-        <span class="tab-date">NOV 01 &bull; FINALS & VALEDICTORY</span>
+        <span class="tab-date">OCT 18 &bull; FINALS & VALEDICTORY</span>
       </button>
     </div>
 
@@ -459,7 +504,7 @@
         <h4>Navigation</h4>
         <button class="footer-nav-link" onclick="scrollToSection('home')">Home</button>
         <button class="footer-nav-link" onclick="scrollToSection('events')">Events & Chambers</button>
-        <button class="footer-nav-link" onclick="scrollToSection('hackathon')">24-Hour Hackathon</button>
+        <button class="footer-nav-link" onclick="scrollToSection('hackathon')">HACKODEC Flagship Hackathon</button>
         <button class="footer-nav-link" onclick="scrollToSection('schedule')">Event Schedule</button>
         <button class="footer-nav-link" onclick="scrollToSection('prizes')">Prizes & Awards</button>
       </div>
@@ -469,7 +514,10 @@
         <p class="venue-line"><i class="fa-solid fa-location-dot"></i> Indian Institute of Information Technology Kota</p>
         <p class="venue-detail">Permanent Campus, Ranpur, Kota, Rajasthan &ndash; 325003</p>
         <div class="footer-contact-row">
-          <span><i class="fa-solid fa-envelope"></i> techknow@iiitkota.ac.in</span>
+          <a href="mailto:techknow@iiitkota.ac.in" class="footer-email-link" title="Send email to TechKnow Council">
+            <i class="fa-solid fa-envelope"></i>
+            <span>techknow@iiitkota.ac.in</span>
+          </a>
         </div>
       </div>
     </div>
@@ -512,9 +560,45 @@
       <!-- REGISTRATION FORM VIEW -->
       <div id="reg-form-view">
         <div class="reg-modal-header">
-          <span class="reg-pretitle"><i class="fa-solid fa-bolt"></i> OFFICIAL SUMMIT PASS</span>
-          <h2 class="reg-title">Claim Delegate Pass</h2>
-          <p class="reg-subtitle">Official verified delegate credentials issued with cryptographic validation.</p>
+          <div class="reg-header-top-row">
+            <span class="reg-pretitle"><i class="fa-solid fa-bolt"></i> OFFICIAL SUMMIT REGISTRATION</span>
+            <button type="button" class="btn-toggle-existing-pass" id="btn-toggle-existing-pass">
+              <i class="fa-solid fa-ticket"></i> Reopen Original Pass
+            </button>
+          </div>
+          <h2 class="reg-title">Summit Pass Registration</h2>
+          <p class="reg-subtitle">Select your pass type below to register for CODEC 2K26 & HACKODEC.</p>
+        </div>
+
+        <!-- REGISTRATION MODE SWITCHER TABS (SOLO vs 4-MEMBER SQUAD) -->
+        <div class="reg-mode-tab-bar" id="reg-mode-tab-bar">
+          <button type="button" class="reg-mode-tab-btn active" id="modal-tab-solo">
+            <i class="fa-solid fa-user"></i>
+            <span>SOLO DELEGATE PASS</span>
+          </button>
+          <button type="button" class="reg-mode-tab-btn" id="modal-tab-squad">
+            <i class="fa-solid fa-users"></i>
+            <span>4-MEMBER SQUAD (HACKODEC)</span>
+          </button>
+        </div>
+
+        <!-- COLLAPSIBLE RETRIEVE ORIGINAL REGISTERED PASS PANEL -->
+        <div class="pass-retrieve-panel" id="pass-retrieve-panel" style="display: none;">
+          <div class="pass-retrieve-top">
+            <span class="retrieve-pill"><i class="fa-solid fa-ticket"></i> RETRIEVE REGISTERED PASS</span>
+            <h3 class="retrieve-h3">Open Original Pass by Ticket Code</h3>
+            <p class="retrieve-p">Already registered? Enter your Ticket Code (e.g. <code>CODEC-26-XXXX</code>) or registered email to reopen and view your verified original pass.</p>
+          </div>
+          <div class="pass-retrieve-row">
+            <div class="retrieve-input-wrap">
+              <i class="fa-solid fa-barcode"></i>
+              <input type="text" id="retrieve-ticket-input" placeholder="e.g. CODEC-26-XXXX or leader email" autocomplete="off" />
+            </div>
+            <button type="button" class="btn-retrieve-pass" id="btn-retrieve-pass">
+              <i class="fa-solid fa-arrow-right-to-bracket"></i> OPEN ORIGINAL PASS
+            </button>
+          </div>
+          <div class="retrieve-feedback" id="retrieve-feedback" style="display: none;"></div>
         </div>
 
         <form class="reg-form" id="summit-reg-form">
@@ -549,9 +633,9 @@
                 <span class="check-label-text"><strong>General Summit Delegate</strong> (Keynotes, Exhibits & Pass)</span>
               </label>
               <label class="event-check-item">
-                <input type="checkbox" name="reg-events" value="12-Hour Flagship Hackathon" />
+                <input type="checkbox" name="reg-events" value="HACKODEC (12-Hour Flagship Hackathon)" />
                 <span class="check-box-custom"></span>
-                <span class="check-label-text"><strong>12-Hour Flagship Hackathon</strong> (TechKnow &times; MLH Sprint)</span>
+                <span class="check-label-text"><strong>HACKODEC</strong> (12-Hour Flagship Hackathon &bull; TechKnow)</span>
               </label>
               <label class="event-check-item">
                 <input type="checkbox" name="reg-events" value="Codebase Workshop" />
@@ -608,13 +692,121 @@
 
           <div class="reg-form-feedback" id="reg-feedback" style="display: none;"></div>
         </form>
+
+        <!-- 4-MEMBER SQUAD REGISTRATION FORM INSIDE MODAL -->
+        <form class="reg-form modal-squad-form" id="modal-squad-form" style="display: none;">
+          <div class="squad-form-intro" style="margin-bottom: 1.25rem;">
+            <div class="squad-title-badge"><i class="fa-solid fa-crown"></i> TECHKNOW PRESENTS HACKODEC</div>
+            <h3 style="font-family: 'Space Grotesk', sans-serif; font-size: 1.25rem; color: #fff; margin: 0.35rem 0;">Register 4-Member Squad</h3>
+            <p style="font-size: 0.85rem; color: #94a3b8;">Enter team details and all 4 squad members with their Full Name and Student ID / Roll Number to issue official HACKODEC Squad Pass.</p>
+          </div>
+
+          <div class="form-row-2col">
+            <div class="form-group">
+              <label for="m-squad-team-name"><i class="fa-solid fa-shield-halved"></i> Team / Squad Name *</label>
+              <input type="text" id="m-squad-team-name" required placeholder="e.g. CyberKnights" autocomplete="off" />
+            </div>
+            <div class="form-group">
+              <label for="m-squad-college"><i class="fa-solid fa-building-columns"></i> College / Institute *</label>
+              <input type="text" id="m-squad-college" required value="IIIT Kota" placeholder="e.g. IIIT Kota" />
+            </div>
+          </div>
+
+          <div class="form-row-2col">
+            <div class="form-group">
+              <label for="m-squad-leader-email"><i class="fa-solid fa-envelope"></i> Team Leader Email *</label>
+              <input type="email" id="m-squad-leader-email" required placeholder="leader@iiitkota.ac.in" autocomplete="email" />
+            </div>
+            <div class="form-group">
+              <label for="m-squad-leader-phone"><i class="fa-solid fa-phone"></i> Leader Phone Number *</label>
+              <input type="tel" id="m-squad-leader-phone" required placeholder="+91 9876543210" autocomplete="tel" />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="m-squad-track-select"><i class="fa-solid fa-diagram-project"></i> Primary Track Focus</label>
+            <select id="m-squad-track-select" class="squad-select-input">
+              <option value="AI & Autonomous Systems">Artificial Intelligence & Autonomous Systems</option>
+              <option value="Web3 & Distributed Ledgers">Web3 & Distributed Infrastructure</option>
+              <option value="Cloud, Scalability & DevOps">High-Scale Cloud & Distributed Systems</option>
+              <option value="Open Innovation & Social Tech">Open Innovation & Social Impact</option>
+            </select>
+          </div>
+
+          <!-- 4 MEMBERS (FULL NAME & STUDENT ID FOR EACH) -->
+          <div class="squad-members-header" style="padding-top: 1rem; margin-top: 1rem;">
+            <h4><i class="fa-solid fa-id-card-clip"></i> Squad Members (4 Members Required)</h4>
+            <span class="squad-note">Name & Student ID for all 4 members</span>
+          </div>
+
+          <div class="squad-roster-grid modal-roster-grid">
+            <!-- MEMBER 1 (LEADER) -->
+            <div class="member-entry-card leader-card">
+              <div class="member-card-badge leader"><i class="fa-solid fa-crown"></i> MEMBER 01 (LEADER)</div>
+              <div class="member-field">
+                <label for="m-squad-m1-name">Full Name *</label>
+                <input type="text" id="m-squad-m1-name" required placeholder="Leader Full Name" />
+              </div>
+              <div class="member-field">
+                <label for="m-squad-m1-id">Student ID / Roll No *</label>
+                <input type="text" id="m-squad-m1-id" required placeholder="e.g. 2023BCSE001" />
+              </div>
+            </div>
+
+            <!-- MEMBER 2 -->
+            <div class="member-entry-card">
+              <div class="member-card-badge"><i class="fa-solid fa-user-astronaut"></i> MEMBER 02</div>
+              <div class="member-field">
+                <label for="m-squad-m2-name">Full Name *</label>
+                <input type="text" id="m-squad-m2-name" required placeholder="Member 2 Name" />
+              </div>
+              <div class="member-field">
+                <label for="m-squad-m2-id">Student ID / Roll No *</label>
+                <input type="text" id="m-squad-m2-id" required placeholder="e.g. 2023BCSE042" />
+              </div>
+            </div>
+
+            <!-- MEMBER 3 -->
+            <div class="member-entry-card">
+              <div class="member-card-badge"><i class="fa-solid fa-user-ninja"></i> MEMBER 03</div>
+              <div class="member-field">
+                <label for="m-squad-m3-name">Full Name *</label>
+                <input type="text" id="m-squad-m3-name" required placeholder="Member 3 Name" />
+              </div>
+              <div class="member-field">
+                <label for="m-squad-m3-id">Student ID / Roll No *</label>
+                <input type="text" id="m-squad-m3-id" required placeholder="e.g. 2023BCSE018" />
+              </div>
+            </div>
+
+            <!-- MEMBER 4 -->
+            <div class="member-entry-card">
+              <div class="member-card-badge"><i class="fa-solid fa-user-secret"></i> MEMBER 04</div>
+              <div class="member-field">
+                <label for="m-squad-m4-name">Full Name *</label>
+                <input type="text" id="m-squad-m4-name" required placeholder="Member 4 Name" />
+              </div>
+              <div class="member-field">
+                <label for="m-squad-m4-id">Student ID / Roll No *</label>
+                <input type="text" id="m-squad-m4-id" required placeholder="e.g. 2023BCSE088" />
+              </div>
+            </div>
+          </div>
+
+          <button type="submit" class="btn-submit-pass" id="m-squad-submit-btn" style="background: linear-gradient(135deg, #ff4422 0%, #e11d48 50%, #ea580c 100%);">
+            <span id="m-squad-btn-text"><i class="fa-solid fa-bolt"></i> REGISTER 4-MEMBER SQUAD & GENERATE PASS</span>
+            <span id="m-squad-btn-spinner" style="display: none;"><i class="fa-solid fa-circle-notch fa-spin"></i> ISSUING SQUAD PASS...</span>
+          </button>
+
+          <div class="reg-form-feedback" id="m-squad-feedback" style="display: none;"></div>
+        </form>
       </div>
 
       <!-- SUB-EVENT DIRECT RSVP VIEW (FOR EXISTING PASS HOLDERS) -->
       <div id="reg-subevent-view" style="display: none;">
         <div class="reg-modal-header">
           <span class="reg-pretitle"><i class="fa-solid fa-calendar-check"></i> SUB-EVENT REGISTRATION</span>
-          <h2 class="reg-title" id="subevent-title">12-Hour Flagship Hackathon</h2>
+          <h2 class="reg-title" id="subevent-title">HACKODEC Flagship Hackathon</h2>
           <p class="reg-subtitle">Confirm your seat instantly using your active CODEC 2K26 Summit Pass.</p>
         </div>
 
@@ -641,9 +833,9 @@
           <span class="subevent-extra-title"><i class="fa-solid fa-plus-circle"></i> Also register for other competitions (optional):</span>
           <div class="events-checkbox-grid compact" id="subevent-extra-checkboxes">
             <label class="event-check-item">
-              <input type="checkbox" name="subevent-extra" value="12-Hour Flagship Hackathon" />
+              <input type="checkbox" name="subevent-extra" value="HACKODEC (12-Hour Flagship Hackathon)" />
               <span class="check-box-custom"></span>
-              <span class="check-label-text">12-Hour Flagship Hackathon</span>
+              <span class="check-label-text">HACKODEC (12-Hour Flagship Hackathon)</span>
             </label>
             <label class="event-check-item">
               <input type="checkbox" name="subevent-extra" value="Codebase Workshop" />
@@ -731,7 +923,7 @@
             </div>
             <div class="pass-detail-col">
               <span class="pass-lbl">TRACK / EVENT</span>
-              <span class="pass-val" id="pass-display-track">Hackathon 24h</span>
+              <span class="pass-val" id="pass-display-track">HACKODEC 12h</span>
             </div>
             <div class="pass-detail-col">
               <span class="pass-lbl">VENUE</span>
@@ -739,9 +931,48 @@
             </div>
           </div>
 
+          <!-- SQUAD MEMBERS SECTION (FOR 4-MEMBER HACKATHON PASSES) -->
+          <div class="pass-squad-container" id="pass-squad-container" style="display: none;">
+            <div class="pass-squad-header">
+              <span class="pass-squad-title"><i class="fa-solid fa-users"></i> REGISTERED SQUAD (4 MEMBERS)</span>
+              <span class="pass-team-badge" id="pass-display-team-name">Squad Name</span>
+            </div>
+            <div class="pass-squad-grid" id="pass-squad-grid"></div>
+          </div>
+
+          <!-- RETRIEVE / GO TO ACTUAL TICKET BY CODE -->
+          <div class="pass-ticket-lookup-section">
+            <div class="pass-lookup-header">
+              <span class="pass-lookup-title"><i class="fa-solid fa-ticket"></i> GO TO YOUR ACTUAL TICKET</span>
+              <span class="pass-lookup-sub">Enter your Ticket Code or registered email to open your pass:</span>
+            </div>
+            <div class="pass-lookup-input-bar">
+              <input type="text" id="pass-actual-ticket-input" placeholder="e.g. CODEC-26-XXXX or student@iiitkota.ac.in" autocomplete="off" />
+              <button type="button" class="btn-open-actual-pass" id="btn-open-actual-pass">
+                <i class="fa-solid fa-arrow-right-to-bracket"></i> OPEN TICKET
+              </button>
+            </div>
+            <div class="pass-lookup-feedback" id="pass-actual-lookup-feedback" style="display: none;"></div>
+          </div>
+
+          <!-- SECRET ADMIN REGISTRY ACCESS (BY SECRET PASSWORD IN MY PASS) -->
+          <div class="pass-secret-registry-section" id="pass-secret-registry-section" style="display: none;">
+            <div class="pass-secret-box-inner">
+              <span class="pass-secret-title"><i class="fa-solid fa-lock"></i> ENTER SECRET PASSWORD FOR REGISTRY:</span>
+              <div class="pass-secret-input-bar">
+                <input type="password" id="pass-secret-pwd-input" placeholder="Enter secret password" autocomplete="off" />
+                <button type="button" class="btn-unlock-registry" id="btn-unlock-registry">
+                  <i class="fa-solid fa-key"></i> UNLOCK
+                </button>
+              </div>
+              <div class="pass-secret-feedback" id="pass-secret-feedback" style="display: none;"></div>
+            </div>
+          </div>
+
           <div class="pass-actions-row">
             <button class="btn-pass-copy" id="btn-copy-ticket" type="button"><i class="fa-solid fa-copy"></i> COPY TICKET</button>
-            <button class="btn-pass-new" id="btn-new-pass" type="button"><i class="fa-solid fa-user-plus"></i> NEW PASS</button>
+            <button class="btn-pass-new" id="btn-new-pass" type="button"><i class="fa-solid fa-user-plus"></i> REGISTER NEW PASS</button>
+            <button class="btn-pass-secret-trigger" id="btn-pass-secret-trigger" type="button" title="Access Registry"><i class="fa-solid fa-lock"></i> REGISTRY</button>
             <button class="btn-pass-done" id="btn-done-pass" type="button"><i class="fa-solid fa-check"></i> CLOSE</button>
           </div>
         </div>

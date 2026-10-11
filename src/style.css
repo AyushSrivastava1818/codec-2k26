@@ -212,21 +212,26 @@ p,
   left: 0;
   right: 0;
   height: 72px;
-  display: flex;
+  display: grid;
+  grid-template-columns: minmax(200px, 1fr) auto minmax(200px, 1fr);
   align-items: center;
-  justify-content: space-between;
   padding: 0 2rem;
   z-index: 100;
-  background: linear-gradient(180deg, rgba(5, 4, 6, 0.95) 0%, rgba(5, 4, 6, 0.6) 75%, transparent 100%);
-  border-bottom: 1px solid rgba(245, 158, 11, 0.15);
+  background: linear-gradient(180deg, rgba(5, 4, 6, 0.96) 0%, rgba(5, 4, 6, 0.75) 75%, transparent 100%);
+  border-bottom: 1px solid rgba(245, 158, 11, 0.18);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
   transform: translate3d(0, 0, 0);
+  transition: background 0.3s ease, border-color 0.3s ease;
 }
 
 .hud-brand-logo {
+  justify-self: start;
   display: flex;
   align-items: center;
   gap: 0.85rem;
   text-decoration: none;
+  cursor: pointer;
 }
 
 .techknow-logo-img {
@@ -260,24 +265,28 @@ p,
 }
 
 .hud-nav-capsule {
+  justify-self: center;
   display: flex;
   align-items: center;
   gap: 0.35rem;
-  background: rgba(15, 12, 18, 0.88);
-  border: 1px solid rgba(245, 158, 11, 0.3);
+  background: rgba(14, 11, 16, 0.88);
+  border: 1px solid rgba(245, 158, 11, 0.35);
   border-radius: 999px;
-  padding: 0.3rem 0.5rem;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.7);
+  padding: 0.32rem 0.6rem;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.7), 0 0 16px rgba(245, 158, 11, 0.12);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  white-space: nowrap;
 }
 
 .nav-capsule-item {
   background: transparent;
   border: none;
-  color: var(--text-muted);
+  color: #94a3b8;
   font-family: var(--font-cyber);
   font-size: 0.78rem;
   font-weight: 700;
-  letter-spacing: 1px;
+  letter-spacing: 1.2px;
   padding: 0.45rem 0.95rem;
   border-radius: 999px;
   cursor: pointer;
@@ -285,14 +294,23 @@ p,
   display: inline-flex;
   align-items: center;
   gap: 0.4rem;
-  transition: color 0.2s ease, background-color 0.2s ease;
+  white-space: nowrap;
+  transition: color 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
 }
 
-.nav-capsule-item:hover,
-.nav-capsule-item.active {
+.nav-capsule-item:hover {
   color: #ffffff;
   background-color: rgba(245, 158, 11, 0.18);
   text-shadow: 0 0 8px var(--amber-flame);
+  transform: translateY(-1px);
+}
+
+.nav-capsule-item.active {
+  color: #ffffff;
+  background: linear-gradient(135deg, rgba(255, 106, 0, 0.35) 0%, rgba(217, 72, 15, 0.45) 100%);
+  border: 1px solid rgba(255, 146, 43, 0.5);
+  box-shadow: 0 0 14px rgba(255, 106, 0, 0.35);
+  text-shadow: 0 0 10px rgba(255, 106, 0, 0.9);
 }
 
 .glow-pumpkin-dot {
@@ -1851,7 +1869,15 @@ p,
    RESPONSIVE QUERIES
    ========================================================================== */
 @media (max-width: 1024px) {
-  .hud-nav-capsule { display: none; }
+  .hud-nav-capsule {
+    padding: 0.25rem 0.45rem;
+    gap: 0.2rem;
+  }
+  .nav-capsule-item {
+    padding: 0.35rem 0.65rem;
+    font-size: 0.72rem;
+    letter-spacing: 0.8px;
+  }
   .rotunda-cards-stage {
     flex-direction: column;
     overflow-y: auto;
@@ -1862,6 +1888,17 @@ p,
   .footer-top-grid { grid-template-columns: 1fr; }
 }
 
+@media (max-width: 860px) {
+  .hud-nav-bar {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.5rem 1rem;
+  }
+  .hud-nav-capsule {
+    display: none;
+  }
+}
+
 @media (max-width: 768px) {
   .hud-dock-left, .hud-dock-right { display: none; }
   .schedule-item-card { grid-template-columns: 1fr; gap: 0.8rem; }
@@ -1870,9 +1907,9 @@ p,
 
 
 /* ==========================================================================
-   TECHKNOW X MLH FLAGSHIP HACKATHON CO-BRANDED BANNER
+   TECHKNOW PRESENTS HACKODEC FLAGSHIP HACKATHON BANNER
    ========================================================================== */
-.techknow-mlh-banner {
+.techknow-hackodec-banner {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -1888,7 +1925,7 @@ p,
   overflow: hidden;
 }
 
-.techknow-mlh-banner::before {
+.techknow-hackodec-banner::before {
   content: '';
   position: absolute;
   top: 0;
@@ -1898,15 +1935,15 @@ p,
   background: linear-gradient(90deg, #ff6a00, #ffd700, #38bdf8);
 }
 
-.mlh-banner-left {
+.hackodec-banner-left {
   display: flex;
   flex-direction: column;
   gap: 0.35rem;
 }
 
-.mlh-official-pill {
-  font-family: var(--font-mono);
-  font-size: 0.65rem;
+.hackodec-official-pill {
+  font-family: 'Ethnocentric', 'Ethnocentric Rg', sans-serif;
+  font-size: 0.62rem;
   font-weight: 800;
   letter-spacing: 1.5px;
   color: var(--gold-warm);
@@ -1915,7 +1952,7 @@ p,
   gap: 0.4rem;
 }
 
-.mlh-duo-title {
+.hackodec-duo-title {
   display: flex;
   align-items: center;
   gap: 0.8rem;
@@ -1937,7 +1974,7 @@ p,
   opacity: 0.85;
 }
 
-.partner-name.mlh {
+.partner-name.institute {
   color: #ffd700;
   display: inline-flex;
   align-items: center;
@@ -1945,19 +1982,19 @@ p,
   text-shadow: 0 0 14px rgba(255, 215, 0, 0.6);
 }
 
-.mlh-banner-divider {
+.hackodec-banner-divider {
   width: 1px;
   height: 48px;
   background: rgba(255, 119, 0, 0.3);
 }
 
-.mlh-banner-right {
+.hackodec-banner-right {
   flex: 1;
   text-align: left;
 }
 
-.mlh-season-title {
-  font-family: var(--font-mono);
+.hackodec-season-title {
+  font-family: var(--font-ethno, 'Ethnocentric', sans-serif);
   font-size: 0.76rem;
   font-weight: 700;
   letter-spacing: 1.5px;
@@ -1966,12 +2003,156 @@ p,
   margin-bottom: 0.25rem;
 }
 
-.mlh-season-desc {
+.hackodec-season-desc {
   font-family: var(--font-sans);
   font-size: 0.82rem;
   color: rgba(226, 232, 240, 0.75);
   margin: 0;
   line-height: 1.4;
+}
+
+/* ==========================================================================
+   HACKODEC PINNACLE FLAGSHIP BANNER STYLING
+   ========================================================================== */
+.techknow-hackodec-banner.hackodec-flagship-banner {
+  max-width: 1100px;
+  width: 100%;
+  margin: 0 auto 1.8rem auto;
+  padding: 0.95rem 1.8rem;
+  background: radial-gradient(circle at 18% 50%, rgba(255, 106, 0, 0.16) 0%, transparent 55%),
+              linear-gradient(135deg, rgba(28, 18, 38, 0.98) 0%, rgba(13, 10, 18, 0.98) 100%);
+  border: 1.5px solid rgba(255, 160, 20, 0.6);
+  border-radius: 14px;
+  box-shadow: 0 14px 40px rgba(0, 0, 0, 0.8), 0 0 25px rgba(255, 106, 0, 0.2), inset 0 1px 0 rgba(255, 215, 120, 0.3);
+  position: relative;
+  overflow: hidden;
+}
+
+.hackodec-flagship-banner .hackodec-duo-title {
+  font-size: clamp(0.72rem, 1.2vw, 0.92rem);
+  gap: 0.5rem;
+}
+
+.hackodec-banner-glow {
+  position: absolute;
+  top: -40%;
+  left: 15%;
+  width: 450px;
+  height: 280px;
+  background: radial-gradient(circle, rgba(255, 120, 0, 0.28) 0%, transparent 70%);
+  filter: blur(55px);
+  pointer-events: none;
+}
+
+.hackodec-badge-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.1rem;
+  flex-wrap: wrap;
+}
+
+.hackodec-status-pulse {
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  font-weight: 800;
+  letter-spacing: 1.2px;
+  color: #38bdf8;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  background: rgba(56, 189, 248, 0.12);
+  border: 1px solid rgba(56, 189, 248, 0.38);
+  padding: 0.15rem 0.55rem;
+  border-radius: 999px;
+}
+
+.pulse-beacon {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #38bdf8;
+  box-shadow: 0 0 8px #38bdf8;
+  animation: beaconPulse 1.6s infinite ease-in-out;
+}
+
+@keyframes beaconPulse {
+  0%, 100% { opacity: 0.4; transform: scale(0.85); }
+  50% { opacity: 1; transform: scale(1.35); }
+}
+
+.hackodec-hero-title {
+  font-family: 'Ethnocentric', 'Ethnocentric Rg', sans-serif !important;
+  font-size: clamp(1.6rem, 3.2vw, 2.35rem);
+  font-weight: 900;
+  letter-spacing: clamp(2px, 0.5vw, 4px);
+  margin: 0.05rem 0 0.15rem 0;
+  line-height: 1.05;
+  background: linear-gradient(135deg, #ffffff 0%, #fff0d4 25%, #ffa520 65%, #ff5500 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 0 18px rgba(255, 120, 0, 0.6));
+}
+
+@media (max-width: 900px) {
+  .techknow-hackodec-banner.hackodec-flagship-banner {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 1.4rem;
+  }
+  .hackodec-banner-divider {
+    display: none;
+  }
+}
+
+/* Nav Bar & Modal Header Enhancements */
+.hud-my-pass-btn {
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.3) 0%, rgba(5, 150, 105, 0.45) 100%) !important;
+  border: 1px solid rgba(52, 211, 153, 0.7) !important;
+  color: #34d399 !important;
+  box-shadow: 0 0 16px rgba(16, 185, 129, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.15) !important;
+  display: inline-flex !important;
+  align-items: center;
+  gap: 0.5rem;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease, color 0.2s ease;
+}
+
+.hud-my-pass-btn:hover {
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%) !important;
+  border-color: #6ee7b7 !important;
+  color: #ffffff !important;
+  box-shadow: 0 0 26px rgba(16, 185, 129, 0.65), 0 4px 14px rgba(0, 0, 0, 0.35) !important;
+  transform: translateY(-2px);
+}
+
+.reg-header-top-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 0.35rem;
+  flex-wrap: wrap;
+}
+
+.btn-toggle-existing-pass {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  color: #cbd5e1;
+  padding: 0.35rem 0.85rem;
+  border-radius: 999px;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.btn-toggle-existing-pass:hover {
+  background: rgba(16, 185, 129, 0.18);
+  border-color: rgba(52, 211, 153, 0.6);
+  color: #34d399;
 }
 
 /* Instant Zero-Latency Active Feedback on ALL Interactive Buttons */
@@ -2007,8 +2188,10 @@ button:active,
   background: rgba(14, 11, 18, 0.92);
   border: 1px solid rgba(255, 255, 255, 0.12);
   border-radius: 12px;
-  padding: 1.5rem 2rem;
-  margin-bottom: 3.5rem;
+  padding: 1.15rem 1.8rem;
+  max-width: 1100px;
+  width: 100%;
+  margin: 0 auto 2.5rem auto;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
   backdrop-filter: blur(14px);
 }
@@ -2403,67 +2586,7 @@ button:active,
   flex-direction: column;
 }
 
-.brand-name {
-  font-family: var(--font-display);
-  font-size: 1.05rem;
-  font-weight: 700;
-  letter-spacing: 2px;
-  color: #ffffff;
-}
 
-.brand-sub {
-  font-family: var(--font-mono);
-  font-size: 0.65rem;
-  letter-spacing: 1px;
-  color: var(--cyan-tech);
-}
-
-.hud-nav-capsule {
-  display: flex;
-  align-items: center;
-  gap: 1.8rem;
-  background: rgba(14, 11, 16, 0.75);
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  border-radius: 999px;
-  padding: 0.45rem 1.6rem;
-  backdrop-filter: blur(14px);
-}
-
-.nav-capsule-item {
-  font-family: var(--font-display);
-  font-size: 0.76rem;
-  font-weight: 600;
-  letter-spacing: 2px;
-  color: #cbd5e1;
-  background: transparent;
-  border: none;
-  cursor: pointer;
-  padding: 0.4rem 0.6rem;
-  transition: all 0.2s ease;
-  position: relative;
-}
-
-.nav-capsule-item:hover {
-  color: #ffffff;
-}
-
-.nav-capsule-item.active {
-  color: var(--cyan-tech) !important;
-  text-shadow: 0 0 12px var(--cyan-glow);
-  background: transparent;
-}
-
-.nav-capsule-item.active::after {
-  content: '';
-  position: absolute;
-  bottom: 0px;
-  left: 20%;
-  right: 20%;
-  height: 2px;
-  background: var(--cyan-tech);
-  box-shadow: 0 0 8px var(--cyan-tech);
-  border-radius: 2px;
-}
 
 /* Footer modern links */
 .footer-title {
@@ -2524,12 +2647,30 @@ button:active,
   margin-bottom: 0.8rem;
 }
 .footer-contact-row {
-  font-family: var(--font-mono);
-  font-size: 0.78rem;
-  color: var(--cyan-tech);
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  margin-top: 0.25rem;
+}
+.footer-email-link {
+  font-family: var(--font-mono);
+  font-size: 0.84rem;
+  color: var(--cyan-tech);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  text-decoration: none;
+  transition: all 0.25s ease;
+  padding: 0.35rem 0.65rem;
+  border-radius: 6px;
+  background: rgba(56, 189, 248, 0.08);
+  border: 1px solid rgba(56, 189, 248, 0.28);
+}
+.footer-email-link:hover {
+  color: #ffffff;
+  background: rgba(56, 189, 248, 0.2);
+  border-color: var(--cyan-tech);
+  box-shadow: 0 0 16px rgba(56, 189, 248, 0.45);
+  transform: translateX(4px);
 }
 
 .footer-links-col {
@@ -3092,4 +3233,777 @@ button:active,
     justify-content: center;
   }
 }
+
+/* ==========================================================================
+   HACKODEC 4-MEMBER SQUAD REGISTRATION STYLES
+   ========================================================================== */
+.hackathon-squad-registration-container {
+  margin-top: 2.5rem;
+  width: 100%;
+  position: relative;
+  z-index: 10;
+}
+
+.squad-reg-card {
+  background: rgba(14, 11, 24, 0.88);
+  border: 1px solid rgba(255, 68, 34, 0.35);
+  border-radius: 16px;
+  padding: 2.5rem;
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.6), 0 0 32px rgba(255, 68, 34, 0.12);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  position: relative;
+  overflow: hidden;
+}
+
+.squad-reg-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, #ff4422, #f59e0b, #00f0ff);
+}
+
+.squad-card-header {
+  margin-bottom: 2rem;
+  text-align: left;
+}
+
+.squad-title-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 2px;
+  color: #ff5722;
+  background: rgba(255, 68, 34, 0.12);
+  border: 1px solid rgba(255, 68, 34, 0.4);
+  padding: 0.35rem 0.85rem;
+  border-radius: 999px;
+  margin-bottom: 0.85rem;
+}
+
+.squad-main-title {
+  font-family: 'Space Grotesk', 'Plus Jakarta Sans', sans-serif;
+  font-size: clamp(1.4rem, 3.5vw, 2.1rem);
+  font-weight: 700;
+  color: #ffffff;
+  margin-bottom: 0.6rem;
+  letter-spacing: -0.5px;
+}
+
+.squad-main-desc {
+  font-size: 0.95rem;
+  color: #94a3b8;
+  max-width: 800px;
+  line-height: 1.6;
+}
+
+.squad-meta-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  gap: 1.25rem;
+  margin-bottom: 1.5rem;
+}
+
+.squad-track-group {
+  margin-bottom: 2rem;
+}
+
+.squad-select-input {
+  width: 100%;
+  padding: 0.85rem 1rem;
+  background: rgba(10, 8, 18, 0.8);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 8px;
+  color: #f1f5f9;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 0.95rem;
+  transition: all 0.2s ease;
+  outline: none;
+}
+
+.squad-select-input:focus {
+  border-color: #ff5722;
+  box-shadow: 0 0 0 3px rgba(255, 87, 34, 0.18);
+}
+
+.squad-select-input option {
+  background: #0f0c1b;
+  color: #ffffff;
+}
+
+.squad-members-header {
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  padding-top: 1.75rem;
+  margin-bottom: 1.25rem;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.squad-members-header h4 {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 1.15rem;
+  color: #f8fafc;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.squad-note {
+  font-size: 0.82rem;
+  color: #94a3b8;
+  font-family: 'JetBrains Mono', monospace;
+}
+
+.squad-roster-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.1rem;
+  margin-bottom: 2rem;
+}
+
+.member-entry-card {
+  background: rgba(18, 14, 30, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  position: relative;
+}
+
+.member-entry-card:hover {
+  border-color: rgba(255, 87, 34, 0.5);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+  transform: translateY(-2px);
+}
+
+.member-entry-card.leader-card {
+  border-color: rgba(245, 158, 11, 0.4);
+  background: rgba(245, 158, 11, 0.05);
+}
+
+.member-card-badge {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  color: #94a3b8;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.member-card-badge.leader {
+  color: #fbbf24;
+}
+
+.member-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.member-field label {
+  font-size: 0.75rem;
+  color: #cbd5e1;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.member-field input {
+  padding: 0.65rem 0.85rem;
+  background: rgba(8, 6, 14, 0.75);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 6px;
+  color: #f8fafc;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 0.88rem;
+  outline: none;
+  transition: all 0.2s;
+}
+
+.member-field input:focus {
+  border-color: #ff5722;
+  box-shadow: 0 0 0 2px rgba(255, 87, 34, 0.2);
+}
+
+.squad-submit-row {
+  margin-top: 1.5rem;
+  display: flex;
+  justify-content: flex-start;
+}
+
+.btn-squad-register-submit {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  background: linear-gradient(135deg, #ff4422 0%, #e11d48 50%, #ea580c 100%);
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: 10px;
+  padding: 1.05rem 2.2rem;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 0.98rem;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  cursor: pointer;
+  box-shadow: 0 8px 24px rgba(225, 29, 72, 0.35);
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.btn-squad-register-submit:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 32px rgba(225, 29, 72, 0.5);
+  filter: brightness(1.1);
+}
+
+.btn-squad-register-submit:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.squad-reg-feedback {
+  margin-top: 1.25rem;
+  padding: 1rem 1.25rem;
+  border-radius: 8px;
+  font-size: 0.92rem;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+}
+
+.squad-reg-feedback.success {
+  background: rgba(16, 185, 129, 0.15);
+  border: 1px solid #10b981;
+  color: #a7f3d0;
+}
+
+.squad-reg-feedback.error {
+  background: rgba(239, 68, 68, 0.15);
+  border: 1px solid #ef4444;
+  color: #fca5a5;
+}
+
+/* ==========================================================================
+   PASS RETRIEVE COLUMN & QUICK PASS RECOVERY STYLES
+   ========================================================================== */
+.pass-retrieve-panel {
+  background: rgba(14, 18, 30, 0.85);
+  border: 1px solid rgba(0, 240, 255, 0.35);
+  border-radius: 12px;
+  padding: 1.4rem 1.6rem;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4), inset 0 0 16px rgba(0, 240, 255, 0.05);
+  position: relative;
+}
+
+.pass-retrieve-top {
+  margin-bottom: 1rem;
+}
+
+.retrieve-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: #00f0ff;
+  background: rgba(0, 240, 255, 0.12);
+  border: 1px solid rgba(0, 240, 255, 0.3);
+  padding: 0.25rem 0.7rem;
+  border-radius: 999px;
+  margin-bottom: 0.5rem;
+}
+
+.retrieve-h3 {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 1.15rem;
+  color: #ffffff;
+  font-weight: 700;
+  margin-bottom: 0.35rem;
+}
+
+.retrieve-p {
+  font-size: 0.85rem;
+  color: #94a3b8;
+  line-height: 1.45;
+}
+
+.retrieve-p code {
+  color: #00f0ff;
+  font-family: 'JetBrains Mono', monospace;
+  background: rgba(0, 240, 255, 0.1);
+  padding: 0.15rem 0.35rem;
+  border-radius: 4px;
+}
+
+.pass-retrieve-row {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.retrieve-input-wrap {
+  flex: 1;
+  min-width: 240px;
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.retrieve-input-wrap i {
+  position: absolute;
+  left: 0.9rem;
+  color: #64748b;
+  font-size: 0.95rem;
+}
+
+.retrieve-input-wrap input {
+  width: 100%;
+  padding: 0.75rem 1rem 0.75rem 2.4rem;
+  background: rgba(7, 10, 20, 0.85);
+  border: 1px solid rgba(0, 240, 255, 0.3);
+  border-radius: 8px;
+  color: #ffffff;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.9rem;
+  outline: none;
+  transition: all 0.2s;
+}
+
+.retrieve-input-wrap input:focus {
+  border-color: #00f0ff;
+  box-shadow: 0 0 0 3px rgba(0, 240, 255, 0.2);
+}
+
+.btn-retrieve-pass {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
+  color: #ffffff;
+  border: 1px solid rgba(0, 240, 255, 0.4);
+  border-radius: 8px;
+  padding: 0.75rem 1.4rem;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 0.88rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-retrieve-pass:hover {
+  background: linear-gradient(135deg, #0ea5e9 0%, #0284c7 100%);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 16px rgba(2, 132, 199, 0.35);
+}
+
+.retrieve-feedback {
+  margin-top: 0.85rem;
+  padding: 0.7rem 1rem;
+  border-radius: 6px;
+  font-size: 0.85rem;
+}
+
+.retrieve-feedback.success {
+  background: rgba(16, 185, 129, 0.15);
+  border: 1px solid #10b981;
+  color: #6ee7b7;
+}
+
+.retrieve-feedback.error {
+  background: rgba(239, 68, 68, 0.15);
+  border: 1px solid #ef4444;
+  color: #fca5a5;
+}
+
+.reg-divider-or {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  margin: 1.5rem 0 1.25rem 0;
+  position: relative;
+}
+
+.reg-divider-or::before,
+.reg-divider-or::after {
+  content: '';
+  flex: 1;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.reg-divider-or span {
+  padding: 0 1rem;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  color: #64748b;
+}
+
+/* ==========================================================================
+   DIGITAL PASS SQUAD DISPLAY & TICKET SWITCHER
+   ========================================================================== */
+.pass-squad-container {
+  margin: 1.25rem 0;
+  padding: 1.25rem;
+  background: rgba(255, 68, 34, 0.06);
+  border: 1px solid rgba(255, 68, 34, 0.25);
+  border-radius: 12px;
+  text-align: left;
+}
+
+.pass-squad-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.85rem;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.pass-squad-title {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: #ff7700;
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+}
+
+.pass-team-badge {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: #ffffff;
+  background: rgba(255, 68, 34, 0.25);
+  border: 1px solid #ff4422;
+  padding: 0.2rem 0.65rem;
+  border-radius: 6px;
+}
+
+.pass-squad-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 0.75rem;
+}
+
+.pass-squad-member-pill {
+  background: rgba(10, 8, 18, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  padding: 0.65rem 0.85rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.pass-squad-member-pill .member-role {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.68rem;
+  color: #fbbf24;
+  font-weight: 700;
+}
+
+.pass-squad-member-pill .member-name {
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+.pass-squad-member-pill .member-id {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.74rem;
+  color: #00f0ff;
+}
+
+/* Direct Actual Ticket Code Retriever in My Pass */
+.pass-ticket-lookup-section {
+  margin: 1.25rem 0 1rem 0;
+  padding: 1rem 1.15rem;
+  background: rgba(12, 10, 20, 0.95);
+  border: 1px solid rgba(245, 158, 11, 0.4);
+  border-radius: 10px;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05);
+}
+
+.pass-lookup-header {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  margin-bottom: 0.65rem;
+}
+
+.pass-lookup-title {
+  font-family: var(--font-ethno, 'Ethnocentric', sans-serif);
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 1.2px;
+  color: var(--gold-warm);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.pass-lookup-sub {
+  font-family: var(--font-sans);
+  font-size: 0.8rem;
+  color: #94a3b8;
+}
+
+.pass-lookup-input-bar {
+  display: flex;
+  gap: 0.6rem;
+}
+
+.pass-lookup-input-bar input {
+  flex: 1;
+  padding: 0.65rem 0.9rem;
+  background: rgba(6, 4, 12, 0.85);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 6px;
+  color: #ffffff;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.85rem;
+  outline: none;
+  transition: border-color 0.2s ease;
+}
+
+.pass-lookup-input-bar input:focus {
+  border-color: #f59e0b;
+}
+
+.btn-open-actual-pass {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+  color: #0b0813;
+  border: none;
+  border-radius: 6px;
+  padding: 0.65rem 1.15rem;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 0.82rem;
+  font-weight: 800;
+  cursor: pointer;
+  letter-spacing: 0.5px;
+  transition: all 0.2s ease;
+}
+
+.btn-open-actual-pass:hover {
+  background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+  box-shadow: 0 0 16px rgba(245, 158, 11, 0.45);
+}
+
+.pass-lookup-feedback {
+  margin-top: 0.55rem;
+  font-size: 0.8rem;
+  font-family: var(--font-mono);
+  padding: 0.4rem 0.65rem;
+  border-radius: 4px;
+}
+
+.pass-lookup-feedback.success {
+  background: rgba(16, 185, 129, 0.15);
+  border: 1px solid rgba(16, 185, 129, 0.4);
+  color: #34d399;
+}
+
+.pass-lookup-feedback.error {
+  background: rgba(239, 68, 68, 0.15);
+  border: 1px solid rgba(239, 68, 68, 0.4);
+  color: #f87171;
+}
+
+/* Secret Admin Registry Section in My Pass */
+.pass-secret-registry-section {
+  margin: 0.75rem 0 1rem 0;
+  padding: 0.9rem 1.15rem;
+  background: rgba(18, 10, 16, 0.95);
+  border: 1px dashed rgba(239, 68, 68, 0.5);
+  border-radius: 8px;
+}
+
+.pass-secret-title {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: #f87171;
+  font-weight: 700;
+  letter-spacing: 1px;
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+.pass-secret-input-bar {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.pass-secret-input-bar input {
+  flex: 1;
+  padding: 0.55rem 0.85rem;
+  background: rgba(8, 4, 8, 0.9);
+  border: 1px solid rgba(239, 68, 68, 0.35);
+  border-radius: 6px;
+  color: #ffffff;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.82rem;
+  outline: none;
+}
+
+.btn-unlock-registry {
+  background: linear-gradient(135deg, #ef4444 0%, #b91c1c 100%);
+  color: #ffffff;
+  border: none;
+  border-radius: 6px;
+  padding: 0.55rem 1rem;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 0.8rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-unlock-registry:hover {
+  background: #dc2626;
+  box-shadow: 0 0 14px rgba(239, 68, 68, 0.5);
+}
+
+.pass-secret-feedback {
+  margin-top: 0.4rem;
+  font-size: 0.76rem;
+  font-family: var(--font-mono);
+}
+
+.pass-secret-feedback.error {
+  color: #f87171;
+}
+
+.btn-pass-secret-trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  background: rgba(239, 68, 68, 0.1);
+  border: 1px solid rgba(239, 68, 68, 0.35);
+  color: #f87171;
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 0.82rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-pass-secret-trigger:hover {
+  background: rgba(239, 68, 68, 0.25);
+  color: #ffffff;
+  border-color: #ef4444;
+}
+
+.quick-retrieve-msg {
+  margin-top: 0.6rem;
+  font-size: 0.82rem;
+  text-align: left;
+}
+
+.quick-retrieve-msg.success { color: #34d399; }
+.quick-retrieve-msg.error { color: #f87171; }
+
+@media (max-width: 900px) {
+  .squad-roster-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .squad-roster-grid {
+    grid-template-columns: 1fr;
+  }
+  .squad-reg-card {
+    padding: 1.5rem 1rem;
+  }
+  .pass-retrieve-row {
+    flex-direction: column;
+  }
+  .btn-retrieve-pass {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+/* ==========================================================================
+   MODAL REGISTRATION MODE TABS (SOLO vs 4-MEMBER SQUAD)
+   ========================================================================== */
+.reg-mode-tab-bar {
+  display: flex;
+  background: rgba(10, 8, 18, 0.7);
+  padding: 0.35rem;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 10px;
+  gap: 0.35rem;
+  margin-bottom: 1.5rem;
+}
+
+.reg-mode-tab-btn {
+  flex: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1rem;
+  background: transparent;
+  color: #94a3b8;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 0.85rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.reg-mode-tab-btn:hover {
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.reg-mode-tab-btn.active {
+  background: linear-gradient(135deg, rgba(255, 68, 34, 0.28) 0%, rgba(225, 29, 72, 0.38) 100%);
+  color: #ffffff;
+  border: 1px solid rgba(255, 68, 34, 0.6);
+  box-shadow: 0 4px 16px rgba(255, 68, 34, 0.25);
+}
+
+.modal-roster-grid {
+  grid-template-columns: repeat(2, 1fr) !important;
+  margin-bottom: 1.5rem !important;
+}
+
+@media (max-width: 600px) {
+  .modal-roster-grid {
+    grid-template-columns: 1fr !important;
+  }
+  .reg-mode-tab-btn {
+    padding: 0.65rem 0.5rem;
+  }
+  .reg-mode-tab-btn span {
+    font-size: 0.72rem;
+  }
+}
+
 

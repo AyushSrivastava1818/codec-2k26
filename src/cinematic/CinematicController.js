@@ -104,44 +104,27 @@ export class CinematicController {
   runLoaderSequence() {
     return new Promise((resolve) => {
       const loader = document.getElementById('cinematic-preloader');
-      const progressNum = document.getElementById('loader-percentage-num');
-      const progressFill = document.getElementById('loader-line-fill');
-
       if (!loader) {
         resolve();
         return;
       }
 
-      let count = 0;
-      const interval = setInterval(() => {
-        count += Math.floor(Math.random() * 14) + 8;
-        if (count >= 100) {
-          count = 100;
-          clearInterval(interval);
-          if (progressNum) progressNum.textContent = '100%';
-          if (progressFill) progressFill.style.width = '100%';
-
-          setTimeout(() => {
-            gsap.to(loader, {
-              opacity: 0,
-              duration: 0.85,
-              ease: 'power2.inOut',
-              onComplete: () => {
-                loader.style.display = 'none';
-                resolve();
-              }
-            });
-          }, 300);
-        } else {
-          if (progressNum) progressNum.textContent = `${count}%`;
-          if (progressFill) progressFill.style.width = `${count}%`;
-        }
-      }, 50);
+      setTimeout(() => {
+        gsap.to(loader, {
+          opacity: 0,
+          duration: 0.75,
+          ease: 'power2.inOut',
+          onComplete: () => {
+            loader.style.display = 'none';
+            resolve();
+          }
+        });
+      }, 650);
     });
   }
 
   bindPortalEvents() {
-    document.querySelectorAll('.gothic-arch-portal-card, .rotunda-portal-door').forEach(door => {
+    document.querySelectorAll('.gothic-arch-portal-card, .rotunda-portal-door, .rotunda-door-hotspot').forEach(door => {
       const key = door.getAttribute('data-chamber');
 
       door.addEventListener('mouseenter', () => {
@@ -155,6 +138,14 @@ export class CinematicController {
       door.addEventListener('click', (e) => {
         e.stopPropagation();
         this.chamberManager.enterChamber(key);
+      });
+
+      door.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          e.stopPropagation();
+          this.chamberManager.enterChamber(key);
+        }
       });
     });
 
