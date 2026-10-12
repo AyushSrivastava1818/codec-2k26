@@ -29,7 +29,7 @@
 
 The platform is designed to provide delegates with an unforgettable gothic cyber-mansion narrative:
 - **Centered HUD Navigation**: A 3-column CSS Grid navbar that stays centered at the top of the viewport.
-- **Scroll-Driven 3D Journey**: Navigate from the haunted mansion exterior through the gates and into the Central Rotunda to explore summit chambers.
+- **Scroll-Driven 3D Journey**: Navigate from the haunted mansion exterior through the gates and into the Main Hall to explore summit chambers.
 - **Unified `MY PASS` Portal**: A single entry point for delegates to view verified digital passes, look up existing tickets by code/email, or create new registrations.
 - **Procedural Web Audio Engine**: Synthesizes an authentic celesta rendition of *Hedwig's Theme* in 3/4 waltz time alongside atmospheric soundscapes without external audio files.
 - **High-Throughput Backend**: Powered by Node.js Express and SQLite in WAL mode with sub-5ms response times.
