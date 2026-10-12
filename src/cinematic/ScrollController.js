@@ -34,6 +34,7 @@ export class ScrollController {
     this.onStageChange = options.onStageChange || null;
     this.onGateOpenTrigger = options.onGateOpenTrigger || null;
 
+    this.ticking = false;
     this.onScroll = this.onScroll.bind(this);
     this.init();
   }
@@ -45,7 +46,13 @@ export class ScrollController {
   }
 
   onScroll() {
-    this.calculateTarget();
+    if (!this.ticking) {
+      this.ticking = true;
+      requestAnimationFrame(() => {
+        this.calculateTarget();
+        this.ticking = false;
+      });
+    }
   }
 
   calculateTarget() {

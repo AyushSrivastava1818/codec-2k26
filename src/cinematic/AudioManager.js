@@ -52,23 +52,27 @@ class AudioManager {
     if (!this.ctx) this.init();
     if (!this.ctx) return false;
 
-    if (this.ctx.state === 'suspended') {
-      try {
-        await this.ctx.resume();
-      } catch (e) {
-        console.warn('AudioContext resume failed', e);
-      }
-    }
-
     this.isEnabled = !this.isEnabled;
 
     if (this.isEnabled) {
+      if (this.ctx.state === 'suspended') {
+        try {
+          await this.ctx.resume();
+        } catch (e) {
+          console.warn('AudioContext resume failed', e);
+        }
+      }
+      if (this.masterGain) {
+        const now = this.ctx.currentTime;
+        this.masterGain.gain.cancelScheduledValues(now);
+        this.masterGain.gain.setValueAtTime(0.85, now);
+      }
       // 1. Play immediate signature mystical chime arpeggio
       this.playMysticActivation();
       // 2. Start dynamic, evolving gothic music-box & ambient soundtrack
       this.startAtmosphere();
     } else {
-      this.stopAtmosphere();
+      await this.stopAtmosphere();
     }
 
     return this.isEnabled;
@@ -476,28 +480,46 @@ class AudioManager {
     } catch (e) {}
   }
 
-  stopAtmosphere() {
+  async stopAtmosphere() {
     if (!this.ctx) return;
     const now = this.ctx.currentTime;
     try {
       this.stopHarryPotterTheme();
+
+      // Instantly mute all audio buses
+      if (this.masterGain) {
+        this.masterGain.gain.cancelScheduledValues(now);
+        this.masterGain.gain.setValueAtTime(0, now);
+      }
+      if (this.celestaBus) {
+        this.celestaBus.gain.cancelScheduledValues(now);
+        this.celestaBus.gain.setValueAtTime(0, now);
+      }
       if (this.droneGain) {
-        this.droneGain.gain.linearRampToValueAtTime(0.0001, now + 0.35);
+        this.droneGain.gain.cancelScheduledValues(now);
+        this.droneGain.gain.setValueAtTime(0, now);
       }
       if (this.windGain) {
-        this.windGain.gain.linearRampToValueAtTime(0.0001, now + 0.35);
+        this.windGain.gain.cancelScheduledValues(now);
+        this.windGain.gain.setValueAtTime(0, now);
       }
 
-      setTimeout(() => {
-        try {
-          this.droneOscs.forEach(o => { try { o.stop(); } catch (e) {} });
-          this.droneOscs = [];
-          this.droneLfo?.stop();
-          this.windNode?.stop();
-          this.windLfo?.stop();
-        } catch (e) {}
-      }, 400);
-    } catch (e) {}
+      // Stop and clear all drone oscillators immediately
+      if (this.droneOscs) {
+        this.droneOscs.forEach(o => { try { o.stop(); } catch (e) {} });
+        this.droneOscs = [];
+      }
+      try { this.droneLfo?.stop(); } catch (e) {}
+      try { this.windNode?.stop(); } catch (e) {}
+      try { this.windLfo?.stop(); } catch (e) {}
+
+      // Suspend audio context hardware driver for 100% immediate silence
+      try {
+        await this.ctx.suspend();
+      } catch (e) {}
+    } catch (e) {
+      console.warn('stopAtmosphere error', e);
+    }
   }
 
   // Distant Rolling Thunder Strike (Synchronized with lightning flashes)

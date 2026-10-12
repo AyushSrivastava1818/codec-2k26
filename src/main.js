@@ -302,20 +302,6 @@ async function lookupAndOpenPass(query, feedbackEl) {
   }
 
   const cleanQuery = query.trim();
-  const lowQuery = cleanQuery.toLowerCase();
-  const validSecretAdminPasscodes = ['codec2026', 'alohomora', 'codec2k26', 'admin', 'admin2026', 'techknow', 'techknow_admin', 'iiitkota', 'admin@codec.in', 'admin@techknow.in', 'admin@iiitkota.ac.in'];
-  if (validSecretAdminPasscodes.includes(lowQuery)) {
-    if (feedbackEl) {
-      feedbackEl.className = 'retrieve-feedback success';
-      feedbackEl.innerHTML = '<i class="fa-solid fa-shield-halved"></i> Master passcode accepted! Opening Registry...';
-      feedbackEl.style.display = 'block';
-    }
-    setTimeout(() => {
-      document.getElementById('reg-modal-backdrop')?.classList.remove('active');
-      window.openAdminModal?.();
-    }, 280);
-    return true;
-  }
 
   // Check localStorage first
   const localSaved = localStorage.getItem('codec_summit_pass');
@@ -1587,7 +1573,17 @@ function initNavButtons() {
     });
   });
 
-  window.addEventListener('scroll', updateScrollSpy, { passive: true });
+  let scrollSpyTicking = false;
+  const onScrollThrottled = () => {
+    if (!scrollSpyTicking) {
+      scrollSpyTicking = true;
+      requestAnimationFrame(() => {
+        updateScrollSpy();
+        scrollSpyTicking = false;
+      });
+    }
+  };
+  window.addEventListener('scroll', onScrollThrottled, { passive: true });
   updateScrollSpy();
 }
 
