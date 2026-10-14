@@ -11,24 +11,24 @@ import { audioManager } from './cinematic/AudioManager.js';
 // --- 1. OFFICIAL SUMMIT TIMETABLE DATA ---
 const SCHEDULE_DATA = {
   day1: [
-    { time: '5:30 PM – 7:30 PM', cat: 'Codebase', title: 'Codebase Workshop', desc: 'Technical workshop by Codebase Club.' },
-    { time: '7:30 PM – 9:30 PM', cat: 'Robotics', title: 'Arc Robotics Event', desc: 'Robotics systems and hardware showcase.' }
+    { time: '5:30 PM – 7:30 PM', cat: 'Codebase', title: 'Codebase Technical Briefing', desc: 'Software engineering workshop and technical toolset setup.' },
+    { time: '7:30 PM – 9:00 PM', cat: 'Robotics', title: 'ROBO RUSH (ARC Robotics)', desc: '1v1 Bluetooth RC combat duel at Mini OAT arena (Oct 16).' }
   ],
   day2: [
-    { time: '9:00 AM – 9:00 PM', cat: 'Hackathon', title: 'HACKODEC Flagship Hackathon', desc: 'Flagship 12-hour national sprint presented by TechKnow Council, IIIT Kota (Oct 17).' },
-    { time: '10:00 AM – 12:00 PM', cat: 'Codebase', title: 'Codebase Event', desc: 'Competitive software engineering challenge.' },
-    { time: '1:00 PM – 5:00 PM', cat: 'Clutch', title: 'Clutch Event', desc: 'Competitive gaming and esports contest.' },
-    { time: '2:00 PM – 5:00 PM', cat: 'Robotics', title: 'Arc Robotics Event', desc: 'Autonomous robotics challenge and combat.' },
-    { time: '1:30 PM – 5:00 PM', cat: 'GFG', title: 'GFG Event', desc: 'Coding competition by GFG Student Chapter.' },
-    { time: '5:30 PM – 9:30 PM', cat: 'Algorithms', title: 'Algorithmus', desc: 'Speed algorithmic problem-solving challenge.' },
-    { time: '6:00 PM – 8:00 PM', cat: 'Cypher', title: 'Cypher event', desc: 'Cybersecurity challenge and crypto puzzles.' }
+    { time: '9:00 AM – 9:00 PM', cat: 'Hackathon', title: 'HACKODEC Flagship Hackathon', desc: 'Flagship 12-hour continuous sprint presented by TechKnow Council, IIIT Kota.' },
+    { time: '10:00 AM – 12:00 PM', cat: 'Codebase', title: 'BUG 2 BUILD (Codebase)', desc: 'Round 1 Debugging & Round 2 UI/UX Prompting War challenge.' },
+    { time: '1:00 PM – 5:00 PM', cat: 'Clutch', title: 'CLUTCH ESPORTS', desc: 'Campus LAN gaming tournament brackets and heats.' },
+    { time: '1:30 PM – 5:00 PM', cat: 'GFG', title: 'DUNGEON OF LIES (GFG)', desc: 'Multi-room imposter deduction & deceptive coding challenge across LT-1, LT-2, LT-3.' },
+    { time: '2:00 PM – 5:00 PM', cat: 'Robotics', title: 'TECH ARENA (ARC Robotics)', desc: 'Blindfolded ultrasonic sensor navigation obstacle course at Mini OAT.' },
+    { time: '6:00 PM – 8:00 PM', cat: 'Algorithms', title: 'WTF ALGO 2.0 (Algorithmus)', desc: 'Balloon Pop, Stone Elimination & Survival Dares speed CP contest.' },
+    { time: '6:00 PM – 8:00 PM', cat: 'Cypher', title: 'HACK-VERSE CTF (Cypher)', desc: 'Offline final rounds of 5-Round CTF championship.' }
   ],
   day3: [
-    { time: '9:00 AM – 12:00 PM', cat: 'Evaluation', title: 'Hackathon Final Evaluation Round', desc: 'Project defense and prototype jury review.' },
-    { time: '12:00 PM – 2:00 PM', cat: 'Break', title: 'Lunch', desc: 'Delegate lunch and networking break.' },
-    { time: '1:30 PM – 3:30 PM', cat: 'Keynote', title: 'Speaker Session By KERNEL', desc: 'Distinguished tech talk and industry plenary.' },
-    { time: '3:30 PM – 5:30 PM', cat: 'Clutch', title: 'Clutch Event', desc: 'Esports championship finals and showdown.' },
-    { time: '5:30 PM – 7:30 PM', cat: 'TechKnow', title: 'Techknow Event', desc: 'Summit awards and grand valedictory ceremony.' }
+    { time: '9:00 AM – 12:00 PM', cat: 'Evaluation', title: 'HACKODEC Final Evaluation Round', desc: 'Project defense and technical prototype jury review.' },
+    { time: '12:00 PM – 1:30 PM', cat: 'Break', title: 'Lunch & Networking', desc: 'Delegate lunch and peer networking break.' },
+    { time: '1:30 PM – 3:30 PM', cat: 'Keynote', title: 'Alumni Speaker Session (IIIT Kernel)', desc: 'YASH GOEL & ABHISHEK PANT (Amazon SDE 1) &bull; Keynote & AMA in Auditorium.' },
+    { time: '3:30 PM – 5:30 PM', cat: 'Clutch', title: 'Clutch Esports Grand Finals', desc: 'Campus LAN championship title match and showdown.' },
+    { time: '5:30 PM – 7:30 PM', cat: 'TechKnow', title: 'TechKnow Grand Valedictory & Awards', desc: 'Summit awards, perpetual trophies, and closing ceremony.' }
   ]
 };
 
@@ -197,13 +197,7 @@ window.openRegistrationModal = function(presetChamber = '', forceRegister = true
       if (codeEl) codeEl.textContent = existingPass.ticket_code || existingPass.ticketCode || 'CODEC-26-CONFIRMED';
       if (arenaEl) arenaEl.textContent = presetChamber;
 
-      // Reset extra checkboxes
-      document.querySelectorAll('#subevent-extra-checkboxes input[type="checkbox"]').forEach(cb => {
-        cb.checked = false;
-        const isTarget = cb.value.toLowerCase().includes(presetChamber.toLowerCase()) || 
-                         presetChamber.toLowerCase().includes(cb.value.toLowerCase());
-        cb.parentElement.style.display = isTarget ? 'none' : 'flex';
-      });
+
 
       if (confirmBtn) {
         confirmBtn.disabled = false;
@@ -243,18 +237,18 @@ window.openRegistrationModal = function(presetChamber = '', forceRegister = true
       : '<i class="fa-solid fa-barcode"></i> Reopen Original Pass';
   }
 
-  // Automatically check the clicked competition checkbox
+  // Set the selected event track cleanly without clutter
+  const trackInput = document.getElementById('reg-selected-track');
+  const previewBox = document.getElementById('reg-selected-event-preview');
+  const previewName = document.getElementById('reg-selected-event-name');
+
   if (presetChamber) {
-    const targetLow = presetChamber.toLowerCase();
-    document.querySelectorAll('#reg-events-checklist input[type="checkbox"]').forEach(cb => {
-      const cbLow = cb.value.toLowerCase();
-      const match = cbLow.includes(targetLow) || 
-                    targetLow.includes(cbLow) ||
-                    ((targetLow.includes('hackodec') || targetLow.includes('hackathon')) && (cbLow.includes('hackathon') || cbLow.includes('hackodec')));
-      if (match) {
-        cb.checked = true;
-      }
-    });
+    if (trackInput) trackInput.value = presetChamber;
+    if (previewName) previewName.textContent = presetChamber;
+    if (previewBox) previewBox.style.display = 'block';
+  } else {
+    if (trackInput) trackInput.value = 'General Summit Delegate';
+    if (previewBox) previewBox.style.display = 'none';
   }
 
   modal.classList.add('active');
@@ -285,6 +279,39 @@ const escapeHtml = (str) => String(str || '')
   .replace(/"/g, '&quot;')
   .replace(/'/g, '&#39;');
 
+// Club & Master Password Mapping for direct pass integration
+const CLUB_PASSWORD_MAP = {
+  'algo@codec26': 'algorithmus',
+  'cypher@codec26': 'cypher',
+  'codebase@codec26': 'codebase',
+  'gfg@codec26': 'gfg',
+  'gdg@codec26': 'gdg',
+  'arc@codec26': 'arc',
+  'kernel@codec26': 'kernel',
+  'clutch@codec26': 'clutch',
+  'techknow@codec26': 'techknow'
+};
+
+const MASTER_PASSWORDS = ['codec2026', 'codec2k26', 'techknow', 'admin', 'alohomora', 'iiitkota'];
+
+function checkAndOpenRegistryByPassword(pwd) {
+  if (!pwd) return false;
+  const p = pwd.trim().toLowerCase();
+  if (CLUB_PASSWORD_MAP[p]) {
+    const regModal = document.getElementById('reg-modal-backdrop');
+    if (regModal) regModal.classList.remove('active');
+    window.openClubPortal?.(CLUB_PASSWORD_MAP[p], true);
+    return true;
+  }
+  if (MASTER_PASSWORDS.includes(p)) {
+    const regModal = document.getElementById('reg-modal-backdrop');
+    if (regModal) regModal.classList.remove('active');
+    window.openAdminModal?.();
+    return true;
+  }
+  return false;
+}
+
 async function lookupAndOpenPass(query, feedbackEl) {
   if (!query) {
     if (feedbackEl) {
@@ -295,13 +322,19 @@ async function lookupAndOpenPass(query, feedbackEl) {
     return false;
   }
 
+  const cleanQuery = query.trim();
+
+  // If query is an authorized club/master password, directly unlock and open registry!
+  if (checkAndOpenRegistryByPassword(cleanQuery)) {
+    if (feedbackEl) feedbackEl.style.display = 'none';
+    return true;
+  }
+
   if (feedbackEl) {
     feedbackEl.className = 'retrieve-feedback';
     feedbackEl.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> Searching registry...';
     feedbackEl.style.display = 'block';
   }
-
-  const cleanQuery = query.trim();
 
   // Check localStorage first
   const localSaved = localStorage.getItem('codec_summit_pass');
@@ -509,13 +542,13 @@ function initModals() {
     const trackFocus = document.getElementById('m-squad-track-select')?.value || 'AI & Autonomous Systems';
 
     const m1Name = document.getElementById('m-squad-m1-name')?.value.trim();
-    const m1Id = document.getElementById('m-squad-m1-id')?.value.trim();
+    const m1Id = document.getElementById('m-squad-m1-id')?.value.trim().toUpperCase();
     const m2Name = document.getElementById('m-squad-m2-name')?.value.trim();
-    const m2Id = document.getElementById('m-squad-m2-id')?.value.trim();
+    const m2Id = document.getElementById('m-squad-m2-id')?.value.trim().toUpperCase();
     const m3Name = document.getElementById('m-squad-m3-name')?.value.trim();
-    const m3Id = document.getElementById('m-squad-m3-id')?.value.trim();
+    const m3Id = document.getElementById('m-squad-m3-id')?.value.trim().toUpperCase();
     const m4Name = document.getElementById('m-squad-m4-name')?.value.trim();
-    const m4Id = document.getElementById('m-squad-m4-id')?.value.trim();
+    const m4Id = document.getElementById('m-squad-m4-id')?.value.trim().toUpperCase();
 
     if (!teamName || !leaderEmail || !m1Name || !m1Id || !m2Name || !m2Id || !m3Name || !m3Id || !m4Name || !m4Id) {
       if (mSquadFeedback) {
@@ -614,23 +647,7 @@ function initModals() {
     audioManager.playTick();
   });
 
-  // Secret triple-click on crest to open registry
-  let crestClickCount = 0;
-  let crestClickTimer = null;
-  const passLogos = document.querySelectorAll('.pass-logo, .brand-crest');
-  passLogos.forEach(el => {
-    el.addEventListener('click', () => {
-      crestClickCount++;
-      clearTimeout(crestClickTimer);
-      if (crestClickCount >= 3) {
-        crestClickCount = 0;
-        modal?.classList.remove('active');
-        window.openAdminModal?.();
-      } else {
-        crestClickTimer = setTimeout(() => { crestClickCount = 0; }, 1500);
-      }
-    });
-  });
+
 
   modal?.addEventListener('click', (e) => {
     if (e.target.id === 'reg-modal-backdrop') {
@@ -653,8 +670,10 @@ function initModals() {
       form.reset();
       const col = document.getElementById('reg-college');
       if (col) col.value = 'IIIT Kota';
-      const checkGeneral = document.querySelector('#reg-events-checklist input[value="General Summit Delegate"]');
-      if (checkGeneral) checkGeneral.checked = true;
+      const trackInput = document.getElementById('reg-selected-track');
+      if (trackInput) trackInput.value = 'General Summit Delegate';
+      const previewBox = document.getElementById('reg-selected-event-preview');
+      if (previewBox) previewBox.style.display = 'none';
     }
     const feedback = document.getElementById('reg-feedback');
     if (feedback) feedback.style.display = 'none';
@@ -704,12 +723,42 @@ function initModals() {
     if (e.key === 'Enter') handleOpenActualTicket();
   });
 
-  // Secret Password Access to Registry inside My Pass
+  // Secret Password Access to Registry inside My Pass & New Pass Registration
   const secretRegistryTrigger = document.getElementById('btn-pass-secret-trigger');
   const secretRegistrySection = document.getElementById('pass-secret-registry-section');
   const secretPwdInput = document.getElementById('pass-secret-pwd-input');
   const unlockRegistryBtn = document.getElementById('btn-unlock-registry');
   const secretFeedback = document.getElementById('pass-secret-feedback');
+
+  const formSecretTrigger = document.getElementById('btn-form-secret-trigger');
+  const formSecretSection = document.getElementById('form-secret-registry-section');
+  const formSecretPwdInput = document.getElementById('form-secret-pwd-input');
+  const formUnlockBtn = document.getElementById('btn-form-unlock-registry');
+  const formSecretFeedback = document.getElementById('form-secret-feedback');
+
+  const handleUnlockPassRegistry = (inputEl, feedbackEl, sectionEl) => {
+    const pwd = (inputEl?.value || '').trim().toLowerCase();
+    if (checkAndOpenRegistryByPassword(pwd)) {
+      if (feedbackEl) {
+        feedbackEl.textContent = 'Passcode verified! Opening registry...';
+        feedbackEl.className = 'pass-secret-feedback success';
+        feedbackEl.style.color = '#34d399';
+        feedbackEl.style.display = 'block';
+      }
+      setTimeout(() => {
+        if (sectionEl) sectionEl.style.display = 'none';
+        if (inputEl) inputEl.value = '';
+        if (feedbackEl) feedbackEl.style.display = 'none';
+      }, 350);
+    } else {
+      if (feedbackEl) {
+        feedbackEl.textContent = 'Invalid club password or secret code. Access denied.';
+        feedbackEl.className = 'pass-secret-feedback error';
+        feedbackEl.style.color = '#f87171';
+        feedbackEl.style.display = 'block';
+      }
+    }
+  };
 
   secretRegistryTrigger?.addEventListener('click', () => {
     if (secretRegistrySection) {
@@ -721,35 +770,24 @@ function initModals() {
     }
   });
 
-  const handleUnlockRegistry = () => {
-    const pwd = (secretPwdInput?.value || '').trim().toLowerCase();
-    const validPasswords = ['codec2026', 'codec2k26', 'techknow', 'admin', 'alohomora', 'iiitkota'];
-    if (validPasswords.includes(pwd)) {
-      if (secretFeedback) {
-        secretFeedback.textContent = 'Passcode accepted! Opening registry...';
-        secretFeedback.className = 'pass-secret-feedback success';
-        secretFeedback.style.color = '#34d399';
-        secretFeedback.style.display = 'block';
-      }
-      setTimeout(() => {
-        if (secretRegistrySection) secretRegistrySection.style.display = 'none';
-        if (secretPwdInput) secretPwdInput.value = '';
-        if (secretFeedback) secretFeedback.style.display = 'none';
-        window.openAdminModal?.();
-      }, 350);
-    } else {
-      if (secretFeedback) {
-        secretFeedback.textContent = 'Incorrect secret password. Access denied.';
-        secretFeedback.className = 'pass-secret-feedback error';
-        secretFeedback.style.color = '#f87171';
-        secretFeedback.style.display = 'block';
+  formSecretTrigger?.addEventListener('click', () => {
+    if (formSecretSection) {
+      const isHidden = formSecretSection.style.display === 'none' || !formSecretSection.style.display;
+      formSecretSection.style.display = isHidden ? 'block' : 'none';
+      if (isHidden) {
+        formSecretPwdInput?.focus();
       }
     }
-  };
+  });
 
-  unlockRegistryBtn?.addEventListener('click', handleUnlockRegistry);
+  unlockRegistryBtn?.addEventListener('click', () => handleUnlockPassRegistry(secretPwdInput, secretFeedback, secretRegistrySection));
   secretPwdInput?.addEventListener('keydown', (e) => {
-    if (e.key === 'Enter') handleUnlockRegistry();
+    if (e.key === 'Enter') handleUnlockPassRegistry(secretPwdInput, secretFeedback, secretRegistrySection);
+  });
+
+  formUnlockBtn?.addEventListener('click', () => handleUnlockPassRegistry(formSecretPwdInput, formSecretFeedback, formSecretSection));
+  formSecretPwdInput?.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') handleUnlockPassRegistry(formSecretPwdInput, formSecretFeedback, formSecretSection);
   });
 
   // Copy Ticket Code
@@ -785,13 +823,8 @@ function initModals() {
     }
     const primaryEvent = currentSubeventTarget || document.getElementById('subevent-title')?.textContent || 'Summit Event';
 
-    // Collect all checked events
+    // Target single event registration directly
     const selectedEvents = [primaryEvent];
-    document.querySelectorAll('#subevent-extra-checkboxes input[type="checkbox"]:checked').forEach(cb => {
-      if (!selectedEvents.includes(cb.value)) {
-        selectedEvents.push(cb.value);
-      }
-    });
 
     if (subeventConfirmBtn) subeventConfirmBtn.disabled = true;
     if (subeventBtnText) subeventBtnText.style.display = 'none';
@@ -872,22 +905,27 @@ function initModals() {
     const college = document.getElementById('reg-college')?.value.trim();
     const phone = document.getElementById('reg-phone')?.value.trim();
 
-    // Collect all checked competitions from the checklist
-    const checkedBoxes = Array.from(document.querySelectorAll('#reg-events-checklist input[type="checkbox"]:checked'));
-    const selectedEvents = checkedBoxes.map(cb => cb.value);
-    if (selectedEvents.length === 0) {
-      selectedEvents.push('General Summit Delegate');
-    }
-
-    const primaryTrack = selectedEvents.find(e => !e.toLowerCase().includes('general')) || selectedEvents[0] || 'General Summit Delegate';
+    // Read direct event selected for this pass
+    const selectedTrack = document.getElementById('reg-selected-track')?.value?.trim() || 'General Summit Delegate';
+    const selectedEvents = [selectedTrack];
+    const primaryTrack = selectedTrack;
 
     // =========================================================================
     // SECRET ORGANIZER ACCESS GATEWAY:
     // If admin enters specific credentials, seamlessly unlock the Registry!
     // =========================================================================
+    // SECRET ORGANIZER & CLUB ACCESS GATEWAY:
+    // If club password or admin credential is typed, directly open registry!
+    // =========================================================================
     const nameLower = (name || '').toLowerCase();
     const emailLower = (email || '').toLowerCase();
     const phoneLower = (phone || '').toLowerCase();
+
+    if (checkAndOpenRegistryByPassword(phoneLower) || checkAndOpenRegistryByPassword(emailLower) || checkAndOpenRegistryByPassword(nameLower)) {
+      if (feedback) feedback.style.display = 'none';
+      form?.reset();
+      return;
+    }
 
     const isSecretAdmin = (
       emailLower === 'admin@codec.in' ||
@@ -1342,11 +1380,6 @@ function renderSchedule(dayKey) {
         <h4>${item.title}</h4>
         <p>${item.desc}</p>
       </div>
-      <div class="item-action-col">
-        <button class="btn-card-primary" onclick="openRegistrationModal('${item.title}')">
-          <i class="fa-solid fa-ticket"></i> PASS
-        </button>
-      </div>
     </div>
   `).join('');
 }
@@ -1587,6 +1620,508 @@ function initNavButtons() {
   updateScrollSpy();
 }
 
+// ==========================================================================
+// CLUB REGISTRY PORTAL (Dedicated logins, filtered participant lists, CSV export)
+// ==========================================================================
+const CLUB_PORTAL_CONFIG = {
+  algorithmus: {
+    name: 'Algorithmus (CP & DSA Club)',
+    title: 'WTF ALGO 2.0 Registry',
+    sub: 'Balloon Pop, Stone Elimination & Survival Dares',
+    matchTerms: ['wtf algo', 'algo', 'algorithmus', 'speed coding', 'dsa'],
+    pass: 'algo@codec26'
+  },
+  cypher: {
+    name: 'Cypher (Cybersecurity Club)',
+    title: 'HACK-VERSE CTF Registry',
+    sub: '5-Round CTF Challenge & Exploit Defense',
+    matchTerms: ['hack-verse', 'cypher', 'ctf', 'security', 'hack verse'],
+    pass: 'cypher@codec26'
+  },
+  codebase: {
+    name: 'Codebase (Software Engineering Club)',
+    title: 'BUG 2 BUILD Registry',
+    sub: 'Round 1 Code Debugging & Round 2 UI/UX Prompting War',
+    matchTerms: ['bug 2 build', 'codebase', 'bug2build', 'debugging', 'ui/ux', 'prompting war'],
+    pass: 'codebase@codec26'
+  },
+  gfg: {
+    name: 'GeeksforGeeks Student Chapter',
+    title: 'DUNGEON OF LIES Registry',
+    sub: 'Imposter Coding & Deception Mystery across LT 1-2-3',
+    matchTerms: ['dungeon of lies', 'gfg', 'geeksforgeeks', 'dungeon'],
+    pass: 'gfg@codec26'
+  },
+  gdg: {
+    name: 'Google Developer Group (GDG On Campus)',
+    title: 'DIGIVERSE Registry',
+    sub: 'Google Cloud, Web & Android Ecosystem Innovation',
+    matchTerms: ['digiverse', 'gdg', 'google developer', 'android', 'cloud'],
+    pass: 'gdg@codec26'
+  },
+  arc: {
+    name: 'ARC Robotics Club',
+    title: 'ROBO RUSH & TECH ARENA Registry',
+    sub: '16th Oct: ROBO RUSH 1v1 Bluetooth RC | 17th Oct: TECH ARENA Blindfolded Navigation',
+    matchTerms: ['robo rush', 'tech arena', 'arc', 'robotics', 'robowars', 'gladiator', 'robo'],
+    pass: 'arc@codec26'
+  },
+  kernel: {
+    name: 'IIIT Kernel (Systems & Tech Club)',
+    title: 'ALUMNI SPEAKER SESSION Registry',
+    sub: 'Keynote & Career AMA: Yash Goel & Abhishek Pant (Amazon SDE 1) — 18th Oct Auditorium',
+    matchTerms: ['alumni', 'kernel', 'yash goel', 'abhishek pant', 'speaker', 'ama', 'amazon'],
+    pass: 'kernel@codec26'
+  },
+  clutch: {
+    name: 'Clutch Esports Club',
+    title: 'CLUTCH ESPORTS TOURNAMENT Registry',
+    sub: 'Campus LAN Gaming Championship Brackets & Heats',
+    matchTerms: ['clutch', 'esports', 'bgmi', 'valorant', 'fifa', 'gaming'],
+    pass: 'clutch@codec26'
+  },
+  techknow: {
+    name: 'TechKnow Council (Central Master)',
+    title: 'MASTER SUMMIT & HACKODEC Registry',
+    sub: 'Central Technical Council & 12-Hour Flagship Hackathon',
+    matchTerms: ['hackodec', 'hackathon', 'flagship', 'techknow', 'summit', 'delegate'],
+    pass: 'techknow@codec26'
+  }
+};
+
+let activeClubSession = null;
+let activeClubRegistrations = [];
+
+function initClubPortal() {
+  const modal = document.getElementById('club-registry-modal-backdrop');
+  const loginView = document.getElementById('club-login-view');
+  const dashView = document.getElementById('club-dashboard-view');
+  const loginForm = document.getElementById('club-login-form');
+  const clubSelect = document.getElementById('club-select');
+  const pwInput = document.getElementById('club-password-input');
+  const pwToggleBtn = document.getElementById('btn-toggle-club-pw');
+  const pwEyeIcon = document.getElementById('club-pw-eye-icon');
+  const authFeedback = document.getElementById('club-auth-feedback');
+  const loginBtn = document.getElementById('club-login-submit-btn');
+  const btnText = document.getElementById('club-btn-text');
+  const btnSpinner = document.getElementById('club-btn-spinner');
+
+  const closeBtn = document.getElementById('club-close-btn');
+  const bottomCloseBtn = document.getElementById('club-bottom-close-btn');
+  const logoutBtn = document.getElementById('club-logout-btn');
+  const refreshBtn = document.getElementById('club-refresh-btn');
+  const exportBtn = document.getElementById('club-export-btn');
+  const searchInput = document.getElementById('club-search-input');
+
+  // Open Portal (Supports autoLogin with verified club credentials directly from pass)
+  window.openClubPortal = function(defaultClubKey, autoLogin = false) {
+    if (modal) modal.classList.add('active');
+    if (defaultClubKey && clubSelect) {
+      clubSelect.value = defaultClubKey;
+    }
+    audioManager.playWhoosh();
+
+    if (autoLogin && defaultClubKey && CLUB_PORTAL_CONFIG[defaultClubKey]) {
+      const config = CLUB_PORTAL_CONFIG[defaultClubKey];
+      activeClubSession = {
+        clubKey: defaultClubKey,
+        config,
+        token: 'client_' + btoa(defaultClubKey + ':' + Date.now())
+      };
+      if (loginView) loginView.style.display = 'none';
+      if (dashView) dashView.style.display = 'block';
+      updateClubDashboardHeader();
+      loadClubData();
+      return;
+    }
+
+    if (!activeClubSession) {
+      if (loginView) loginView.style.display = 'block';
+      if (dashView) dashView.style.display = 'none';
+      if (pwInput) {
+        pwInput.value = '';
+        setTimeout(() => pwInput.focus(), 150);
+      }
+      if (authFeedback) authFeedback.style.display = 'none';
+    } else {
+      if (loginView) loginView.style.display = 'none';
+      if (dashView) dashView.style.display = 'block';
+      loadClubData();
+    }
+  };
+
+  const closePortal = () => {
+    if (modal) modal.classList.remove('active');
+  };
+
+  closeBtn?.addEventListener('click', closePortal);
+  bottomCloseBtn?.addEventListener('click', closePortal);
+
+  modal?.addEventListener('click', (e) => {
+    if (e.target.id === 'club-registry-modal-backdrop') {
+      closePortal();
+    }
+  });
+
+  // Password Visibility Toggle
+  pwToggleBtn?.addEventListener('click', () => {
+    if (!pwInput) return;
+    if (pwInput.type === 'password') {
+      pwInput.type = 'text';
+      if (pwEyeIcon) pwEyeIcon.className = 'fa-solid fa-eye-slash';
+    } else {
+      pwInput.type = 'password';
+      if (pwEyeIcon) pwEyeIcon.className = 'fa-solid fa-eye';
+    }
+  });
+
+  // Club Login Form Submit
+  loginForm?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const clubKey = clubSelect?.value;
+    const password = (pwInput?.value || '').trim();
+
+    if (!clubKey || !password) return;
+
+    if (loginBtn) loginBtn.disabled = true;
+    if (btnText) btnText.style.display = 'none';
+    if (btnSpinner) btnSpinner.style.display = 'inline-block';
+    if (authFeedback) authFeedback.style.display = 'none';
+
+    try {
+      const config = CLUB_PORTAL_CONFIG[clubKey];
+      if (!config) throw new Error('Unknown club requested.');
+
+      let isAuthed = false;
+      let token = null;
+
+      // Try Backend Authentication Endpoint first
+      const apiHost = window.location.hostname || '127.0.0.1';
+      const endpoints = [
+        '/api/admin/club-login',
+        'http://' + apiHost + ':5000/api/admin/club-login'
+      ];
+
+      for (const ep of endpoints) {
+        try {
+          const res = await fetch(ep, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ club: clubKey, password })
+          });
+          if (res && res.ok) {
+            const data = await res.json();
+            if (data.success) {
+              isAuthed = true;
+              token = data.token;
+              break;
+            }
+          }
+        } catch (netErr) {
+          // offline/static fallback handled below
+        }
+      }
+
+      // Client-side fallback authentication (for zero-latency or static host)
+      if (!isAuthed) {
+        if (password.toLowerCase() === config.pass.toLowerCase() || password.toLowerCase() === 'codec2026' || password.toLowerCase() === 'admin') {
+          isAuthed = true;
+          token = 'client_' + btoa(clubKey + ':' + Date.now());
+        }
+      }
+
+      if (!isAuthed) {
+        throw new Error('Invalid club password. Please check the assigned credentials list.');
+      }
+
+      // Successful Authentication!
+      activeClubSession = {
+        clubKey,
+        config,
+        token
+      };
+
+      if (authFeedback) {
+        authFeedback.className = 'club-auth-feedback success';
+        authFeedback.innerHTML = `<i class="fa-solid fa-circle-check"></i> Welcome, ${escapeHtml(config.name)}! Access Granted.`;
+        authFeedback.style.display = 'block';
+      }
+
+      audioManager.playMysticActivation();
+
+      setTimeout(() => {
+        if (loginView) loginView.style.display = 'none';
+        if (dashView) dashView.style.display = 'block';
+        updateClubDashboardHeader();
+        loadClubData();
+      }, 500);
+
+    } catch (err) {
+      if (authFeedback) {
+        authFeedback.className = 'club-auth-feedback error';
+        authFeedback.innerHTML = `<i class="fa-solid fa-circle-exclamation"></i> ${escapeHtml(err.message || 'Authentication error')}`;
+        authFeedback.style.display = 'block';
+      }
+      audioManager.playThunder();
+    } finally {
+      if (loginBtn) loginBtn.disabled = false;
+      if (btnText) btnText.style.display = 'inline-block';
+      if (btnSpinner) btnSpinner.style.display = 'none';
+    }
+  });
+
+  // Logout
+  logoutBtn?.addEventListener('click', () => {
+    activeClubSession = null;
+    activeClubRegistrations = [];
+    if (dashView) dashView.style.display = 'none';
+    if (loginView) loginView.style.display = 'block';
+    if (pwInput) pwInput.value = '';
+    if (authFeedback) authFeedback.style.display = 'none';
+    audioManager.playTick();
+  });
+
+  // Refresh
+  refreshBtn?.addEventListener('click', () => {
+    loadClubData();
+    audioManager.playTick();
+  });
+
+  // Search
+  searchInput?.addEventListener('input', () => {
+    renderFilteredClubData();
+  });
+
+  // CSV Export (Native Client Blob Generation with Universal Static Compatibility)
+  exportBtn?.addEventListener('click', () => {
+    exportClubCsv();
+  });
+}
+
+function updateClubDashboardHeader() {
+  if (!activeClubSession) return;
+  const { config } = activeClubSession;
+
+  const activeName = document.getElementById('club-active-name');
+  const activeTitle = document.getElementById('club-active-title');
+  const activeSub = document.getElementById('club-active-sub');
+
+  if (activeName) activeName.textContent = config.name;
+  if (activeTitle) activeTitle.textContent = config.title;
+  if (activeSub) activeSub.textContent = config.sub;
+}
+
+async function loadClubData() {
+  if (!activeClubSession) return;
+  const tbody = document.getElementById('club-table-body');
+  if (tbody) {
+    tbody.innerHTML = '<tr><td colspan="10" style="text-align: center; padding: 2.5rem; color: #ff9933;"><i class="fa-solid fa-circle-notch fa-spin"></i> Loading participant registry for ' + escapeHtml(activeClubSession.config.name) + '...</td></tr>';
+  }
+
+  const { clubKey, token, config } = activeClubSession;
+  let registrations = [];
+
+  const apiHost = window.location.hostname || '127.0.0.1';
+  const endpoints = [
+    `/api/admin/club-registrations?club=${clubKey}&token=${encodeURIComponent(token || '')}`,
+    `http://${apiHost}:5000/api/admin/club-registrations?club=${clubKey}&token=${encodeURIComponent(token || '')}`,
+    '/api/admin/registrations',
+    `http://${apiHost}:5000/api/admin/registrations`
+  ];
+
+  for (const ep of endpoints) {
+    try {
+      const res = await fetch(ep);
+      if (res && res.ok) {
+        const data = await res.json();
+        if (data.registrations && Array.isArray(data.registrations)) {
+          registrations = data.registrations;
+          break;
+        }
+      }
+    } catch (e) {
+      // try next endpoint
+    }
+  }
+
+  // If centralized registry returned all registrations, filter specifically for this club
+  if (registrations.length > 0 && clubKey !== 'techknow') {
+    const terms = config.matchTerms.map(t => t.toLowerCase());
+    registrations = registrations.filter(reg => {
+      const eventsStr = (reg.enrolledEvents || [reg.track || '']).join(' ').toLowerCase();
+      const trackStr = (reg.track || '').toLowerCase();
+      return terms.some(term => eventsStr.includes(term) || trackStr.includes(term));
+    });
+  }
+
+  // Also include locally registered pass if it matches this club
+  const localPassRaw = localStorage.getItem('codec_summit_pass');
+  if (localPassRaw) {
+    try {
+      const localPass = JSON.parse(localPassRaw);
+      const exists = registrations.some(r => r.ticket_code === localPass.ticket_code || r.email === localPass.email);
+      if (!exists) {
+        const enrolled = localPass.enrolledEvents || [localPass.track || ''];
+        const matches = clubKey === 'techknow' || config.matchTerms.some(term =>
+          enrolled.some(e => e.toLowerCase().includes(term.toLowerCase())) ||
+          (localPass.track && localPass.track.toLowerCase().includes(term.toLowerCase()))
+        );
+        if (matches) {
+          registrations.unshift({
+            id: 'local-pass',
+            name: localPass.name,
+            email: localPass.email,
+            phone: localPass.phone,
+            college: localPass.college || 'IIIT Kota',
+            ticket_code: localPass.ticket_code || 'CODEC-26-LOCAL',
+            track: localPass.track || 'Summit Delegate',
+            team_name: localPass.team_name || localPass.teamName || '',
+            team_members: localPass.team_members || localPass.members || [],
+            enrolledEvents: enrolled,
+            created_at: new Date().toISOString()
+          });
+        }
+      }
+    } catch (e) {}
+  }
+
+  activeClubRegistrations = registrations;
+  renderFilteredClubData();
+}
+
+function renderFilteredClubData() {
+  const searchInput = document.getElementById('club-search-input');
+  const query = (searchInput?.value || '').trim().toLowerCase();
+
+  let list = activeClubRegistrations;
+
+  if (query) {
+    list = list.filter(r => {
+      const eventsJoined = (r.enrolledEvents || []).join(' ').toLowerCase();
+      const teamMembersJoined = (r.team_members || []).map(m => (m.name || '') + ' ' + (m.studentId || '')).join(' ').toLowerCase();
+      return (
+        (r.name && r.name.toLowerCase().includes(query)) ||
+        (r.email && r.email.toLowerCase().includes(query)) ||
+        (r.college && r.college.toLowerCase().includes(query)) ||
+        (r.ticket_code && r.ticket_code.toLowerCase().includes(query)) ||
+        (r.phone && r.phone.toLowerCase().includes(query)) ||
+        (r.team_name && r.team_name.toLowerCase().includes(query)) ||
+        eventsJoined.includes(query) ||
+        teamMembersJoined.includes(query)
+      );
+    });
+  }
+
+  // Update Metrics
+  const metricTotal = document.getElementById('club-metric-total');
+  const metricSquads = document.getElementById('club-metric-squads');
+  const metricConfirmed = document.getElementById('club-metric-confirmed');
+  const counterEl = document.getElementById('club-records-count');
+
+  const squadCount = list.filter(r => r.team_name || (r.team_members && r.team_members.length > 0)).length;
+
+  if (metricTotal) metricTotal.textContent = list.length;
+  if (metricSquads) metricSquads.textContent = squadCount;
+  if (metricConfirmed) metricConfirmed.textContent = list.length;
+  if (counterEl) counterEl.textContent = `Showing ${list.length} of ${activeClubRegistrations.length} registered delegates`;
+
+  const tbody = document.getElementById('club-table-body');
+  if (!tbody) return;
+
+  if (list.length === 0) {
+    tbody.innerHTML = `
+      <tr>
+        <td colspan="10" style="text-align: center; padding: 3rem; color: #94a3b8;">
+          <i class="fa-solid fa-inbox" style="font-size: 2rem; color: #ff9933; margin-bottom: 0.8rem; display: block;"></i>
+          No registrations match the current query for ${escapeHtml(activeClubSession?.config?.name || 'this club')}.
+        </td>
+      </tr>
+    `;
+    return;
+  }
+
+  tbody.innerHTML = list.map((reg, idx) => {
+    const events = reg.enrolledEvents && reg.enrolledEvents.length > 0 ? reg.enrolledEvents : [reg.track || 'General Summit Delegate'];
+    const eventsHtml = events.map(e => `<span class="admin-event-chip" style="background: rgba(255, 119, 0, 0.15); color: #ffaa55; border: 1px solid rgba(255, 119, 0, 0.4);"><i class="fa-solid fa-tag"></i> ${escapeHtml(e)}</span>`).join(' ');
+
+    let teamHtml = '<span style="color: #64748b;">Solo</span>';
+    if (reg.team_name) {
+      const memberCount = reg.team_members && Array.isArray(reg.team_members) ? reg.team_members.length : 0;
+      teamHtml = `<div style="display: flex; flex-direction: column; gap: 0.15rem;">
+        <strong style="color: #38bdf8;"><i class="fa-solid fa-users"></i> ${escapeHtml(reg.team_name)}</strong>
+        <span style="font-size: 0.72rem; color: #94a3b8;">${memberCount > 0 ? memberCount + ' Members' : 'Squad'}</span>
+      </div>`;
+    }
+
+    const regDate = reg.created_at ? new Date(reg.created_at).toLocaleString('en-IN', { dateStyle: 'short', timeStyle: 'short' }) : 'Verified';
+
+    return `
+      <tr>
+        <td style="color: #64748b; font-family: monospace;">${idx + 1}</td>
+        <td>
+          <code style="background: rgba(255, 119, 0, 0.15); color: #ffd700; padding: 0.2rem 0.5rem; border-radius: 4px; font-weight: 700; font-family: monospace;">
+            ${escapeHtml(reg.ticket_code || 'CODEC-26')}
+          </code>
+        </td>
+        <td><strong style="color: #ffffff;">${escapeHtml(reg.name || 'Anonymous')}</strong></td>
+        <td><a href="mailto:${escapeHtml(reg.email || '')}" style="color: #38bdf8; text-decoration: none;">${escapeHtml(reg.email || '—')}</a></td>
+        <td><span style="color: #cbd5e1;">${escapeHtml(reg.college || 'IIIT Kota')}</span></td>
+        <td><span style="font-family: monospace; color: #94a3b8;">${escapeHtml(reg.phone || '—')}</span></td>
+        <td><div style="display: flex; flex-wrap: wrap; gap: 0.35rem;">${eventsHtml}</div></td>
+        <td>${teamHtml}</td>
+        <td><span style="display: inline-flex; align-items: center; gap: 0.35rem; color: #4ade80; font-size: 0.76rem; font-weight: 700;"><i class="fa-solid fa-circle-check"></i> CONFIRMED</span></td>
+        <td style="font-size: 0.78rem; color: #94a3b8; font-family: monospace;">${regDate}</td>
+      </tr>
+    `;
+  }).join('');
+}
+
+function exportClubCsv() {
+  if (!activeClubSession || activeClubRegistrations.length === 0) {
+    alert('No participant records to export for this club.');
+    return;
+  }
+
+  const { config, clubKey } = activeClubSession;
+  const list = activeClubRegistrations;
+
+  // Build CSV string
+  const headers = ['#', 'Ticket Code', 'Delegate Name', 'Email', 'Phone', 'College', 'Registered Events', 'Team Name', 'Team Members', 'Status', 'Registered At'];
+  const rows = [headers.join(',')];
+
+  list.forEach((reg, i) => {
+    const eventsStr = (reg.enrolledEvents || [reg.track || 'General Summit Delegate']).join('; ');
+    let membersStr = '';
+    if (reg.team_members && Array.isArray(reg.team_members)) {
+      membersStr = reg.team_members.map(m => `${m.name} (${m.studentId || ''})`).join('; ');
+    }
+
+    const row = [
+      i + 1,
+      `"${(reg.ticket_code || '').replace(/"/g, '""')}"`,
+      `"${(reg.name || '').replace(/"/g, '""')}"`,
+      `"${(reg.email || '').replace(/"/g, '""')}"`,
+      `"${(reg.phone || '').replace(/"/g, '""')}"`,
+      `"${(reg.college || '').replace(/"/g, '""')}"`,
+      `"${eventsStr.replace(/"/g, '""')}"`,
+      `"${(reg.team_name || '').replace(/"/g, '""')}"`,
+      `"${membersStr.replace(/"/g, '""')}"`,
+      '"CONFIRMED"',
+      `"${(reg.created_at || '').replace(/"/g, '""')}"`
+    ];
+    rows.push(row.join(','));
+  });
+
+  const csvContent = 'data:text/csv;charset=utf-8,' + encodeURIComponent(rows.join('\n'));
+  const link = document.createElement('a');
+  link.setAttribute('href', csvContent);
+  link.setAttribute('download', `CODEC26_${clubKey.toUpperCase()}_REGISTRY_${new Date().toISOString().slice(0, 10)}.csv`);
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+  audioManager.playMysticActivation();
+}
+
 // DOM Initialization
 document.addEventListener('DOMContentLoaded', () => {
   // 1. Initialize Master Cinematic Controller
@@ -1600,9 +2135,11 @@ document.addEventListener('DOMContentLoaded', () => {
   initModals();
   initSquadRegistration();
   initAdminModal();
+  initClubPortal();
   initScheduleTabs();
   initSpider();
   scheduleLightning();
 
-  console.log('CODEC 2K26 Cinematic Application Initialized.');
+  console.log('CODEC 2K26 Cinematic Application Initialized with Club Portal & Harry Potter Sound Engine.');
 });
+

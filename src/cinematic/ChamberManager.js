@@ -43,8 +43,8 @@ export const CHAMBERS = {
             <div class="pillar-item">
               <span class="pillar-num">03</span>
               <div>
-                <h4>National Hackathons</h4>
-                <p>High-stakes 24-hour sprints tackling deep industrial problem statements.</p>
+                <h4>Flagship Hackathons</h4>
+                <p>High-stakes engineering sprints tackling deep industrial problem statements.</p>
               </div>
             </div>
           </div>
@@ -73,81 +73,177 @@ export const CHAMBERS = {
     number: 'CHAMBER II',
     title: 'THE SUMMIT EVENTS & ARENAS',
     subtitle: 'OCTOBER 16 — OCTOBER 18',
-    accentColor: '#38bdf8',
+    accentColor: '#ff6a00',
     bg: '/assets/arch_events.jpg',
     doorThumb: '/assets/arch_events.jpg',
-    tagline: 'Technical workshops, autonomous robotics combat, speed algorithmic trials, and competitive LAN gaming.',
+    tagline: 'WTF ALGO 2.0, HACK-VERSE, BUG 2 BUILD, DUNGEON OF LIES, DIGIVERSE, ROBO RUSH, TECH ARENA & ALUMNI SESSIONS.',
     contentHtml: `
       <div class="chamber-events-grid">
+        <!-- 1. ALGORITHMUS: WTF ALGO 2.0 -->
         <div class="event-capsule-card">
           <div class="capsule-header">
-            <span class="capsule-wing"><i class="fa-solid fa-code"></i> CODEBASE WING</span>
-            <span class="capsule-badge">WORKSHOP & CONTEST</span>
+            <span class="capsule-wing"><i class="fa-solid fa-bolt"></i> ALGORITHMUS</span>
+            <span class="capsule-badge">OCT 17 &bull; 6:00 PM - 8:00 PM</span>
           </div>
-          <h4 class="capsule-title">Codebase Workshop & Challenge</h4>
-          <p class="capsule-desc">Technical engineering workshop and competitive coding challenge organized by Codebase Club.</p>
-          <button class="btn-capsule-action" onclick="openRegistrationModal('Codebase Workshop')">
-            REGISTER NOW <i class="fa-solid fa-arrow-right"></i>
+          <h4 class="capsule-title">WTF ALGO 2.0</h4>
+          <p class="capsule-desc">3-round speed competitive programming challenge.</p>
+          <div class="capsule-rules-summary">
+            <span class="rule-chip"><i class="fa-solid fa-users"></i> 3 Members / Team</span>
+            <span class="rule-chip"><i class="fa-solid fa-circle-dot"></i> R1: Balloon Pop</span>
+            <span class="rule-chip"><i class="fa-solid fa-gem"></i> R2: Stone Elimination</span>
+            <span class="rule-chip"><i class="fa-solid fa-skull"></i> R3: Survival & Dares</span>
+          </div>
+          <button class="btn-capsule-action" onclick="openRegistrationModal('WTF ALGO 2.0 (Algorithmus)')">
+            REGISTER <i class="fa-solid fa-arrow-right"></i>
           </button>
         </div>
 
-        <div class="event-capsule-card highlighted">
-          <div class="capsule-header">
-            <span class="capsule-wing"><i class="fa-solid fa-robot"></i> ROBOTICS WING</span>
-            <span class="capsule-badge highlight">ARENA COMBAT</span>
-          </div>
-          <h4 class="capsule-title">Arc Robotics Event</h4>
-          <p class="capsule-desc">Autonomous systems, embedded hardware demonstrations, and reinforced robotics combat arenas.</p>
-          <button class="btn-capsule-action highlight-btn" onclick="openRegistrationModal('Arc Robotics Event')">
-            JOIN ARENA <i class="fa-solid fa-arrow-right"></i>
-          </button>
-        </div>
-
+        <!-- 2. CYPHER: HACK-VERSE -->
         <div class="event-capsule-card">
           <div class="capsule-header">
-            <span class="capsule-wing"><i class="fa-solid fa-bolt"></i> ALGORITHMIC WING</span>
-            <span class="capsule-badge">SPEED CP ARENA</span>
+            <span class="capsule-wing"><i class="fa-solid fa-shield-virus"></i> CYPHER</span>
+            <span class="capsule-badge">OCT 15 & 17 &bull; 6:00 PM - 8:00 PM</span>
           </div>
-          <h4 class="capsule-title">Algorithmus</h4>
-          <p class="capsule-desc">Speed algorithmic problem-solving sprint and competitive programming showdowns.</p>
-          <button class="btn-capsule-action" onclick="openRegistrationModal('Algorithmus')">
-            ENTER CONTEST <i class="fa-solid fa-arrow-right"></i>
+          <h4 class="capsule-title">HACK-VERSE</h4>
+          <p class="capsule-desc">5-round capture the flag (CTF) tournament with cryptography and security exploits.</p>
+          <div class="capsule-rules-summary">
+            <span class="rule-chip"><i class="fa-solid fa-users"></i> 3 Members / Team</span>
+            <span class="rule-chip"><i class="fa-solid fa-globe"></i> R1-3: Online (15 Oct)</span>
+            <span class="rule-chip"><i class="fa-solid fa-building"></i> R4-5: Offline (17 Oct)</span>
+            <span class="rule-chip"><i class="fa-solid fa-ban"></i> No AI Allowed</span>
+          </div>
+          <button class="btn-capsule-action" onclick="openRegistrationModal('HACK-VERSE (Cypher)')">
+            REGISTER <i class="fa-solid fa-arrow-right"></i>
           </button>
         </div>
 
+        <!-- 3. CODEBASE: BUG 2 BUILD -->
         <div class="event-capsule-card">
           <div class="capsule-header">
-            <span class="capsule-wing"><i class="fa-solid fa-code-branch"></i> GFG CHAPTER</span>
-            <span class="capsule-badge">CODING SHOWDOWN</span>
+            <span class="capsule-wing"><i class="fa-solid fa-code"></i> CODEBASE</span>
+            <span class="capsule-badge">OCT 17 &bull; 10:00 AM - 12:00 PM</span>
           </div>
-          <h4 class="capsule-title">GFG Event</h4>
-          <p class="capsule-desc">Competitive algorithmic and problem-solving challenge organized by GeeksforGeeks Student Chapter.</p>
-          <button class="btn-capsule-action" onclick="openRegistrationModal('GFG Event')">
-            JOIN CONTEST <i class="fa-solid fa-arrow-right"></i>
+          <h4 class="capsule-title">BUG 2 BUILD</h4>
+          <p class="capsule-desc">Code debugging sprint followed by a UI/UX prompting showdown.</p>
+          <div class="capsule-rules-summary">
+            <span class="rule-chip"><i class="fa-solid fa-bug"></i> R1: 7 Codes Debugging</span>
+            <span class="rule-chip"><i class="fa-solid fa-ranking-star"></i> Top 10 Qualify</span>
+            <span class="rule-chip"><i class="fa-solid fa-wand-magic-sparkles"></i> R2: UI/UX Prompting</span>
+          </div>
+          <button class="btn-capsule-action" onclick="openRegistrationModal('BUG 2 BUILD (Codebase)')">
+            REGISTER <i class="fa-solid fa-arrow-right"></i>
           </button>
         </div>
 
+        <!-- 4. GEEKSFORGEEKS: DUNGEON OF LIES -->
         <div class="event-capsule-card">
           <div class="capsule-header">
-            <span class="capsule-wing"><i class="fa-solid fa-gamepad"></i> ESPORTS WING</span>
-            <span class="capsule-badge">LAN BRACKET</span>
+            <span class="capsule-wing"><i class="fa-solid fa-mask"></i> GEEKSFORGEEKS</span>
+            <span class="capsule-badge">OCT 17 &bull; 1:30 PM - 5:00 PM &bull; LT 1-2-3</span>
           </div>
-          <h4 class="capsule-title">Clutch Event (Esports)</h4>
-          <p class="capsule-desc">Zero-latency competitive esports and campus LAN tournament brackets on high-refresh setups.</p>
-          <button class="btn-capsule-action" onclick="openRegistrationModal('Clutch Event (Esports)')">
-            JOIN BRACKET <i class="fa-solid fa-arrow-right"></i>
+          <h4 class="capsule-title">DUNGEON OF LIES</h4>
+          <p class="capsule-desc">Coding mystery and imposter detection challenge across LT 1-2-3.</p>
+          <div class="capsule-rules-summary">
+            <span class="rule-chip"><i class="fa-solid fa-user-secret"></i> 1 Imposter Per Group</span>
+            <span class="rule-chip"><i class="fa-solid fa-code-compare"></i> LT 1: Imposter Games</span>
+            <span class="rule-chip"><i class="fa-solid fa-brain"></i> LT 2: Misdirection</span>
+            <span class="rule-chip"><i class="fa-solid fa-check-double"></i> LT 3: Final Voting</span>
+          </div>
+          <button class="btn-capsule-action" onclick="openRegistrationModal('DUNGEON OF LIES (GFG)')">
+            REGISTER <i class="fa-solid fa-arrow-right"></i>
           </button>
         </div>
 
-        <div class="event-capsule-card highlighted">
+        <!-- 5. GDG: DIGIVERSE -->
+        <div class="event-capsule-card">
           <div class="capsule-header">
-            <span class="capsule-wing"><i class="fa-solid fa-shield-virus"></i> CYPHER WING</span>
-            <span class="capsule-badge highlight">CYBERSECURITY & CTF</span>
+            <span class="capsule-wing"><i class="fa-solid fa-cube"></i> GDG ON CAMPUS</span>
+            <span class="capsule-badge">OCT 17 &bull; DEVELOPER SUMMIT</span>
           </div>
-          <h4 class="capsule-title">Cypher Event</h4>
-          <p class="capsule-desc">Cybersecurity defense operations, cryptography puzzles, exploit discovery, and Capture The Flag (CTF) challenges.</p>
-          <button class="btn-capsule-action highlight-btn" onclick="openRegistrationModal('Cypher Event')">
-            ENTER CYPHER <i class="fa-solid fa-arrow-right"></i>
+          <h4 class="capsule-title">DIGIVERSE</h4>
+          <p class="capsule-desc">Developer summit covering Cloud, Web, and Android engineering.</p>
+          <div class="capsule-rules-summary">
+            <span class="rule-chip"><i class="fa-solid fa-cloud"></i> Cloud Architecture</span>
+            <span class="rule-chip"><i class="fa-solid fa-robot"></i> AI Workflows</span>
+            <span class="rule-chip"><i class="fa-solid fa-network-wired"></i> Fullstack Apps</span>
+          </div>
+          <button class="btn-capsule-action" onclick="openRegistrationModal('DIGIVERSE (GDG)')">
+            REGISTER <i class="fa-solid fa-arrow-right"></i>
+          </button>
+        </div>
+
+        <!-- 6. ARC ROBOTICS EVENT 1: ROBO RUSH -->
+        <div class="event-capsule-card">
+          <div class="capsule-header">
+            <span class="capsule-wing"><i class="fa-solid fa-car-side"></i> ARC ROBOTICS</span>
+            <span class="capsule-badge">OCT 16 &bull; 7:30 PM - 9:00 PM &bull; MINI OAT</span>
+          </div>
+          <h4 class="capsule-title">ROBO RUSH</h4>
+          <p class="capsule-desc">1v1 Bluetooth RC robot battle and package collection race.</p>
+          <div class="capsule-rules-summary">
+            <span class="rule-chip"><i class="fa-solid fa-gamepad"></i> 1v1 Remote Duel</span>
+            <span class="rule-chip"><i class="fa-solid fa-stopwatch"></i> 120s Match Clock</span>
+            <span class="rule-chip"><i class="fa-solid fa-box-open"></i> Package Collection</span>
+            <span class="rule-chip"><i class="fa-solid fa-trophy"></i> Highest Score Wins</span>
+          </div>
+          <button class="btn-capsule-action" onclick="openRegistrationModal('ROBO RUSH (ARC Robotics - 16th Oct)')">
+            REGISTER <i class="fa-solid fa-arrow-right"></i>
+          </button>
+        </div>
+
+        <!-- 7. ARC ROBOTICS EVENT 2: TECH ARENA -->
+        <div class="event-capsule-card">
+          <div class="capsule-header">
+            <span class="capsule-wing"><i class="fa-solid fa-robot"></i> ARC ROBOTICS</span>
+            <span class="capsule-badge">OCT 17 &bull; 2:00 PM - 5:00 PM &bull; MINI OAT</span>
+          </div>
+          <h4 class="capsule-title">TECH ARENA</h4>
+          <p class="capsule-desc">Blindfolded obstacle navigation guided by ultrasonic sensors.</p>
+          <div class="capsule-rules-summary">
+            <span class="rule-chip"><i class="fa-solid fa-users"></i> Team of 2 Players</span>
+            <span class="rule-chip"><i class="fa-solid fa-eye-slash"></i> Both Blindfolded</span>
+            <span class="rule-chip"><i class="fa-solid fa-radar"></i> Sensor Guidance</span>
+            <span class="rule-chip"><i class="fa-solid fa-clock"></i> Fastest Time Wins</span>
+          </div>
+          <button class="btn-capsule-action" onclick="openRegistrationModal('TECH ARENA (ARC Robotics - 17th Oct)')">
+            REGISTER <i class="fa-solid fa-arrow-right"></i>
+          </button>
+        </div>
+
+        <!-- 8. IIIT KERNEL: ALUMNI SPEAKER SESSION -->
+        <div class="event-capsule-card">
+          <div class="capsule-header">
+            <span class="capsule-wing"><i class="fa-solid fa-graduation-cap"></i> IIIT KERNEL</span>
+            <span class="capsule-badge">OCT 18 &bull; 1:30 PM - 3:30 PM &bull; AUDITORIUM</span>
+          </div>
+          <h4 class="capsule-title">ALUMNI SPEAKER SESSION</h4>
+          <p class="capsule-desc">Interactive career keynote and live AMA with distinguished alumni.</p>
+          <div class="capsule-rules-summary">
+            <span class="rule-chip" style="color: #ffbd77; font-weight: 700;"><i class="fa-brands fa-amazon"></i> YASH GOEL (Amazon SDE 1)</span>
+            <span class="rule-chip" style="color: #ffbd77; font-weight: 700;"><i class="fa-brands fa-amazon"></i> ABHISHEK PANT (Amazon SDE 1)</span>
+            <span class="rule-chip"><i class="fa-solid fa-microchip"></i> System Design</span>
+            <span class="rule-chip"><i class="fa-solid fa-comments"></i> Live Student AMA</span>
+          </div>
+          <button class="btn-capsule-action" onclick="openRegistrationModal('Alumni Speaker Session (Kernel)')">
+            REGISTER <i class="fa-solid fa-arrow-right"></i>
+          </button>
+        </div>
+
+        <!-- 9. CLUTCH: ESPORTS TOURNAMENT -->
+        <div class="event-capsule-card">
+          <div class="capsule-header">
+            <span class="capsule-wing"><i class="fa-solid fa-gamepad"></i> CLUTCH ESPORTS</span>
+            <span class="capsule-badge">OCT 17 & 18 &bull; GAMING ARENA</span>
+          </div>
+          <h4 class="capsule-title">CLUTCH ESPORTS</h4>
+          <p class="capsule-desc">Campus LAN gaming championship tournament.</p>
+          <div class="capsule-rules-summary">
+            <span class="rule-chip"><i class="fa-solid fa-trophy"></i> Tournament Brackets</span>
+            <span class="rule-chip"><i class="fa-solid fa-network-wired"></i> Low-Latency Local LAN</span>
+            <span class="rule-chip"><i class="fa-solid fa-crown"></i> Championship Trophies</span>
+          </div>
+          <button class="btn-capsule-action" onclick="openRegistrationModal('Clutch Esports')">
+            REGISTER <i class="fa-solid fa-arrow-right"></i>
           </button>
         </div>
       </div>
@@ -217,11 +313,11 @@ export const CHAMBERS = {
           <div class="chrono-events-list">
             <div class="chrono-item">
               <span class="chrono-time">5:30 PM – 7:30 PM</span>
-              <div class="chrono-desc"><h4>Codebase Workshop</h4><p>Technical workshop by Codebase Club</p></div>
+              <div class="chrono-desc"><h4>Codebase Technical Session</h4><p>Technical engineering workshop and tools briefing by Codebase Club</p></div>
             </div>
             <div class="chrono-item">
-              <span class="chrono-time">7:30 PM – 9:30 PM</span>
-              <div class="chrono-desc"><h4>Arc Robotics Event</h4><p>Robotics systems and hardware showcase</p></div>
+              <span class="chrono-time">7:30 PM – 9:00 PM</span>
+              <div class="chrono-desc"><h4>ARC Robotics: ROBO RUSH</h4><p>1v1 Bluetooth RC combat duel at Mini OAT arena (Oct 16)</p></div>
             </div>
           </div>
         </div>
@@ -231,31 +327,31 @@ export const CHAMBERS = {
           <div class="chrono-events-list">
             <div class="chrono-item">
               <span class="chrono-time">9:00 AM – 9:00 PM</span>
-              <div class="chrono-desc"><h4>HACKODEC Flagship Hackathon</h4><p>12-hour engineering sprint presented by TechKnow Council</p></div>
+              <div class="chrono-desc"><h4>HACKODEC Flagship Hackathon</h4><p>12-hour continuous sprint presented by TechKnow Council</p></div>
             </div>
             <div class="chrono-item">
               <span class="chrono-time">10:00 AM – 12:00 PM</span>
-              <div class="chrono-desc"><h4>Codebase Event</h4><p>Competitive software engineering challenge</p></div>
+              <div class="chrono-desc"><h4>Codebase: BUG 2 BUILD</h4><p>Round 1 Debugging & Round 2 UI/UX AI Prompting War</p></div>
             </div>
             <div class="chrono-item">
               <span class="chrono-time">1:00 PM – 5:00 PM</span>
-              <div class="chrono-desc"><h4>Clutch Event</h4><p>Competitive gaming and esports contest</p></div>
-            </div>
-            <div class="chrono-item">
-              <span class="chrono-time">2:00 PM – 5:00 PM</span>
-              <div class="chrono-desc"><h4>Arc Robotics Event</h4><p>Autonomous robotics challenge and combat</p></div>
+              <div class="chrono-desc"><h4>Clutch Esports Tournament</h4><p>Campus LAN gaming brackets and tournament heats</p></div>
             </div>
             <div class="chrono-item">
               <span class="chrono-time">1:30 PM – 5:00 PM</span>
-              <div class="chrono-desc"><h4>GFG Event</h4><p>Coding competition by GFG Student Chapter</p></div>
+              <div class="chrono-desc"><h4>GeeksforGeeks: DUNGEON OF LIES</h4><p>Multi-room imposter deduction and code challenge across LT-1, LT-2, LT-3</p></div>
             </div>
             <div class="chrono-item">
-              <span class="chrono-time">5:30 PM – 9:30 PM</span>
-              <div class="chrono-desc"><h4>Algorithmus</h4><p>Speed algorithmic problem-solving challenge</p></div>
+              <span class="chrono-time">2:00 PM – 5:00 PM</span>
+              <div class="chrono-desc"><h4>ARC Robotics: TECH ARENA</h4><p>Blindfolded ultrasonic obstacle navigation challenge at Mini OAT (Oct 17)</p></div>
             </div>
             <div class="chrono-item">
               <span class="chrono-time">6:00 PM – 8:00 PM</span>
-              <div class="chrono-desc"><h4>Cypher event</h4><p>Cybersecurity challenge and crypto puzzles</p></div>
+              <div class="chrono-desc"><h4>Algorithmus: WTF ALGO 2.0</h4><p>Balloon Pop, Stone Elimination & Survival Dares speed CP contest</p></div>
+            </div>
+            <div class="chrono-item">
+              <span class="chrono-time">6:00 PM – 8:00 PM</span>
+              <div class="chrono-desc"><h4>Cypher: HACK-VERSE</h4><p>Offline final rounds of 5-Round CTF challenge</p></div>
             </div>
           </div>
         </div>
@@ -265,23 +361,23 @@ export const CHAMBERS = {
           <div class="chrono-events-list">
             <div class="chrono-item">
               <span class="chrono-time">9:00 AM – 12:00 PM</span>
-              <div class="chrono-desc"><h4>Hackathon Final Evaluation Round</h4><p>Project defense and prototype review</p></div>
+              <div class="chrono-desc"><h4>HACKODEC Final Evaluation Round</h4><p>Live jury evaluation and technical prototype defense</p></div>
             </div>
             <div class="chrono-item">
-              <span class="chrono-time">12:00 PM – 2:00 PM</span>
-              <div class="chrono-desc"><h4>Lunch</h4><p>Delegate lunch and networking break</p></div>
+              <span class="chrono-time">12:00 PM – 1:30 PM</span>
+              <div class="chrono-desc"><h4>Lunch & Networking</h4><p>Delegate buffet and peer networking break</p></div>
             </div>
             <div class="chrono-item">
               <span class="chrono-time">1:30 PM – 3:30 PM</span>
-              <div class="chrono-desc"><h4>Speaker Session By KERNEL</h4><p>Distinguished tech talk and industry plenary</p></div>
+              <div class="chrono-desc"><h4>Alumni Speaker Session (IIIT Kernel)</h4><p>YASH GOEL & ABHISHEK PANT (Amazon SDE 1) &bull; Auditorium</p></div>
             </div>
             <div class="chrono-item">
               <span class="chrono-time">3:30 PM – 5:30 PM</span>
-              <div class="chrono-desc"><h4>Clutch Event</h4><p>Esports championship finals and showdown</p></div>
+              <div class="chrono-desc"><h4>Clutch Esports Grand Finals</h4><p>Campus LAN championship title match and showdown</p></div>
             </div>
             <div class="chrono-item">
               <span class="chrono-time">5:30 PM – 7:30 PM</span>
-              <div class="chrono-desc"><h4>Techknow Event</h4><p>Summit awards and grand valedictory ceremony</p></div>
+              <div class="chrono-desc"><h4>TechKnow Grand Valedictory & Awards</h4><p>Closing ceremony, trophies, medals, and summit honors</p></div>
             </div>
           </div>
         </div>

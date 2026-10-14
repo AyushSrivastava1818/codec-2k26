@@ -42,7 +42,7 @@ The platform is designed to provide delegates with an unforgettable gothic cyber
 |:---:|:---|:---:|:---|
 | **Chamber 00** | **About & Archival Vault** | Interactive Exhibit | Fest Vision, Council Charter & Historical Milestones |
 | **Chamber 01** | **Events & Arena** | Competitive Rounds | Speed DSA Knockout, RoboWars Combat Gladiator & Security CTF |
-| **Chamber 02** | **TechKnow Presents HACKODEC** | 12-Hour National Sprint | AI/ML, Scalable Software, Web3 & Open Innovation (Solo or 4-Member Squad) |
+| **Chamber 02** | **TechKnow Presents HACKODEC** | 12-Hour Flagship Sprint | AI/ML, Scalable Software, Web3 & Open Innovation (Solo or 4-Member Squad) |
 | **Chamber 03** | **Schedule & Chrono Timeline** | 3-Day Technical Roster | Keynote Addresses, Coding Rounds & Technical Workshops |
 | **Chamber 04** | **Prizes & Honors** | Ceremonial Podium | Cash Rewards, Medals, Crests & Sponsored Swag |
 

@@ -172,139 +172,53 @@ class AudioManager {
   }
 
   // =========================================================================
-  // HARRY POTTER — HEDWIG'S THEME (AUTHENTIC CELESTA ENGINE)
-  // Composed by John Williams, Synthesized with Zero-Lag Audio Hardware Clock
+  // HARRY POTTER — HEDWIG'S THEME (AUTHENTIC RECORDING, LOW VOLUME, 11S LOOP)
+  // Plays the authentic theme at subtle background volume and repeats 11s loop
   // =========================================================================
   startHarryPotterTheme() {
     this.stopHarryPotterTheme();
-    if (!this.isEnabled || !this.ctx) return;
+    if (!this.isEnabled) return;
 
-    // Initialize Celesta Hall Shimmer Delay Bus (Lush Hogwarts Great Hall Acoustics)
-    if (!this.celestaBus) {
-      const now = this.ctx.currentTime;
-      this.celestaBus = this.ctx.createGain();
-      this.celestaBus.gain.setValueAtTime(1.0, now);
-
-      this.celestaDelay = this.ctx.createDelay();
-      this.celestaDelay.delayTime.setValueAtTime(0.24, now);
-
-      this.celestaFeedback = this.ctx.createGain();
-      this.celestaFeedback.gain.setValueAtTime(0.26, now);
-
-      this.celestaFilter = this.ctx.createBiquadFilter();
-      this.celestaFilter.type = 'lowpass';
-      this.celestaFilter.frequency.setValueAtTime(2600, now);
-
-      // Feedback loop with lowpass damping
-      this.celestaBus.connect(this.masterGain);
-      this.celestaBus.connect(this.celestaDelay);
-      this.celestaDelay.connect(this.celestaFilter);
-      this.celestaFilter.connect(this.celestaFeedback);
-      this.celestaFeedback.connect(this.celestaDelay);
-      this.celestaFilter.connect(this.masterGain);
+    if (!this.hpAudio) {
+      this.hpAudio = new Audio('/assets/harry_potter_theme.mp3');
+      this.hpAudio.preload = 'auto';
     }
 
-    // Hedwig's Theme in authentic 3/4 Misterioso waltz tempo
-    // 1 Beat = 0.46s (~130 BPM in 3/4 time)
-    const B = 0.46;
-    const melody = [
-      // Pickup measure (Beat 3 upbeat)
-      { f: 493.88, b: 1.0, isRest: false },  // B4
+    // Keep volume low as requested
+    this.hpAudio.volume = 0.22;
+    this.hpAudio.currentTime = 0;
 
-      // Measure 1: E5 (dotted quarter: 1.5b) - G5 (eighth: 0.5b) - F#5 (quarter: 1.0b)
-      { f: 659.25, b: 1.5, isRest: false },  // E5
-      { f: 783.99, b: 0.5, isRest: false },  // G5
-      { f: 739.99, b: 1.0, isRest: false },  // F#5
+    const playPromise = this.hpAudio.play();
+    if (playPromise !== undefined) {
+      playPromise.catch(e => console.warn('HP Audio play deferred:', e));
+    }
 
-      // Measure 2: E5 (half note: 2.0b) - B5 (quarter: 1.0b)
-      { f: 659.25, b: 2.0, isRest: false },  // E5
-      { f: 987.77, b: 1.0, isRest: false },  // B5
-
-      // Measure 3: A5 (dotted half note: 3.0b full measure)
-      { f: 880.00, b: 3.0, isRest: false },  // A5
-
-      // Measure 4: F#5 (dotted half note: 3.0b full measure)
-      { f: 739.99, b: 3.0, isRest: false },  // F#5
-
-      // Measure 5: E5 (dotted quarter: 1.5b) - G5 (eighth: 0.5b) - F#5 (quarter: 1.0b)
-      { f: 659.25, b: 1.5, isRest: false },  // E5
-      { f: 783.99, b: 0.5, isRest: false },  // G5
-      { f: 739.99, b: 1.0, isRest: false },  // F#5
-
-      // Measure 6: D#5 (half note: 2.0b) - F5 (quarter: 1.0b)
-      { f: 622.25, b: 2.0, isRest: false },  // D#5
-      { f: 698.46, b: 1.0, isRest: false },  // F5
-
-      // Measure 7: B4 (dotted half note: 3.0b)
-      { f: 493.88, b: 3.0, isRest: false },  // B4
-
-      // Measure 8: Mystical Rest (1.5b) + B4 upbeat (1.0b)
-      { f: 0,      b: 1.5, isRest: true  },  // Rest
-      { f: 493.88, b: 1.0, isRest: false },  // B4 (upbeat)
-
-      // Measure 9: E5 (1.5b) - G5 (0.5b) - F#5 (1.0b)
-      { f: 659.25, b: 1.5, isRest: false },  // E5
-      { f: 783.99, b: 0.5, isRest: false },  // G5
-      { f: 739.99, b: 1.0, isRest: false },  // F#5
-
-      // Measure 10: E5 (2.0b) - B5 (1.0b)
-      { f: 659.25, b: 2.0, isRest: false },  // E5
-      { f: 987.77, b: 1.0, isRest: false },  // B5
-
-      // Measure 11: D6 (2.0b) - C#6 (1.0b)
-      { f: 1174.66, b: 2.0, isRest: false }, // D6
-      { f: 1108.73, b: 1.0, isRest: false }, // C#6
-
-      // Measure 12: C6 (2.0b) - G#5 (1.0b)
-      { f: 1046.50, b: 2.0, isRest: false }, // C6
-      { f: 830.61,  b: 1.0, isRest: false }, // G#5
-
-      // Measure 13: C6 (1.5b) - B5 (0.5b) - Bb5 (1.0b)
-      { f: 1046.50, b: 1.5, isRest: false }, // C6
-      { f: 987.77,  b: 0.5, isRest: false }, // B5
-      { f: 932.33,  b: 1.0, isRest: false }, // Bb5
-
-      // Measure 14: B5 (1.0b) - G5 (1.0b)
-      { f: 987.77,  b: 1.0, isRest: false }, // B5
-      { f: 783.99,  b: 1.0, isRest: false }, // G5
-
-      // Measure 15: E5 (3.5b sustained resolution)
-      { f: 659.25,  b: 3.5, isRest: false }  // E5
-    ];
-
-    const totalPhraseTime = melody.reduce((acc, m) => acc + (m.b * B), 0);
-    const loopInterval = totalPhraseTime + 2.5; // 2.5s gentle starry breath before repeat
-
-    // Schedule all notes directly onto the Web Audio hardware clock (0 latency, 0 drift)
-    const schedulePhrase = (startTime) => {
-      if (!this.isEnabled || !this.ctx) return;
-      let noteTime = startTime;
-      for (let i = 0; i < melody.length; i++) {
-        const item = melody[i];
-        const dur = item.b * B;
-        if (!item.isRest && item.f > 0) {
-          this.scheduleCelestaNote(item.f, noteTime, dur);
+    // Repeat strictly only 11 seconds of the tune again and again
+    if (this.hpAudioTimeCheck) {
+      clearInterval(this.hpAudioTimeCheck);
+    }
+    this.hpAudioTimeCheck = setInterval(() => {
+      if (!this.isEnabled || !this.hpAudio) return;
+      if (this.hpAudio.currentTime >= 11.0) {
+        this.hpAudio.currentTime = 0;
+        if (this.hpAudio.paused) {
+          this.hpAudio.play().catch(() => {});
         }
-        noteTime += dur;
       }
-    };
-
-    this.activeNoteOscillators = [];
-    const initialTime = this.ctx.currentTime + 0.1;
-    schedulePhrase(initialTime);
-
-    // Audio clock recurring lookahead sync loop
-    let nextLoopTime = initialTime + loopInterval;
-    this.harryPotterInterval = setInterval(() => {
-      if (!this.isEnabled || !this.ctx) return;
-      if (this.ctx.currentTime >= nextLoopTime - 0.9) {
-        schedulePhrase(nextLoopTime);
-        nextLoopTime += loopInterval;
-      }
-    }, 300);
+    }, 100);
   }
 
   stopHarryPotterTheme() {
+    if (this.hpAudioTimeCheck) {
+      clearInterval(this.hpAudioTimeCheck);
+      this.hpAudioTimeCheck = null;
+    }
+    if (this.hpAudio) {
+      try {
+        this.hpAudio.pause();
+        this.hpAudio.currentTime = 0;
+      } catch (e) {}
+    }
     if (this.harryPotterInterval) {
       clearInterval(this.harryPotterInterval);
       this.harryPotterInterval = null;

@@ -723,20 +723,27 @@
 }
 
 .event-capsule-card {
-  background: rgba(14, 11, 16, 0.88);
-  border: 1px solid rgba(56, 189, 248, 0.3);
-  border-radius: 12px;
+  background: rgba(18, 13, 16, 0.92);
+  border: 1px solid rgba(255, 119, 0, 0.32);
+  border-radius: 14px;
   padding: 1.8rem;
-  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.8);
-  backdrop-filter: blur(12px);
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.85);
+  backdrop-filter: blur(14px);
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+.event-capsule-card:hover {
+  transform: translateY(-4px);
+  border-color: #ff7700;
+  box-shadow: 0 18px 45px rgba(0, 0, 0, 0.95), 0 0 28px rgba(255, 119, 0, 0.32);
 }
 
 .event-capsule-card.highlighted {
-  border-color: rgba(255, 106, 0, 0.6);
-  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.8), 0 0 25px rgba(255, 106, 0, 0.25);
+  border-color: rgba(255, 119, 0, 0.55);
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.85), 0 0 22px rgba(255, 119, 0, 0.25);
 }
 
 .capsule-header {
@@ -744,6 +751,8 @@
   align-items: center;
   justify-content: space-between;
   margin-bottom: 1.2rem;
+  flex-wrap: wrap;
+  gap: 0.6rem;
 }
 
 .capsule-wing {
@@ -751,7 +760,7 @@
   font-size: 0.72rem;
   font-weight: 700;
   letter-spacing: 1.5px;
-  color: #38bdf8;
+  color: #ff9933;
   display: flex;
   align-items: center;
   gap: 0.4rem;
@@ -759,43 +768,71 @@
 
 .capsule-badge {
   font-family: var(--font-mono);
-  font-size: 0.65rem;
-  background: rgba(56, 189, 248, 0.15);
-  color: #bae6fd;
-  padding: 0.2rem 0.6rem;
+  font-size: 0.68rem;
+  font-weight: 600;
+  background: rgba(255, 119, 0, 0.12);
+  color: #ffbd77;
+  border: 1px solid rgba(255, 119, 0, 0.3);
+  padding: 0.25rem 0.65rem;
   border-radius: 999px;
+  letter-spacing: 0.5px;
 }
 
 .capsule-badge.highlight {
-  background: rgba(255, 106, 0, 0.2);
+  background: rgba(255, 119, 0, 0.22);
   color: #ffaa55;
-  border: 1px solid rgba(255, 106, 0, 0.4);
+  border: 1px solid rgba(255, 119, 0, 0.5);
 }
 
 .capsule-title {
   font-family: var(--font-display);
-  font-size: 1.15rem;
-  font-weight: 700;
+  font-size: 1.25rem;
+  font-weight: 800;
+  letter-spacing: 0.5px;
   color: #ffffff;
-  margin-bottom: 0.8rem;
+  margin-bottom: 0.6rem;
 }
 
 .capsule-desc {
   font-family: var(--font-sans);
-  font-size: 0.9rem;
-  line-height: 1.6;
+  font-size: 0.88rem;
+  line-height: 1.55;
   color: var(--text-muted);
-  margin-bottom: 1.8rem;
+  margin-bottom: 1.1rem;
+}
+
+.capsule-rules-summary {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  margin-bottom: 1.4rem;
+}
+
+.rule-chip {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  padding: 0.22rem 0.55rem;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 119, 0, 0.22);
+  border-radius: 4px;
+  color: #e2e8f0;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.rule-chip i {
+  color: #ff9933;
 }
 
 .btn-capsule-action {
   font-family: var(--font-display);
-  font-size: 0.78rem;
+  font-size: 0.76rem;
   font-weight: 700;
-  letter-spacing: 1.5px;
-  color: #38bdf8;
-  background: rgba(56, 189, 248, 0.1);
-  border: 1px solid rgba(56, 189, 248, 0.35);
+  letter-spacing: 1.2px;
+  color: #ffffff;
+  background: linear-gradient(135deg, rgba(255, 119, 0, 0.2) 0%, rgba(234, 88, 12, 0.28) 100%);
+  border: 1px solid rgba(255, 119, 0, 0.45);
   padding: 0.75rem 1.2rem;
   border-radius: 6px;
   cursor: pointer;
@@ -803,26 +840,27 @@
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
-  transition: all 0.2s ease;
+  transition: all 0.22s ease;
   width: 100%;
 }
 
 .btn-capsule-action:hover {
-  background: #38bdf8;
-  color: #040306;
-  box-shadow: 0 0 18px rgba(56, 189, 248, 0.5);
+  background: linear-gradient(135deg, #ff7700 0%, #e65100 100%);
+  color: #050406;
+  font-weight: 800;
+  border-color: #ffaa55;
+  box-shadow: 0 0 20px rgba(255, 119, 0, 0.65);
 }
 
 .btn-capsule-action.highlight-btn {
-  background: var(--amber-flame);
+  background: linear-gradient(135deg, rgba(255, 119, 0, 0.3) 0%, rgba(234, 88, 12, 0.4) 100%);
   color: #ffffff;
-  border-color: #ff922b;
-  box-shadow: 0 0 18px rgba(255, 106, 0, 0.4);
+  border-color: #ff9933;
 }
 
 .btn-capsule-action.highlight-btn:hover {
-  background: #ff881a;
-  box-shadow: 0 0 28px rgba(255, 106, 0, 0.75);
+  background: linear-gradient(135deg, #ff7700 0%, #e65100 100%);
+  color: #050406;
 }
 
 /* HACKATHON CHAMBER LAYOUT */
